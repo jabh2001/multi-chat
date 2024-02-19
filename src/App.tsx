@@ -1,10 +1,17 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
-import { IndexPage } from "./routes"
+// import { IndexPage } from "./routes"
+import Layout from "./components/layout"
 
 const router = createBrowserRouter([
   {
     path:"/",
-    element:<IndexPage />
+    element:<Layout />,
+    children:[
+      {
+        path:"/",
+        element:<> Element 1</>
+      }
+    ]
   }
 ])
 
