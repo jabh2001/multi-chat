@@ -1,0 +1,55 @@
+.searchearContainer {
+    display: flex;
+    width: 100%;
+  }
+  
+  .principalBar {
+    background-color: #1d1c1cd7;
+    display: flex;
+    width: 1.5rem;
+    height: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 4px;
+  }
+  
+  .principalBar button {
+    font-size: 1.3rem;
+  }
+  
+  .searcherContainer {
+    display: flex;
+    align-items: center;
+  }
+  
+  .searcher {
+    background-color: #25292c;
+    border: 0;
+    border-radius: 15px;
+    padding: 5px 20px;
+    width: 100%;
+    margin-left: 20px;
+    color: white;
+    font-size: 1.2rem;
+  }
+  
+  .leftbutton {
+    background-color: #4d5056ab;
+    display: flex;
+    width: 1.5rem;
+    height: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-left: 10px; /* Mueve leftbutton al lado derecho */
+  }
+  
+  .leftbutton button {
+    font-size: 1.3rem;
+  }
+  
+.searcher::placeholder{
+    color:  white;
+}
