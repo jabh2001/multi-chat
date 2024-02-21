@@ -6,3 +6,7 @@
   }
   
   
+.landing{
+  max-height: auto;
+  display: flex;
+}

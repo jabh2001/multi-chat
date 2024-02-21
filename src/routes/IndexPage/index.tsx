@@ -1,12 +1,14 @@
-import { ContactDive } from '../../components/conversationDiv'
+import { ConversationDiv } from '../../components/conversationDiv'
+import { InboxDive } from '../../components/inboxDiv'
 import './index.css'
 
 function IndexPage() {
 
   return (
-    <>
-      <ContactDive/>
-    </>
+    <div className='landing'>
+      <InboxDive/>
+      <ConversationDiv />
+    </div>
   )
 }
 

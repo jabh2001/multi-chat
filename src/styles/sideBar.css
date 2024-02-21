@@ -1,0 +1,17 @@
+.sideBar{
+    width: 100%;
+    padding-top: 30px;
+    
+}
+
+.avatarSideBar{
+    margin: 20px;
+    margin-top: 0;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background-color: white;
+}

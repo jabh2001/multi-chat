@@ -1,0 +1,53 @@
+.contactHeader{
+    width: inherit;
+    display: block;
+}
+.headerContainer{
+    display: flex;
+    align-items: flex-start;
+
+}
+
+.avatarHeader{
+    margin: 20px;
+    margin-top: 0;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background-color: white;
+}
+svg{
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
+}
+.headerInfo{
+    height: 100%;
+    margin: 0;
+}
+.headerInfo h3{
+    padding: 0;
+    margin: 0;
+}
+.headerInfo p{
+    font-size: 0.83rem;
+    color: #595d5f;
+}
+.inboxName{
+    display: flex;
+}
+.textButtons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.textButtons button{
+    font-size: 20px;
+}
+#closeDetail p{
+    margin-left: 10px;
+    color: blue;
+}
