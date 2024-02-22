@@ -22,10 +22,12 @@
     display: flex;
     align-items: center;
     fill: #fff;
-    &:hover{
-        background-color: #fff1;
+    &:hover, &.active{
         color: var(--active-button-primary-color);
         fill: var(--active-button-primary-color);
+    }
+    &:hover{
+        background-color: #fff1;
     }
     > .icon {
         padding: 0 5px;

@@ -1,0 +1,61 @@
+.container{
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 3fr;
+    > * {
+        padding: 24px;
+    }
+}
+.stepperBar{
+    display: flex;
+    align-items: center;
+}
+.viewContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+.viewTitle{
+    > h3 {
+        font-size: 32px;
+        color: #333;
+    }
+    > p {
+        font-size: 16px;
+        color: #555;
+    }
+}
+.viewMain{
+    > .providerContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 150px);
+        gap: 32px 16px;
+    }
+    > .agentsContainer{
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        > h4 {
+            font-size: 20px;
+            color: #333;
+        }
+        > div {
+            display: flex;
+            gap: 8px;
+        }
+    }
+}
+.checkbox{
+    background: #4ae;
+    padding: 4px 8px;
+    border-radius: 8px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    user-select: none;
+    > span{
+        color: #f8f8f8;
+    }
+}   

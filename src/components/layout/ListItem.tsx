@@ -1,6 +1,8 @@
 import { createPortal } from "react-dom"
 import { useMenuNavbar } from "../../hooks/useMenu"
 import styles from "./index.module.css"
+import { NavLink } from "react-router-dom"
+import { useEffect } from "react"
 
 type ListItemProps = { 
     children?:React.ReactNode,
@@ -10,8 +12,13 @@ type ListItemProps = {
 }
 function ListItem({ children, icon, title, name }:ListItemProps){
     const { ref, openedMenuName, setOpenedMenuName } = useMenuNavbar()
+    useEffect(()=> {
+        if(location.pathname.startsWith(`/${name}`)){
+            setOpenedMenuName(name)
+        }
+    }, [name])
     return <>
-        <li className={`${styles.listItem} ${openedMenuName == name ? styles.active : ""}`} onClick={()=> setOpenedMenuName(oldName => oldName == name ? "off" : name)}>{icon}</li>
+        <button className={`${styles.listItem} ${openedMenuName == name ? styles.active : ""}`} onClick={()=> setOpenedMenuName(oldName => oldName == name ? "off" : name)}>{icon}</button>
         {
             name === openedMenuName && ref?.current && createPortal((
                 <div className={styles.optionMenuContainer}>
@@ -29,11 +36,14 @@ function ListItem({ children, icon, title, name }:ListItemProps){
 }
 
 function ButtonListItem({ children }:{ children:React.ReactNode, active?:boolean}){
-    return <li className={styles.listItem}>{children}</li>
+    return <button className={styles.listItem}>{children}</button>
 }
 
-function LinkListItem({ children }:{ children:React.ReactNode}){
-    return <li className={styles.listItem}>{children}</li>
+function LinkListItem({ children, to }:{ children:React.ReactNode, to:string}){
+    const { setOpenedMenuName } = useMenuNavbar()
+    return (
+        <NavLink onClick={()=>setOpenedMenuName("off")} to={to} className={({ isActive})=> `${styles.listItem} ${isActive ? styles.active : ""}`}>{children}</NavLink>
+    )
 }
 
 export  {

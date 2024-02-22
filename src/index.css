@@ -10,6 +10,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --active-button-primary-color:#639bdf;
+  --active-button-secondary-color:#5c6979;
 }
 * {
   margin: 0;
@@ -26,4 +27,33 @@ a{
 }
 svg{
   aspect-ratio: 1;
+}
+main, main *{
+  color: #000;
+}
+.btn{
+  white-space: nowrap;
+  padding: 12px 4px;
+  font-weight: bold;
+  background-color: #f8f8f8;
+  border: 2px solid #333;
+  color: #333;
+  cursor: pointer;
+  --shadow: #333;
+  &:hover{
+    box-shadow: 0px 0px 5px .75px var(--shadow);
+    text-shadow: 0px 0px 5px .75px var(--shadow);
+  }
+}
+.btn.primary{
+
+  border: 2px solid var(--active-button-primary-color);
+  color: var(--active-button-primary-color);
+  --shadow: var(--active-button-primary-color);
+}
+.btn.secondary{
+
+  border: 2px solid var(--active-button-secondary-color);
+  color: var(--active-button-secondary-color);
+  --shadow: var(--active-button-secondary-color);
 }

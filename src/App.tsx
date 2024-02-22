@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
-// import { IndexPage } from "./routes"
+import { ContactsPage, IndexPage } from "./routes"
 import Layout from "./components/layout"
+import configRouter from "./routes/Config"
 
 const router = createBrowserRouter([
   {
@@ -9,8 +10,13 @@ const router = createBrowserRouter([
     children:[
       {
         path:"/",
-        element:<> Element 1</>
-      }
+        element: <IndexPage />
+      },
+      {
+        path:"/contacts",
+        element: <ContactsPage />
+      },
+      ...configRouter
     ]
   }
 ])
