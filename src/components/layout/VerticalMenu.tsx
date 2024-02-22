@@ -14,24 +14,25 @@ export default function VerticalNavBar(){
 
                 <ul className={styles.navbar}>
                     <ListItem icon={<CommentIcon />} title="Conversaciones" name="conversations">
-                        <MenuItem icon={<HomeIcon />} title="All Conversations" to="/conversations" />
+                        <MenuItem icon={<HomeIcon />} title="All" to="/conversations" />
                         <MenuItem icon={<PhoneIcon />} title="Pending" to="/conversations/pending" />
                         <MenuSection title="Entradas">
-                            <MenuItem icon={<HomeIcon />} title="Item grupo 1" to="/" />
-                            <MenuItem icon={<HomeIcon />} title="Item grupo 2" to="#" />
+                            <MenuItem icon={<HomeIcon />} title="Item grupo 1" to="/conversations" />
+                            <MenuItem icon={<HomeIcon />} title="Item grupo 2" to="/conversations" />
                             <MenuItem icon={<HomeIcon />} title="Añadir" to="/config/inboxes/new" />
                         </MenuSection>
                         <MenuSection title="Etiquetas">
-                            <MenuItem icon={<PhoneIcon />} title="Item grupo 1" to="#" />
-                            <MenuItem icon={<PhoneIcon />} title="Item grupo 2" to="3" />
-                            <MenuItem icon={<HomeIcon />} title="Añadir" to="/config/labels/new" />
+                            <MenuItem icon={<PhoneIcon />} title="Item grupo 1" to="/conversations" />
+                            <MenuItem icon={<PhoneIcon />} title="Item grupo 2" to="/conversations" />
+                            <MenuItem icon={<HomeIcon />} title="Añadir" to="/config/labels" />
                         </MenuSection>
                     </ListItem>
                     <ListItem icon={<PhoneIcon />} title="Contactos" name="contacts">
                         <MenuItem icon={<PhoneIcon />} title="Ver todos" to="/contacts" />
-                        <MenuSection title="Buscar por etiquetas">
-                            <MenuItem icon={<HomeIcon />} title="Item grupo 1" to="/" />
-                            <MenuItem icon={<HomeIcon />} title="Item grupo 2" to="#" />
+                        <MenuSection title="Etiquetas">
+                            <MenuItem icon={<PhoneIcon />} title="Item grupo 1" to="/conversations" />
+                            <MenuItem icon={<PhoneIcon />} title="Item grupo 2" to="/conversations" />
+                            <MenuItem icon={<HomeIcon />} title="Añadir" to="/config/labels" />
                         </MenuSection>
                     </ListItem>
                     <ListItem icon={<HomeIcon />} title="" name="A2"></ListItem>

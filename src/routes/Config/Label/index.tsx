@@ -1,13 +1,12 @@
 import { type RouteObject } from "react-router-dom";
-import useAgentStore from "../../../hooks/useAgentStore";
 import styles from './index.module.css';
-import AgentForm from "../../../components/form/AgentForm";
 import TableData from "../../../components/TableData";
 import SearchBar from "../../../components/SearchBar";
+import LabelForm from "../../../components/form/LabelForm";
 
-const baseName = "/config/agents"
+const baseName = "/config/labels"
 
-const agentsRoutes : RouteObject[] = [
+const labelRoutes : RouteObject[] = [
     {
         
         path:baseName,
@@ -16,30 +15,31 @@ const agentsRoutes : RouteObject[] = [
 
 ];
 function IndexPage(){
-    const agents = useAgentStore(state => state.agents);
     return (
         <div className={styles.container}>
             <div className={styles.searchBar}>
-                <h3>Agent</h3>
-                <SearchBar   placeholder="Search agent..." />
+                <h3>Label</h3>
+                <SearchBar   placeholder="Search label..." />
                 <button className="btn secondary">Filtrar</button>
             </div>
-            <div className={styles.agentsContainer}>
+            <div className={styles.labelsContainer}>
                 <TableData
-                    color={"yellow"}
+                    color={"green"}
                     columns={[
                         {name:"name", "title":"Nombre", type:"string"},
-                        {name:"email", "title":"Correo", type:"string"},
-                        {name:"type", "title":"Tipo", type:"string"},
                     ]}
-                    data={agents}
+                    data={[
+                        { name:"Trabajo", },
+                        { name:"Privado", },
+                        { name:"Proyecto", },
+                    ]}
                 />
             </div>
             <div className={styles.explain}>
-                <AgentForm />
+                <LabelForm />
             </div>
         </div>
     )
 }
 
-export default agentsRoutes
+export default labelRoutes

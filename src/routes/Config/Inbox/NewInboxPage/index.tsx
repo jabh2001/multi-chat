@@ -2,13 +2,22 @@ import { useEffect, useState } from "react"
 import {Stepper, Step} from "../../../../components/Stepper"
 import styles from "./index.module.css"
 import { AddAgents, ChannelView, ChooseChannelView, FinishView } from "./views"
+import { useNavigate } from "react-router-dom"
 
 type Props = {
     channel?:string
 }
 export default function NewInboxPage({ channel }:Props){
+    const navigate = useNavigate()
     const [ step, setStep] = useState(channel? 2 : 1)
     const nextStep = () => setStep(step => step+1)
+    const prevStep = () => {
+        if(step == 2){
+            navigate("/config/inboxes/new")
+        } else {
+            setStep(step => step-1)
+        }
+    }
     useEffect(()=>{
         setStep(!channel ? 1 : step>=1 && step <=2 ? 2 : step)
     }, [channel])
@@ -31,8 +40,8 @@ export default function NewInboxPage({ channel }:Props){
                     </Step>
                 </Stepper>
             </div>
-            <div>
-                { step > 1 && step < 4 && <button>prev</button> }
+            <div className={styles.tabs}>
+                { step > 1 && step < 4 && <button className={styles.prevButton} onClick={prevStep}>PREV</button> }
                 { step == 1 && <ChooseChannelView /> }
                 { step == 2 && <ChannelView nextStep={nextStep} /> }
                 { step == 3 && <AddAgents nextStep={nextStep} /> }

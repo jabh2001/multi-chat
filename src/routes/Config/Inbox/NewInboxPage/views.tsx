@@ -30,11 +30,20 @@ export function ChooseChannelView(){
 export function ChannelView({ nextStep }:{ nextStep:()=>void}){
     return (
         <View title="Set a inbox data">
-            <div>
-                <input type="text" placeholder="Inbox name" />
-                <h4>Scan the QR</h4>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example" alt="QR" />
-                <button className="btn primary" onClick={nextStep}>Next step</button>
+            <div className={styles.channelContainer}>
+                <div>
+                    <label className="input">
+                        <span>Set a inbox name</span>
+                        <input type="text" placeholder="Inbox name" />
+                    </label>
+                </div>
+                <div className={styles.QRContainer}>
+                    <h4>Scan the QR Code</h4>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example" alt="QR" />
+                </div>
+                <div>
+                    <button className="btn primary" onClick={nextStep}>Next step</button>
+                </div>
             </div>
         </View>
     )

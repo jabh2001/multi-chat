@@ -10,13 +10,14 @@ type TableColumnType = {
 
 type Props = {
     columns:Array<TableColumnType>,
-    data:Array<any>
+    data:Array<any>,
+    color?:HeadColor
 }
 type OrderType = {
     prop:string
     dir:"up" | "down" | "neutral"
 }
-export default function TableData({ columns, data }:Props){
+export default function TableData({ columns, data, color }:Props){
     const [ copyData, setCopyData ] = useState<Array<any>>([...data])
     const [ order, setOrder] = useState<OrderType>({ prop:"none", dir:"up" })
     const switchDir = useCallback(() => setOrder(old => ({...old, dir:old.dir=="up" ? "down": "up" })), [setOrder])
@@ -41,7 +42,7 @@ export default function TableData({ columns, data }:Props){
         }
     }
     return (
-        <table className={styles.table} style={{ ["--cols" as any]:columns.length, ["--bg-head" as any]: "#639bdf"}}>
+        <table className={styles.table} style={{ ["--cols" as any]:columns.length, ["--bg-head" as any]: getColor(color)}}>
             <thead className={styles.head}>
                 <tr className={styles.row}>
                     {
@@ -71,4 +72,21 @@ export default function TableData({ columns, data }:Props){
             </tbody>
         </table>
     )
+}
+type HeadColor = "blue" | "red" | "green" | "yellow" | null | undefined
+
+function getColor(color:HeadColor){
+    switch(color){
+        case "red": return colors.red;
+        case "green": return colors.green;
+        case "yellow": return colors.yellow;
+        case "blue": 
+        default: return colors.blue;
+    }
+}
+const colors = {
+    blue:"#639bdf",
+    red:"#d9292a",
+    green:"#50e115",
+    yellow:"#f4da47",
 }

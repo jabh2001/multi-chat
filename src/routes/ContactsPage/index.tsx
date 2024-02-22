@@ -1,4 +1,4 @@
-import SearchContactBar from "../../components/SearchContactBar"
+import SearchBar from "../../components/SearchBar"
 import TableData from "../../components/TableData"
 import { PhoneIcon } from "../../components/icons"
 import styles from "./index.module.css"
@@ -20,7 +20,7 @@ export default function ContactsPage(){
             <div className={styles.tablePanel}>
                 <div className={styles.searchBar}>
                     <h3>Contacts</h3>
-                    <SearchContactBar />
+                    <SearchBar placeholder="Search contact..." />
                     <button className="btn secondary">Filtrar</button>
                     <button className="btn primary">Add new contact</button>
                 </div>
