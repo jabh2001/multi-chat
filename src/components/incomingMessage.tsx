@@ -1,4 +1,5 @@
 import { FunctionComponent } from "react";
+import '../styles/incomingsMessage.css'
 
 interface IncomingMessageProps {
     message: string
@@ -6,8 +7,13 @@ interface IncomingMessageProps {
 
 const IncomingMessage: FunctionComponent<IncomingMessageProps> = (props: IncomingMessageProps) => {
     return (
-        <div>
-            {props.message}
+        <div className="incomingContainer">
+            <div className="incomingMessage">
+                <p>
+                    {props.message}
+
+                </p>
+            </div>
         </div>
     );
 }

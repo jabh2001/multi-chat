@@ -1,13 +1,15 @@
 import '../styles/messageForm.css'
 import { FunctionComponent } from "react";
 
- 
+
 const MesaggeForm: FunctionComponent = () => {
-    return (  
+    return (
         <div className="sender">
-            
+            <div className="replay">
+                <textarea placeholder="type the answer" />
+            </div>
         </div>
     );
 }
- 
+
 export default MesaggeForm;

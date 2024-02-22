@@ -1,6 +1,26 @@
 .sender{
-    border: 1.3px solid;
-    width: 99.50%;
+    border-top: 1px solid gray;
+    width: inherit;
     height: 30vh;
     margin: 0;
+    overflow-x: auto;
+
+}
+.replay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Ajustar la altura según tus necesidades */
+}
+
+.replay textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    resize: none;
+    height: 20vh; /* Ajustar la altura según tus necesidades */
+    width: 75vh;  /* Hacer que ocupe el ancho completo del contenedor */
+}
+.replay textarea:focus{
+    outline: none;
 }
