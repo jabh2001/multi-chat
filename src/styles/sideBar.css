@@ -1,11 +1,12 @@
 .sideBar{
-    width: 100%;
+    width: 50%;
     padding-top: 30px;
-    
+    margin: 0;
+    padding: 0;
 }
 
 .avatarSideBar{
-    margin: 20px;
+    margin: 0px;
     margin-top: 0;
     border-radius: 100%;
     display: flex;
@@ -14,4 +15,62 @@
     width: 60px;
     height: 60px;
     background-color: white;
+}
+#delete{
+    background-color: rgb(172, 43, 43);
+}
+#edit{
+    background-color: #0f376b;
+}
+#message{
+    background-color: #2492f4
+    ;
+}
+#hide{
+    background-color: #4d5055;
+}
+.actionButton{
+    width: 30px;
+    height: 30px;
+    color: white;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.actions{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 5vh;
+    margin: 0;
+    padding: 1vh;
+    background-color: #25292c;
+}
+
+.asigned{
+    display: block;
+    text-align: left;
+}
+.asigned h4{
+    margin: 0;
+}
+
+.agentName{
+    display: flex;
+    align-items: center;
+    margin: 0;
+    width: 60%;
+    height: 5vh;
+    border: 2px solid;
+}
+.identificador{
+    border-radius: 100%;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5vh;
+    height: 5vh;
+    background-color: #0f376b;
 }

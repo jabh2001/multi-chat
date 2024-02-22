@@ -1,0 +1,17 @@
+.label{
+    display: flex;
+    width: 6rem;
+    height: 1rem;
+    border-radius: 3px;
+    border: 1.5px solid;
+}
+.label button{
+    font-size: 0.8rem;
+
+}
+
+.newlabel{
+    border: none;
+    background-color: #0c3468;
+    color: #789fd1;
+}
