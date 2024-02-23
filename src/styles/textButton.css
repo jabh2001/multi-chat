@@ -1,4 +1,4 @@
-div{
+.contenedorPrincipal, .contenedorPrincipal div{
     margin: 4px;
 }
 .textButton{
@@ -6,12 +6,12 @@ div{
     align-items: center;
     cursor: grab;
     font-weight: 20rem;
-}
-button{
-    border: 0;
-    background-color: transparent;
-    font-size: 2rem;
-    color: inherit;
+    > button{
+        border: 0;
+        background-color: transparent;
+        font-size: 2rem;
+        color: inherit;
+    }
 }
 
 .mesagesNumber{

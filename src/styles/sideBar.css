@@ -74,3 +74,7 @@
     height: 5vh;
     background-color: #0f376b;
 }
+.buttons{
+    display: flex;
+    gap: 8px;
+}
