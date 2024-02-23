@@ -1,4 +1,4 @@
-import '../styles/asigned.css'
+import './asigned.css'
 import { FunctionComponent } from "react";
 
 

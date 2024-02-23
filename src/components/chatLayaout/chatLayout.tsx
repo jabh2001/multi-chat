@@ -1,9 +1,9 @@
 import { FC } from "react";
-import '../styles/chatLayaout.css'
-import IncomingMessage from "./incomingMessage";
-import Asigned from "./asigned";
-import OutgoingMessage from "./outgoingMessage";
-import MesaggeForm from "./mesajeForm";
+import './chatLayaout.css'
+import IncomingMessage from "../incomingMessage/incomingMessage";
+import OutgoingMessage from "../outgoingMessage/outgoingMessage";
+import Asigned from "../asigned/asigned";
+import MesaggeForm from "../messageForm/messageForm";
 export const ChatLayout: FC = () => {
     return <div className="layaout">
         <section className="allMessages" style={{ overflowY: 'auto', maxHeight: '400px' }}>

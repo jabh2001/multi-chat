@@ -1,4 +1,4 @@
-import '../styles/searchInbox.css'
+import './searchInbox.css'
 export const SearchInbox: React.FC = () => {
     return (
         <div className='searchearContainer'>

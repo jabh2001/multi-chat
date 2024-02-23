@@ -1,8 +1,8 @@
 import { FC } from 'react'
-import '../styles/sideBar.css'
-import Avatar from './avatar'
-import { SocialMediaButtons } from './socialMediaButton'
-import Label, { NewLabel } from './label'
+import './sideBar.css'
+import Avatar from '../avatar/avatar'
+import Label, { NewLabel } from '../label/label'
+import { SocialMediaButtons } from '../socialMediaButton/socialMediaButton'
 interface sideBarProps {
     avatar: string
     contact: string

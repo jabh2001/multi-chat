@@ -1,6 +1,6 @@
-import Avatar from "./avatar";
-import { TextButton } from "./textButton";
-import '../styles/contactHeader.css'
+import Avatar from "../avatar/avatar";
+import { TextButton } from "../textButton/textButton";
+import './contactHeader.css'
 
 interface ContactHeaderProps {
     contactName: string;

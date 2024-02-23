@@ -1,4 +1,4 @@
-import '../styles/outgoingMessage.css'
+import './outgoingMessage.css'
 import { FunctionComponent } from "react";
 
 interface OutgoingMessageProps {

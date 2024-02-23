@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import '../styles/incomingsMessage.css'
+import './incomingsMessage.css'
 
 interface IncomingMessageProps {
     message: string

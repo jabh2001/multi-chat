@@ -1,5 +1,5 @@
-import "../styles/chatCard.css"
-import Avatar from "./avatar";
+import "./chatCard.css"
+import Avatar from "../avatar/avatar";
 
 interface CardProps {
     avatar: string,

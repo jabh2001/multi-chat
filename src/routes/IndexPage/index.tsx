@@ -1,5 +1,5 @@
-import { ConversationDiv } from '../../components/conversationDiv'
-import { InboxDive } from '../../components/inboxDiv'
+import { ConversationDiv } from '../../components/conversationDiv/conversationDiv'
+import { InboxDive } from '../../components/inboxDiv/inboxDiv'
 import './index.css'
 
 function IndexPage() {

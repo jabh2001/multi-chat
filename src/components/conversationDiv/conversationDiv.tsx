@@ -1,8 +1,8 @@
 import { FC } from "react"
-import ContactHeader from "./contactHeader"
-import { ChatLayout } from "./chatLayout"
-import '../styles/conversationDiv.css'
-import { SideBar } from "./sideBar"
+import ContactHeader from "../contactHeader/contactHeader"
+import { ChatLayout } from "../chatLayaout/chatLayout"
+import './conversationDiv.css'
+import { SideBar } from "../sidebar/sideBar"
 
 export const ConversationDiv: FC = () => {
     return (

@@ -1,4 +1,4 @@
-import '../styles/label.css'
+import './label.css'
 const Label = ()=>{
     return <div className="label">
         <button>label</button>

@@ -1,4 +1,4 @@
-import '../styles/conversationTitle.css'
+import './conversationTitle.css'
 export const ConversationTitle: React.FC=()=>{
     return (
         <div className='titleBar'>

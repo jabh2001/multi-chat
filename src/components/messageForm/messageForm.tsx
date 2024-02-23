@@ -1,4 +1,4 @@
-import '../styles/messageForm.css'
+import './messageForm.css'
 import { FunctionComponent } from "react";
 
 

@@ -1,5 +1,5 @@
 import { FC } from "react"
-import '../styles/socialMediaButton.css'
+import './socialMediaButton.css'
 interface socialMediaButtonProps {
     logo: string
 }
