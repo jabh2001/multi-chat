@@ -2,8 +2,10 @@ import { useRef, useState } from "react"
 import { menuContext } from "../../hooks/useMenu"
 import styles from "./index.module.css"
 import { ButtonListItem, LinkListItem, ListItem } from "./ListItem"
-import { MenuItem, MenuSection } from "../menu"
+import { MenuItem } from "../menu"
 import { BellIcon, CommentIcon, ConfigIcon, HomeIcon, PhoneIcon, ProfileIcon } from "../icons"
+import { InboxSection, LabelSection } from "./sections"
+
 
 export default function VerticalNavBar(){
     const optionsRef = useRef<HTMLDivElement>(null)
@@ -16,24 +18,12 @@ export default function VerticalNavBar(){
                     <ListItem icon={<CommentIcon />} title="Conversaciones" name="conversations">
                         <MenuItem icon={<HomeIcon />} title="All" to="/conversations" />
                         <MenuItem icon={<PhoneIcon />} title="Pending" to="/conversations/pending" />
-                        <MenuSection title="Entradas">
-                            <MenuItem icon={<HomeIcon />} title="Item grupo 1" to="/conversations" />
-                            <MenuItem icon={<HomeIcon />} title="Item grupo 2" to="/conversations" />
-                            <MenuItem icon={<HomeIcon />} title="Añadir" to="/config/inboxes/new" />
-                        </MenuSection>
-                        <MenuSection title="Etiquetas">
-                            <MenuItem icon={<PhoneIcon />} title="Item grupo 1" to="/conversations" />
-                            <MenuItem icon={<PhoneIcon />} title="Item grupo 2" to="/conversations" />
-                            <MenuItem icon={<HomeIcon />} title="Añadir" to="/config/labels" />
-                        </MenuSection>
+                        <InboxSection basePath="conversations" />
+                        <LabelSection basePath="conversations" />
                     </ListItem>
                     <ListItem icon={<PhoneIcon />} title="Contactos" name="contacts">
                         <MenuItem icon={<PhoneIcon />} title="Ver todos" to="/contacts" />
-                        <MenuSection title="Etiquetas">
-                            <MenuItem icon={<PhoneIcon />} title="Item grupo 1" to="/conversations" />
-                            <MenuItem icon={<PhoneIcon />} title="Item grupo 2" to="/conversations" />
-                            <MenuItem icon={<HomeIcon />} title="Añadir" to="/config/labels" />
-                        </MenuSection>
+                        <LabelSection basePath="contacts" />
                     </ListItem>
                     <ListItem icon={<HomeIcon />} title="" name="A2"></ListItem>
                     <ListItem icon={<ConfigIcon />} title="Configuraciones" name="config">

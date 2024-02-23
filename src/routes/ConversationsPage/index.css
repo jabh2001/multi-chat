@@ -1,0 +1,9 @@
+main:has(> .landing) {
+  background-color: #333;
+}
+  
+  
+.landing{
+  max-height: auto;
+  display: flex;
+}
