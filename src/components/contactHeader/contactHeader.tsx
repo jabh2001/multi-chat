@@ -28,8 +28,8 @@ export default function ContactHeader(props: ContactHeaderProps) {
         </div>
         <div className="textButtons">
 
-            <TextButton text="Mesagges" color="#567692" />
-            <TextButton text="Dashboard" color="white" />
+            <TextButton text="Mesagges" isActive="true" />
+            <TextButton text="Dashboard" isActive="false" />
         </div>
 
     </div>

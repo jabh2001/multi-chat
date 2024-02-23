@@ -2,14 +2,14 @@ import './textButton.css'
 
 interface TextButtonProps {
   text: string,
-  color: string
+  isActive:string
 }
 
-export const TextButton: React.FC<TextButtonProps> = ({ text, color }) => {
+export const TextButton: React.FC<TextButtonProps> = ({ text, isActive}) => {
   return (
     <div className='contenedorPrincipal'>
-      <div className='textButton' style={{ color: color }}>
-        <button>{text}</button>
+      <div className={`textButton ${isActive === 'true' ? 'isActive' : ''}`} >
+        <button >{text}</button>
         <div className='mesagesNumber'>
           4
         </div>
