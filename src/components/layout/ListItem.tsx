@@ -1,7 +1,7 @@
 import { createPortal } from "react-dom"
 import { useMenuNavbar } from "../../hooks/useMenu"
 import styles from "./index.module.css"
-import { NavLink } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"
 import { useEffect } from "react"
 
 type ListItemProps = { 
@@ -12,11 +12,12 @@ type ListItemProps = {
 }
 function ListItem({ children, icon, title, name }:ListItemProps){
     const { ref, openedMenuName, setOpenedMenuName } = useMenuNavbar()
+    const { pathname } = useLocation()
     useEffect(()=> {
-        if(location.pathname.startsWith(`/${name}`)){
+        if(pathname.startsWith(`/${name}`)){
             setOpenedMenuName(name)
         }
-    }, [name])
+    }, [name, pathname])
     return <>
         <button className={`${styles.listItem} ${openedMenuName == name ? styles.active : ""}`} onClick={()=> setOpenedMenuName(oldName => oldName == name ? "off" : name)}>{icon}</button>
         {

@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
-import { ContactsPage, IndexPage } from "./routes"
+import { ContactsPage, ConversationsPage } from "./routes"
 import Layout from "./components/layout"
 import configRouter from "./routes/Config"
 
@@ -9,8 +9,8 @@ const router = createBrowserRouter([
     element:<Layout />,
     children:[
       {
-        path:"/",
-        element: <IndexPage />
+        path:"/conversations",
+        element: <ConversationsPage />
       },
       {
         path:"/contacts",
