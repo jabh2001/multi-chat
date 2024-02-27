@@ -1,5 +1,5 @@
 import ProviderCard from "../../../../components/cards/ProviderCard"
-import useAgentStore from "../../../../hooks/useAgentStore"
+import { useAgentStore } from "../../../../hooks/useAgent"
 import styles from "./index.module.css"
 
 export function ChooseChannelView(){

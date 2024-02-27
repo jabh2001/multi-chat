@@ -1,9 +1,12 @@
 import { type RouteObject } from "react-router-dom";
-import useAgentStore from "../../../hooks/useAgentStore";
+import { useAgent } from "../../../hooks/useAgent";
 import styles from './index.module.css';
 import AgentForm from "../../../components/form/AgentForm";
-import TableData from "../../../components/TableData";
 import SearchBar from "../../../components/SearchBar";
+import { useState } from "react";
+import { AgentType } from "../../../types";
+import { ReactTabulator, reactFormatter } from "react-tabulator";
+import { ActionButtons } from "../../../components/TableData/ActionButtons";
 
 const baseName = "/config/agents"
 
@@ -16,7 +19,11 @@ const agentsRoutes : RouteObject[] = [
 
 ];
 function IndexPage(){
-    const agents = useAgentStore(state => state.agents);
+    const { agents, deleteAgent } = useAgent()
+    const [edited, setEdited] = useState<AgentType | undefined>(undefined)
+
+    const handleEdit = (row:AgentType) => setEdited(row)
+    const handleDelete = ({ id }:AgentType) => deleteAgent(id)
     return (
         <div className={styles.container}>
             <div className={styles.searchBar}>
@@ -25,18 +32,21 @@ function IndexPage(){
                 <button className="btn secondary">Filtrar</button>
             </div>
             <div className={styles.agentsContainer}>
-                <TableData
-                    color={"yellow"}
+                <ReactTabulator
+                    options={{
+                        layout:"fitColumns"
+                    }}
                     columns={[
-                        {name:"name", "title":"Nombre", type:"string"},
-                        {name:"email", "title":"Correo", type:"string"},
-                        {name:"type", "title":"Tipo", type:"string"},
+                        {field:"name", "title":"Nombre", widthGrow:2 },
+                        {field:"email", "title":"Correo",  widthGrow:3},
+                        {field:"role", "title":"Tipo", widthGrow:1 },
+                        {title:"actions", formatter:reactFormatter(<ActionButtons onEdit={handleEdit} onDelete={handleDelete} />) }
                     ]}
                     data={agents}
                 />
             </div>
             <div className={styles.explain}>
-                <AgentForm />
+                <AgentForm edited={edited} resetEdited={()=>setEdited(undefined)} />
             </div>
         </div>
     )

@@ -22,8 +22,11 @@ export default function TableData({ columns, data, color }:Props){
     const [ order, setOrder] = useState<OrderType>({ prop:"none", dir:"up" })
     const switchDir = useCallback(() => setOrder(old => ({...old, dir:old.dir=="up" ? "down": "up" })), [setOrder])
     useEffect(() => {
+
+    }, [ data ])
+    useEffect(() => {
         if(order.prop !== "none"){
-            let sortedData = [...copyData]
+            let sortedData = [...data]
             const { prop, dir } = order
             sortedData.sort((rowA, rowB) => {
                 const compare = dir == "up" ? rowA[prop] > rowB[prop] : rowA[prop] < rowB[prop]
@@ -31,8 +34,10 @@ export default function TableData({ columns, data, color }:Props){
             })
             
             setCopyData(sortedData)
+        } else {
+            setCopyData([...data])
         }
-    }, [order])
+    }, [data])
 
     const handleOrder = (name:string) => {
         if(order.prop!=name){

@@ -1,8 +1,12 @@
 import { type RouteObject } from "react-router-dom";
 import styles from './index.module.css';
-import TableData from "../../../components/TableData";
 import SearchBar from "../../../components/SearchBar";
 import TeamForm from "../../../components/form/TeamForm";
+import { useTeam } from "../../../hooks/useTeamStore";
+import { useState } from "react";
+import { TeamType } from "../../../types";
+import { ReactTabulator, reactFormatter } from "react-tabulator";
+import { ActionButtons } from "../../../components/TableData/ActionButtons";
 
 const baseName = "/config/teams"
 
@@ -15,6 +19,11 @@ const teamRoutes : RouteObject[] = [
 
 ];
 function IndexPage(){
+    const { teams, deleteTeam } = useTeam()
+    const [edited, setEdited] = useState<TeamType | undefined>(undefined)
+
+    const handleEdit = (row:TeamType) => setEdited(row)
+    const handleDelete = ({ id }:TeamType) => deleteTeam(id)
     return (
         <div className={styles.container}>
             <div className={styles.searchBar}>
@@ -23,20 +32,20 @@ function IndexPage(){
                 <button className="btn secondary">Filtrar</button>
             </div>
             <div className={styles.labelsContainer}>
-                <TableData
-                    color={"red"}
+                <ReactTabulator
+                    options={{
+                        layout:"fitColumns"
+                    }}
                     columns={[
-                        {name:"name", "title":"Nombre", type:"string"},
+                        {field:"name", "title":"Nombre", widthGrow:2},
+                        {field:"description", "title":"Descripción", widthGrow:3},
+                        {title:"actions", formatter:reactFormatter(<ActionButtons onEdit={handleEdit} onDelete={handleDelete} />), widthShrink:2}
                     ]}
-                    data={[
-                        { name:"Socios", },
-                        { name:"Empleados", },
-                        { name:"Externos", },
-                    ]}
+                    data={teams}
                 />
             </div>
             <div className={styles.explain}>
-                <TeamForm />
+                <TeamForm edited={edited} resetEdited={()=>setEdited(undefined)} />
             </div>
         </div>
     )

@@ -1,16 +1,14 @@
 import { MenuItem, MenuSection } from "../menu"
 import { HomeIcon, PhoneIcon } from "../icons"
+import useLabelStore from "../../hooks/useLabelStore"
+import useTeamStore from "../../hooks/useTeamStore"
 
 export function LabelSection({ basePath }:{ basePath:string }){
-    const fakeData = [
-        { id:1, name:"Trabajo"},
-        { id:2, name:"Vacaciones"},
-        { id:3, name:"Cumpleaños"},
-    ]
+    const labels = useLabelStore(state => state.labels)
     return (
         <MenuSection title="Etiquetas">
             {
-                fakeData.map((el) => {
+                labels.map((el) => {
                     return(
                         <MenuItem icon={<PhoneIcon />} title={el.name} to={`${basePath}?label=${el.id}`} />
                     )
@@ -21,15 +19,11 @@ export function LabelSection({ basePath }:{ basePath:string }){
     )
 }
 export function InboxSection({ basePath }:{ basePath:string }){
-    const fakeData = [
-        { id:1, name:"Trabajo"},
-        { id:2, name:"Vacaciones"},
-        { id:3, name:"Cumpleaños"},
-    ]
+    const teams = useTeamStore(state => state.teams)
     return (
         <MenuSection title="Entradas">
             {
-                fakeData.map((el) => {
+                teams.map((el) => {
                     return(
                         <MenuItem icon={<PhoneIcon />} title={el.name} to={`${basePath}?inbox=${el.id}`} />
                     )
