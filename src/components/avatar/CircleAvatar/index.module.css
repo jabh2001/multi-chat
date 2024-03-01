@@ -1,0 +1,19 @@
+.avatar{
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+.sm{
+    width: 32px;
+}
+.md{
+    width: 48px;
+}
+.lg{
+    width: 64px;
+}
+.xl{
+    width: 128px;
+}
+.full{
+    width: 100%;
+}

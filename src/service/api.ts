@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AgentType, LabelType, TeamType } from "../types";
+import { AgentType, ContactType, LabelType, TeamType } from "../types";
 
 const baseURL = import.meta.env.VITE_API_URL
 
@@ -71,4 +71,31 @@ export async function deleteAgent(id:AgentType["id"]) {
     const { data } = await instance.delete<{ agent:AgentType}>("/agent/" + id)
     const { agent } = data
     return agent
+}
+
+/************************************* CONTACTS ******************************************************************/
+export async function getContacts(label:undefined | number = undefined) {
+    const { data } = await instance.get<{ contacts:ContactType[]}>("/contact", { params:{label}})
+    const { contacts } = data
+    return contacts
+}
+export async function getContactById(contactId:number) {
+    const { data } = await instance.get<{contact:ContactType}>("/contact/" + contactId )
+    const { contact } = data
+    return contact
+}
+export async function postContact(contact:Omit<ContactType, "id">) {
+    const { data } = await instance.post<{ contact:ContactType}>("/contact", contact)
+    const { contact:newContact } = data
+    return newContact
+}
+export async function putContact(id:ContactType["id"], newData:Partial<ContactType>) {
+    const { data } = await instance.put<{ contact:ContactType}>("/contact/" + id, newData)
+    const { contact } = data
+    return contact
+}
+export async function deleteContact(id:ContactType["id"]) {
+    const { data } = await instance.delete<{ contact:ContactType}>("/contact/" + id)
+    const { contact } = data
+    return contact
 }

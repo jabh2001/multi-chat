@@ -34,6 +34,41 @@ svg{
 main, main *{
   color: #000;
 }
+#multiChatDrawer{
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0006;
+  opacity: 0;
+  transition: opacity .25s;
+  animation: hide .25s linear forwards;
+  &:has(>div#multiChatDrawerContent>*){
+    opacity: 1;
+    animation: appear .25s linear forwards;
+  }
+  > #multiChatDrawerContent {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    background-color: #fff;
+    transition: width 1s;
+  }
+}
+@keyframes appear {
+  from {
+    display: none;
+  }
+  to {
+    display: block;
+  }
+}
+@keyframes hide {
+  to{
+    display: none;
+  }
+}
 .btn{
   --color:#333
   white-space: nowrap;

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { AgentType } from "../../../types";
 import { ReactTabulator, reactFormatter } from "react-tabulator";
 import { ActionButtons } from "../../../components/TableData/ActionButtons";
+import Drawer from "../../../components/Drawer";
 
 const baseName = "/config/agents"
 
@@ -19,6 +20,7 @@ const agentsRoutes : RouteObject[] = [
 
 ];
 function IndexPage(){
+    const [openDrawer, setOpenDrawer] = useState(false)
     const { agents, deleteAgent } = useAgent()
     const [edited, setEdited] = useState<AgentType | undefined>(undefined)
 
@@ -37,9 +39,10 @@ function IndexPage(){
                         layout:"fitColumns"
                     }}
                     columns={[
-                        {field:"name", "title":"Nombre", widthGrow:2 },
-                        {field:"email", "title":"Correo",  widthGrow:3},
-                        {field:"role", "title":"Tipo", widthGrow:1 },
+                        {title:"V", width:36, cellClick:() => setOpenDrawer(true) },
+                        {field:"name", title:"Nombre", widthGrow:2 },
+                        {field:"email", title:"Correo",  widthGrow:3},
+                        {field:"role", title:"Tipo", widthGrow:1 },
                         {title:"actions", formatter:reactFormatter(<ActionButtons onEdit={handleEdit} onDelete={handleDelete} />) }
                     ]}
                     data={agents}
@@ -48,6 +51,11 @@ function IndexPage(){
             <div className={styles.explain}>
                 <AgentForm edited={edited} resetEdited={()=>setEdited(undefined)} />
             </div>
+            <Drawer open={openDrawer} onClose={ ()=>setOpenDrawer(false)}>
+                <div>
+                    asd
+                </div>
+            </Drawer>
         </div>
     )
 }

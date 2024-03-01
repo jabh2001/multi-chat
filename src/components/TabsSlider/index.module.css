@@ -1,0 +1,19 @@
+.tabsView{
+    --page:1;
+    --tabs:1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.tabs{
+    width: calc(100% * var(--tabs));
+    display: grid;
+    grid-template-columns: repeat(var(--tabs), 1fr);
+    height: 100%;
+    transition: transform .5s ease;
+    transform: translateX(calc((-100% * var(--page)) / var(--tabs)));
+}
+.tab{
+    height: 100%;
+
+}

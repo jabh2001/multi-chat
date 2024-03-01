@@ -1,16 +1,16 @@
 import { MenuItem, MenuSection } from "../menu"
 import { HomeIcon, PhoneIcon } from "../icons"
-import useLabelStore from "../../hooks/useLabelStore"
-import useTeamStore from "../../hooks/useTeamStore"
+import { useLabel } from "../../hooks/useLabelStore"
+import { useTeam } from "../../hooks/useTeamStore"
 
 export function LabelSection({ basePath }:{ basePath:string }){
-    const labels = useLabelStore(state => state.labels)
+    const {labels} = useLabel()
     return (
         <MenuSection title="Etiquetas">
             {
                 labels.map((el) => {
                     return(
-                        <MenuItem icon={<PhoneIcon />} title={el.name} to={`${basePath}?label=${el.id}`} />
+                        <MenuItem key={`label_${el.id}`} icon={<PhoneIcon />} title={el.name} to={`${basePath}?label=${el.id}`} />
                     )
                 })
             }
@@ -19,13 +19,13 @@ export function LabelSection({ basePath }:{ basePath:string }){
     )
 }
 export function InboxSection({ basePath }:{ basePath:string }){
-    const teams = useTeamStore(state => state.teams)
+    const {teams} = useTeam()
     return (
         <MenuSection title="Entradas">
             {
                 teams.map((el) => {
                     return(
-                        <MenuItem icon={<PhoneIcon />} title={el.name} to={`${basePath}?inbox=${el.id}`} />
+                        <MenuItem key={`inbox_${el.id}`} icon={<PhoneIcon />} title={el.name} to={`${basePath}?inbox=${el.id}`} />
                     )
                 })
             }
