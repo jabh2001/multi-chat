@@ -3,9 +3,9 @@ import './deployBar.css'
 export const DeployBar: React.FC = () => {
     return (
         <div className="buttons">
-            <TextButton text="mine" color="" />
-            <TextButton text="unassigned" color="white" />
-            <TextButton text="all" color="white" />
+            <TextButton text="mine" isActive='true' />
+            <TextButton text="unassigned"  isActive='false'/>
+            <TextButton text="all"  isActive="false"/>
         </div>
     );
 };

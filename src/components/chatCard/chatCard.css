@@ -31,3 +31,6 @@ p{
     color: #5f6366;
     font-size: 0.8rem;
 }
+p.clear{
+ color: white;   
+}
