@@ -3,16 +3,19 @@ import { AgentType, UserType } from "../../../types"
 import styles from "./index.module.css"
 import { useAgent } from "../../../hooks/useAgent"
 import { useEffect } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { userSchema } from "../../../libs/schemas"
 
 type Inputs = {
     name:string
     email:string
     role:"admin" | "agent"
+    password:string
 }
 type Keys = "name" | "email" | "role"
 
 export default function AgentForm({ edited, resetEdited }:{ edited:AgentType | UserType | undefined, resetEdited:()=>void }){
-    const { register, handleSubmit, reset, setValue } = useForm<Inputs>()
+    const { register, handleSubmit, reset, setValue, formState:{errors} } = useForm<Inputs>({ resolver:zodResolver( userSchema.omit({ id:true }) ) })
     const {addAgent, editAgent} = useAgent()
     const onSubmit:SubmitHandler<Inputs> = async ({ name, email, role }) => {
         try{
@@ -49,10 +52,17 @@ export default function AgentForm({ edited, resetEdited }:{ edited:AgentType | U
                 <label className="input">
                     <span>Nombre</span>
                     <input type="text" {...register("name")} />
+                    { errors.name && <p>{errors.name.message}</p>}
                 </label>
                 <label className="input">
                     <span>Correo</span>
                     <input type="text" {...register("email")} />
+                    { errors.email && <p>{errors.email.message}</p>}
+                </label>
+                <label className="input">
+                    <span>Contraseña</span>
+                    <input type="text" {...register("password")} />
+                    { errors.password && <p>{errors.password.message}</p>}
                 </label>
                 <label className="input">
                     <span>Rol</span>
@@ -60,6 +70,7 @@ export default function AgentForm({ edited, resetEdited }:{ edited:AgentType | U
                         <option value="admin">Administrador</option>
                         <option value="agente">Agente</option>
                     </select>
+                    { errors.role && <p>{errors.role.message}</p>}
                 </label>
             </div>
             <div className={styles.buttonsContainer}>

@@ -3,6 +3,8 @@ import { TeamType } from "../../../types"
 import styles from "./index.module.css"
 import { useTeam } from "../../../hooks/useTeamStore"
 import { useEffect } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { teamSchema } from "../../../libs/schemas"
 
 type Inputs = {
     name:string
@@ -11,7 +13,7 @@ type Inputs = {
 type Keys = "name" | "description"
 
 export default function TeamForm({ edited, resetEdited }:{ edited:TeamType | undefined, resetEdited:()=>void }){
-    const { register, handleSubmit, reset, setValue } = useForm<Inputs>()
+    const { register, handleSubmit, reset, setValue, formState:{ errors } } = useForm<Inputs>({ resolver:zodResolver(teamSchema.omit({ id:true })) })
     const {addTeam, editTeam} = useTeam()
     const onSubmit:SubmitHandler<Inputs> = async ({ name, description }) => {
         try{
@@ -48,10 +50,12 @@ export default function TeamForm({ edited, resetEdited }:{ edited:TeamType | und
                 <label className="input">
                     <span>Nombre</span>
                     <input type="text" {...register("name")} />
+                    {errors.name?.message && <p className="error">{errors.name.message}</p> }
                 </label>
                 <label className="input">
                     <span>Descripción</span>
                     <textarea cols={30} rows={10} {...register("description")}></textarea>
+                    {errors.description?.message && <p className="error">{errors.description.message}</p> }
                 </label>
             </div>
             <div className={styles.buttonsContainer}>

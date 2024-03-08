@@ -29,7 +29,7 @@ export function TabsSlider({ children, page=1 }:{ children:React.ReactNode, page
             <div className={styles.tabsView}>
                 <div
                     className={styles.tabs}
-                    style={{ 
+                    style={{
                         ["--tabs" as any]:tabs.size, 
                         ["--page" as any]:page - 1,
                     }}

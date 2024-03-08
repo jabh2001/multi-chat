@@ -3,6 +3,8 @@ import styles from "./index.module.css"
 import { useLabel } from "../../../hooks/useLabelStore"
 import { LabelType } from "../../../types"
 import { useEffect } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { labelSchema } from "../../../libs/schemas"
 
 type Inputs = {
     name:string
@@ -10,7 +12,7 @@ type Inputs = {
 }
 type Keys = "name" | "description"
 export default function LabelForm({ edited, resetEdited }:{ edited:LabelType | undefined, resetEdited:()=>void }){
-    const { register, handleSubmit, reset, setValue } = useForm<Inputs>()
+    const { register, handleSubmit, reset, setValue, formState:{ errors } } = useForm<Inputs>({ resolver:zodResolver(labelSchema.omit({ id:true })) })
     const {addLabel, editLabel} = useLabel()
     const onSubmit:SubmitHandler<Inputs> = async ({ name, description }) => {
         try{
@@ -48,10 +50,12 @@ export default function LabelForm({ edited, resetEdited }:{ edited:LabelType | u
                 <label className="input">
                     <span>Nombre</span>
                     <input type="text" {...register("name")} />
+                    {errors.name?.message && <p className="error">{errors.name.message}</p> }
                 </label>
                 <label className="input">
                     <span>Descripción</span>
                     <textarea cols={30} rows={10} {...register("description")}></textarea>
+                    {errors.description?.message && <p className="error">{errors.description.message}</p> }
                 </label>
             </div>
             <div className={styles.buttonsContainer}>

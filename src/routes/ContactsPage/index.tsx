@@ -6,6 +6,7 @@ import { getContacts } from "../../service/api"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { ReactTabulator } from "react-tabulator"
 import styles from "./index.module.css"
+import ContactEditForm from "../../components/form/ContactForm"
 
 export default function ContactsPage(){
     const [searchParams] = useSearchParams()
@@ -27,7 +28,6 @@ export default function ContactsPage(){
                     <h3>Contacts</h3>
                     <SearchBar placeholder="Search contact..." />
                     <button className="btn secondary">Filtrar</button>
-                    <button className="btn primary">Add new contact</button>
                 </div>
                 <div className={styles.tableContainer}>
                   <div>
@@ -52,10 +52,10 @@ export default function ContactsPage(){
                     <div>
                         <PhoneIcon />
                     </div>
-                    <h3>Contacts</h3>
+                    <h3>Nuevo Contacto</h3>
                 </div>
                 <div>
-                    Options
+                    <ContactEditForm onAdd={contact => setContacts(contacts => [...contacts, contact])}/>
                 </div>
             </div>
         </div>

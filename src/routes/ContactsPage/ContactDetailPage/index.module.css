@@ -66,3 +66,10 @@
     width: 100%;
     height: 100%;
 }
+.SocialMediaFormContainer{
+    padding: 8px;
+}
+.separated{
+    width: 100%;
+    min-height: 28px;
+}

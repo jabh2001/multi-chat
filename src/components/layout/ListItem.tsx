@@ -36,8 +36,8 @@ function ListItem({ children, icon, title, name }:ListItemProps){
     </>
 }
 
-function ButtonListItem({ children }:{ children:React.ReactNode, active?:boolean}){
-    return <button className={styles.listItem}>{children}</button>
+function ButtonListItem({ children, onClick }:{ children:React.ReactNode, active?:boolean, onClick?:()=>void}){
+    return <button className={styles.listItem} onClick={onClick}>{children}</button>
 }
 
 function LinkListItem({ children, to }:{ children:React.ReactNode, to:string}){

@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ContactType } from "../../../types";
-import { getContactById } from "../../../service/api";
+import { ContactType, LabelType } from "../../../types";
+import { getContactById, getContactLabel, getSocialMedia } from "../../../service/api";
 import styles from "./index.module.css"
 import PrevPageButton from "../../../components/button/PrevPageButton";
 import CircleAvatar from "../../../components/avatar/CircleAvatar";
 import SocialMediaDisplay from "../../../components/SocialMediaDisplay";
 import { TabsSlider, Tab } from "../../../components/TabsSlider";
 import ContactEditForm from "../../../components/form/ContactForm";
+import SocialMediaForm from "../../../components/form/SocialMediaForm";
+import ContactLabelForm from "../../../components/form/ContactLabelForm";
 
 export default function ContactDetailPage(){
     const [ page, setPage ] = useState(1)
@@ -16,9 +18,12 @@ export default function ContactDetailPage(){
 
     useEffect(()=>{
         const getData = async ()=>{
-            const contact = await getContactById(Number(contactId))
+            const retContact = getContactById(Number(contactId))
+            const retSocialMedia = getSocialMedia(Number(contactId));
+            const retLabels = getContactLabel(Number(contactId));
+            const [contact, socialMedia, labels] = await Promise.all([ retContact, retSocialMedia, retLabels])
             document.title = `Contact - ${contact.name}`
-            setContactInfo(contact)
+            setContactInfo({...contact, socialMedia, labels})
         }
         const prevTitle = document.title
         getData()
@@ -62,10 +67,30 @@ export default function ContactDetailPage(){
                         <ContactEditForm edited={contactInfo} onEdit={(contact) => setContactInfo(contact) } />
                     </Tab>
                     <Tab>
-
+                        <div className={styles.SocialMediaFormContainer}>
+                            {
+                                contactInfo.socialMedia?.map(sm => (
+                                    <SocialMediaForm
+                                        edited={sm}
+                                        onEdit={(newSocialMedia) => {
+                                            setContactInfo(old => {
+                                                return old ? {...old, socialMedia: old.socialMedia.map(sm => sm.id === newSocialMedia.id ? newSocialMedia : sm)} : undefined;
+                                            })
+                                        }}
+                                    />
+                                ))
+                            }
+                            <div className={styles.separated}></div>
+                            <p>Nuevo</p>
+                            <SocialMediaForm onAdd={(newSocialMedia) => {
+                                setContactInfo(old => {
+                                    return old ? {...old, socialMedia: [...old.socialMedia, newSocialMedia]} : undefined;
+                                })
+                            }}/>
+                        </div>
                     </Tab>
                     <Tab>
-                        <button onClick={()=> alert("Felicidades si funciona")}>3</button>
+                        <ContactLabelForm contactId={contactId} name={contactInfo.name} labels={contactInfo.labels} setLabels={(labels:LabelType[]) => setContactInfo(({...contactInfo, labels}))} />
                     </Tab>
                 </TabsSlider>
             </div>

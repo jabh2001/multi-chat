@@ -5,6 +5,7 @@ import { ButtonListItem, LinkListItem, ListItem } from "./ListItem"
 import { MenuItem } from "../menu"
 import { BellIcon, CommentIcon, ConfigIcon, HomeIcon, PhoneIcon, ProfileIcon } from "../icons"
 import { InboxSection, LabelSection } from "./sections"
+import { testCookie } from "../../service/api"
 
 
 export default function VerticalNavBar(){
@@ -34,7 +35,7 @@ export default function VerticalNavBar(){
                         <MenuItem icon={<HomeIcon />} title="Equipos" to="/config/teams" />
                     </ListItem>
                     <span className={styles.separator}></span>
-                    <ButtonListItem><BellIcon /></ButtonListItem>
+                    <ButtonListItem onClick={testCookie}><BellIcon /></ButtonListItem>
                     <LinkListItem to="/profile"><ProfileIcon /></LinkListItem>
                 </ul>
                 {/* <div className={openedMenuName === "off" ? styles.closeMenuOption} ref={optionsRef}></div */}

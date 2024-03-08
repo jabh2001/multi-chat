@@ -1,0 +1,14 @@
+.form{
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 1fr;
+    gap: 16px;
+    align-items: center;
+    > label{
+        width: 100%;
+    }
+    >div{
+        display:flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
