@@ -8,6 +8,11 @@ interface qrType {
 const QrPage: React.FC = () => {
     const [codigos, establecerCodigos] = useState<qrType[]>()
     useEffect(() => {
+        fetch('http://localhost:3000/api/test/all').then((r)=>{
+            if(r.status==200){
+                console.log('conexion estable')
+            }
+        })
         const socket = new WebSocket('ws://localhost:3000/ws/qr');
 
         socket.onopen = () => {
