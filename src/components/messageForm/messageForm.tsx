@@ -2,13 +2,20 @@ import './messageForm.css'
 import { FunctionComponent } from "react";
 
 
-const MesaggeForm: FunctionComponent = () => {
+const MesaggeForm: FunctionComponent<{ addMessage:(message:string)=>void}> = ({ addMessage}) => {
+    const handleSubmit:React.FormEventHandler<HTMLFormElement> = e => {
+        e.preventDefault()
+        const { message } = e.target as any
+        addMessage(message.value)
+        message.value = ""
+    }
     return (
-        <div className="sender">
+        <form className="sender" onSubmit={handleSubmit}>
+            <button>p</button>
             <div className="replay">
-                <textarea placeholder="type the answer" />
+                <textarea name="message" placeholder="type the answer" />
             </div>
-        </div>
+        </form>
     );
 }
 

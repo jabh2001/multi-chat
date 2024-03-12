@@ -1,6 +1,7 @@
 .contactHeader{
     width: inherit;
     display: block;
+    min-height: max-content;
 }
 .headerContainer{
     display: flex;

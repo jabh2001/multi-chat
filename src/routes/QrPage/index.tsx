@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.module.css'
 interface qrType {
     nombre: string,
-    contenido: string
+    contenido: string,
+    user:boolean
 }
 
 const QrPage: React.FC = () => {
@@ -18,12 +19,10 @@ const QrPage: React.FC = () => {
         socket.onopen = () => {
             console.log('conectado');
         };
-
         socket.onmessage = (m) => {
+            console.log(m)
             const nuevosCodigos = JSON.parse(m.data);
             establecerCodigos(nuevosCodigos);
-            console.log('estos son los codigos \n', nuevosCodigos);
-            console
         };
 
         // Cleanup WebSocket connection on component unmount
@@ -38,7 +37,8 @@ const QrPage: React.FC = () => {
                         <img src={`data:image/png;base64,${m.contenido}`} alt="" />
                         <p>
                             {m.nombre}
-
+                            <span>{"  "}</span>
+                            {m.user ? "activo" : "debe scannear"}
                         </p>
                     </div>
                 })

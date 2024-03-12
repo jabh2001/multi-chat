@@ -1,25 +1,26 @@
-import "./chatCard.css"
-import Avatar from "../avatar/avatar";
+import style from "./chatCard.module.css"
+import CircleAvatar from "../avatar/CircleAvatar";
 
 interface CardProps {
-    avatar: string,
-    inboxname: string,
+    avatarUrl: string,
+    inboxName: string,
     contactName: string
     shortMessage: string
+    onClick?:React.MouseEventHandler<HTMLButtonElement>
 }
 
 const ChatCard: React.FC<CardProps> = (props) => {
-    const { inboxname, contactName, shortMessage } = props;
+    const { inboxName, contactName, shortMessage, avatarUrl, onClick } = props;
 
     return (
-        <div className="card">
-            <Avatar svgData= '<path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />'></Avatar>
-            <div className="info">
-                <p className="inboxName"> {inboxname}</p>
-                <p className="clear">Contact: {contactName}</p>
-                <p className="clear">Message: {shortMessage}</p>
+        <button className={style.card} onClick={onClick}>
+            <CircleAvatar src={avatarUrl} alt={contactName} />
+            <div className={style.info}>
+                <p className={style.inboxName}> {inboxName}</p>
+                <p className={style.contactName}>{contactName}</p>
+                <p className={style.shortMessage}>{shortMessage.slice(0, 30)} {shortMessage.length > 30  ? '...' : ''}</p>
             </div>
-        </div>
+        </button>
     );
 };
 

@@ -4,12 +4,11 @@ import { ContactType, LabelType } from "../../../types";
 import { getContactById, getContactLabel, getSocialMedia } from "../../../service/api";
 import styles from "./index.module.css"
 import PrevPageButton from "../../../components/button/PrevPageButton";
-import CircleAvatar from "../../../components/avatar/CircleAvatar";
-import SocialMediaDisplay from "../../../components/SocialMediaDisplay";
 import { TabsSlider, Tab } from "../../../components/TabsSlider";
 import ContactEditForm from "../../../components/form/ContactForm";
 import SocialMediaForm from "../../../components/form/SocialMediaForm";
 import ContactLabelForm from "../../../components/form/ContactLabelForm";
+import ContactCard from "../../../components/cards/ContactCard";
 
 export default function ContactDetailPage(){
     const [ page, setPage ] = useState(1)
@@ -42,19 +41,7 @@ export default function ContactDetailPage(){
                 <PrevPageButton title="Contacts" />
             </div>
             <div className={styles.contactInfo}>
-                <div className={styles.avatarContainer}>
-                    <CircleAvatar src={contactInfo.avatarUrl} alt={contactInfo.email} size="full" />
-                </div>
-                <div className={styles.contactData}>
-                    <h3 className={styles.contactName}>{contactInfo.name}</h3>
-                    <div>{contactInfo.email}</div>
-                    <div>{contactInfo.phoneNumber}</div>
-                </div>
-                <div className={styles.socialMedia}>
-                    {
-                        contactInfo.socialMedia.map(el => <SocialMediaDisplay socialMedia={el} /> )
-                    }
-                </div>
+                <ContactCard contact={contactInfo} />
                 <div className={styles.changeTabsButton}>
                     <button onClick={() => setPage(1)}><span>Edit Data</span><span>&gt;</span></button>
                     <button onClick={() => setPage(2)}><span>Set Social Media</span><span>&gt;</span></button>
