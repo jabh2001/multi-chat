@@ -11,7 +11,6 @@ const MesaggeForm: FunctionComponent<{ addMessage:(message:string)=>void}> = ({ 
     }
     return (
         <form className="sender" onSubmit={handleSubmit}>
-            <button>p</button>
             <div className="replay">
                 <textarea name="message" placeholder="type the answer" />
             </div>
