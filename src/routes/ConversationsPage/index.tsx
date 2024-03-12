@@ -1,20 +1,27 @@
-import { useLocation } from 'react-router-dom'
-import { ConversationDiv } from '../../components/conversationDiv/conversationDiv'
 import { InboxDive } from '../../components/inboxDiv/inboxDiv'
-import './index.css'
-import { useEffect } from 'react'
+import styles from './index.module.css'
+import ContactHeader from '../../components/contactHeader/contactHeader'
+import MessageForm from '../../components/messageForm/messageForm'
+import { SideBar } from '../../components/sidebar/sideBar'
+import { useConversation } from '../../hooks/useConversations'
+import MessageList from '../../components/MessageList'
 
 function ConversationsPage() {
-  const { search } = useLocation()
-  useEffect(()=>{
-    console.log(search);
-    
-  }, [])
+  const {handleAddMessage, pushMessages, insertMessages, messages, ref} = useConversation()
+  
   return (
-    <div className={`landing`}>
-
+    <div className={styles.landing}>
       <InboxDive/>
-      <ConversationDiv />
+      <div className={styles.chatContainer}>
+          <ContactHeader />
+          <div className={styles.layout} ref={ref}>
+            <MessageList messages={messages} />
+          </div>
+          <MessageForm addMessage={handleAddMessage}/>
+      </div >
+      <div>
+        <SideBar />
+      </div>
     </div>
   )
 }

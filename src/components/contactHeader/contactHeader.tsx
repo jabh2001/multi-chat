@@ -1,36 +1,32 @@
-import Avatar from "../avatar/avatar";
-import { TextButton } from "../textButton/textButton";
-import './contactHeader.css'
+import { useState } from "react";
+import { Tab, Tabs } from "../Tab";
+import styles from './contactHeader.module.css'
+import CircleAvatar from "../avatar/CircleAvatar";
+import { useConversationStore } from "../../hooks/useConversations";
 
-interface ContactHeaderProps {
-    contactName: string;
-    avatar: string;
-    inboxName: string;
-}
 
-export default function ContactHeader(props: ContactHeaderProps) {
-    const { contactName, avatar, inboxName } = props
-    return <div className="contactHeader">
-        <div className="headerContainer">
-            <div className="avatarHeader">
+export default function ContactHeader() {
+    const contact = useConversationStore(state => state.contact)
+    const [ tab, setTab] = useState(1)
+    return <div className={styles.contactHeader}>
+        <div className={styles.headerContainer}>
+            <div className={styles.avatarHeader}>
 
-                <Avatar svgData={avatar} />
+                <CircleAvatar src={`https://ui-avatars.com/api/?name=${contact?.name.replace(" ", "+") ?? "private"}`} alt="" />
             </div>
-            <div className="headerInfo">
-                <h3>{contactName}</h3>
-                <div className="inboxName">
+            <div className={styles.headerInfo}>
+                <h3>{contact?.name}</h3>
+                <div className={styles.inboxName}>
 
-                    <p>{inboxName}</p>
+                    <p>inbox name</p>
 
                 </div>
             </div>
 
         </div>
-        <div className="textButtons">
-
-            <TextButton text="Mesagges" isActive="true" />
-            <TextButton text="Dashboard" isActive="false" />
-        </div>
-
+        <Tabs value={tab} setValue={setTab}>
+            <Tab name="message" value={1} notifications={4} />
+            <Tab name="dashboard" value={2} />
+        </Tabs>
     </div>
 }

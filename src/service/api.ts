@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AgentType, ContactType, LabelType, SocialMediaType, TeamType } from "../types";
+import { AgentType, ContactType, ConversationType, InboxType, LabelType, MessageType, SocialMediaType, TeamType } from "../types";
 
 const baseURL = import.meta.env.VITE_API_URL
 
@@ -135,4 +135,15 @@ export async function putSocialMedia(contactId:ContactType["id"], socialMediaId:
     const { data } = await instance.put<{ socialMedia:SocialMediaType}>(`/contact/${contactId}/social-media/${socialMediaId}`, newData)
     const { socialMedia } = data
     return socialMedia
+}
+/************************************* CONVERSATIONS ******************************************************************/
+
+export async function getAllConversations(){
+    const { data } = await instance.get<{ conversations:ConversationType[] }>( "/conversation" )
+    return data.conversations
+}
+
+export async function getAllMessage(inboxId:InboxType["id"], conversationId:ConversationType["id"]){
+    const { data } = await instance.get<{ messages:MessageType[] }>(`/inbox/${inboxId}/conversation/${conversationId}/message`)
+    return data.messages
 }

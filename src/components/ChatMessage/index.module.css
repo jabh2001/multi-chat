@@ -1,0 +1,40 @@
+.container{
+    display: flex;
+    justify-content: left;
+    &:has(>.outgoing){
+        justify-content: right;
+    }
+}
+.message{
+    padding: 5px;
+    margin: 6px;
+    border-radius: 7px 7px 0px 7px;
+    background-color: #369eff;
+    max-width: 60%;
+    min-width: 30%;
+    animation: up .25s ease forwards;
+}
+.message.incoming{
+    padding-right: 10px;
+    border-radius: 7px 7px 7px 0px;
+    background-color: #697076;
+}
+.container p{
+    color: white;
+    width: 100%;
+    text-wrap:pretty;
+    word-break: break-word;
+} 
+@keyframes up {
+    0% {
+        opacity: 0;
+        transform: scaleY(0.5);
+    }
+
+    50%{
+        opacity: 1;
+    }
+    100%{
+        transform: scaleY(1);
+    }
+}
