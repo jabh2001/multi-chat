@@ -1,19 +1,31 @@
 import { Link, type RouteObject } from "react-router-dom";
 import NewInboxPage from "./NewInboxPage";
 import styles from "./index.module.css"
-import PencilIcon from "../../../components/icons/PencilIcon";
 import TrashIcon from "../../../components/icons/TrashIcon";
-
-
-const fakeData = [
-    { id:1, name:"Número principal", provider:"Whats App"},
-    { id:2, name:"Telegram secundario", provider:"Telegram"},
-    { id:3, name:"Telegram principal", provider:"Telegram"},
-]
+import { useEffect } from "react";
+import { useSSE } from "../../../hooks/useSSE";
+import useInboxStore from "../../../hooks/useInboxStore";
 
 function IndexPage(){
+    const inboxes = useInboxStore(state => state.inboxes)
+    const updateInboxByName = useInboxStore(state => state.updateInboxByName)
+    const fetchInboxes = useInboxStore(state => state.fetch)
+
+    const evtSrc = useSSE()
+    useEffect(()=>{fetchInboxes()}, [])
+
+    useEffect(()=>{
+        if(evtSrc){
+            const func = (e:MessageEvent<any>) => {
+                const inbox = JSON.parse(e.data)
+                updateInboxByName(inbox)
+            }
+            evtSrc.addEventListener("qr-update", func)
+            return  ()=>evtSrc!.removeEventListener("qr", func)
+        }
+    }, [evtSrc])
     return (
-        <div>
+        <div className={styles.mainContainer}>
             <div className={styles.title}>
                 <h3>Inbox</h3>
                 <Link to={"new"} className="btn primary">Create new inbox</Link>
@@ -21,17 +33,23 @@ function IndexPage(){
             <div className={styles.main}>
                 <ul className={styles.list}>
                     {
-                        fakeData.map(el =>(
+                        inboxes.map(el =>(
                             <li key={`inbox_list_${el.id}`} className={styles.inboxesListItem}>
-                                <h4 className={styles.name}>{el.name}</h4>
-                                <h5 className={styles.provider}>{el.provider}</h5>
-                                <div className={styles.actions}>
-                                    <button className={styles.editButton}>
-                                        <PencilIcon />
-                                    </button>
-                                    <button className={styles.deleteButton}>
-                                        <TrashIcon />
-                                    </button>
+                                <div className={styles.cardTitle}>
+                                    <h4 className={styles.name}>{el.name}</h4>
+                                    <h5 className={styles.provider}>{el.channelType}</h5>
+                                    <div className={styles.status}>
+                                        <span>Status: </span><div className={el.user ? styles.on : styles.off} ></div>
+                                    </div>
+                                    <div className={styles.actions}>
+                                        <button className={styles.deleteButton}>
+                                            <TrashIcon />
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className={styles.qrContainer}>
+                                    {el.user && <div className={styles.shade}></div> }
+                                    <img className={styles.qr} src={`data:image/png;base64,${el.qr}`} alt="" />
                                 </div>
                             </li>
                         ))

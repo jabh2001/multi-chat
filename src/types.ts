@@ -37,7 +37,9 @@ export type ContactType = {
 export type InboxType = {
     id:number
     name:string
-    channel_type:"api" | "whats-app" | "telegram"
+    channelType:"api" | "whats-app" | "telegram"
+    user:any
+    qr:string
 }
 
 export type ConversationType = {

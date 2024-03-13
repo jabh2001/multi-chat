@@ -1,7 +1,8 @@
 import { MenuItem, MenuSection } from "../menu"
 import { HomeIcon, PhoneIcon } from "../icons"
 import { useLabel } from "../../hooks/useLabelStore"
-import { useTeam } from "../../hooks/useTeamStore"
+import useInboxStore from "../../hooks/useInboxStore"
+import { useEffect } from "react"
 
 export function LabelSection({ basePath }:{ basePath:string }){
     const {labels} = useLabel()
@@ -19,11 +20,15 @@ export function LabelSection({ basePath }:{ basePath:string }){
     )
 }
 export function InboxSection({ basePath }:{ basePath:string }){
-    const {teams} = useTeam()
+    const inboxes = useInboxStore(state => state.inboxes)
+    const fetchInboxes = useInboxStore(state => state.fetch)
+    useEffect(()=>{
+        fetchInboxes()
+    }, [])
     return (
         <MenuSection title="Entradas">
             {
-                teams.map((el) => {
+                inboxes.map((el) => {
                     return(
                         <MenuItem key={`inbox_${el.id}`} icon={<PhoneIcon />} title={el.name} to={`${basePath}?inbox=${el.id}`} />
                     )

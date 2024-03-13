@@ -138,6 +138,15 @@ export async function putSocialMedia(contactId:ContactType["id"], socialMediaId:
 }
 /************************************* CONVERSATIONS ******************************************************************/
 
+export async function getInboxes(){
+    const { data } = await instance.get<{ inboxes:InboxType[] }>( "/inbox" )
+    return data.inboxes
+}
+
+export async function postInbox(inbox:{ name:string, channelType:string}){
+    const { data } = await instance.post<{ inbox:InboxType }>( "/inbox", inbox )
+    return data.inbox
+}
 export async function getAllConversations(){
     const { data } = await instance.get<{ conversations:ConversationType[] }>( "/conversation" )
     return data.conversations

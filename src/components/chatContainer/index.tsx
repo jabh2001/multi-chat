@@ -13,6 +13,7 @@ function ChatContainer() {
     const [ws, setWs] = useState<WebSocket | undefined>(undefined);
 
     useEffect(() => {
+        console.log(conversation)
         if (conversation) {
             console.log(conversation)
             const newWs = new WebSocket('ws://localhost:3000/ws/conversation/' + conversation.id);
