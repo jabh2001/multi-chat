@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useConversation, useConversationStore } from "../../hooks/useConversations";
 import styles from './index.module.css'
 import MessageList from "../MessageList";
