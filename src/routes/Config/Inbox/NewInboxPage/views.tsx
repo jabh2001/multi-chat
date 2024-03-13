@@ -1,5 +1,5 @@
+import { useState } from "react"
 import ProviderCard from "../../../../components/cards/ProviderCard"
-import { useAgentStore } from "../../../../hooks/useAgent"
 import styles from "./index.module.css"
 
 export function ChooseChannelView(){
@@ -27,49 +27,34 @@ export function ChooseChannelView(){
     )
 }
 
-export function ChannelView({ nextStep }:{ nextStep:()=>void}){
+export function ChannelView({ nextStep, handleSubmit }:{ nextStep:()=>void, handleSubmit:(name:string)=>Promise<void>}){
+    const [ name, setName ] = useState<string>("")
+    const handleClick = async () => {
+        try {
+            await handleSubmit(name)
+            setName("")
+            nextStep()
+        } catch {
+            alert("Error")
+        }
+    }
     return (
         <View title="Set a inbox data">
             <div className={styles.channelContainer}>
                 <div>
                     <label className="input">
                         <span>Set a inbox name</span>
-                        <input type="text" placeholder="Inbox name" />
+                        <input type="text" placeholder="Inbox name" onChange={e => setName(e.target.value)} />
                     </label>
                 </div>
-                <div className={styles.QRContainer}>
-                    <h4>Scan the QR Code</h4>
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example" alt="QR" />
-                </div>
                 <div>
-                    <button className="btn primary" onClick={nextStep}>Next step</button>
+                    <button className="btn primary" onClick={handleClick}>Next step</button>
                 </div>
             </div>
         </View>
     )
 }
 
-export function AddAgents({ nextStep }:{ nextStep:()=>void}){
-    const agents = useAgentStore(state => state.agents)
-    return (
-        <View title="Choose collaborators ">
-            <div className={styles.agentsContainer}>
-                <h4>Agents</h4>
-                <div>
-                    { agents.map(agent=>(
-                        <label className={styles.checkbox} key={`agents_${agent.id}`}>
-                            <span>{agent.name}</span>
-                            <input type="checkbox" />
-                        </label>
-                    )) }
-                </div>
-                <div>
-                    <button className="btn primary" onClick={nextStep}>Next step</button>
-                </div>
-            </div>
-        </View>
-    )
-}
 export function FinishView(){
     return (
         <View title="Inbox was created ">
