@@ -12,6 +12,7 @@ const QrPage: React.FC = () => {
     }, [])
     useEffect(()=>{
         if(evtSrc){
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
             const func = (_e:MessageEvent<any>) => {
                 console.log("Mensaje recibido")
             }

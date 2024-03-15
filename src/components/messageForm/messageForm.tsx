@@ -9,6 +9,12 @@ const MessageForm: FunctionComponent<{ addMessage: (message: string) => void }> 
     const conversationId = useConversationStore(store => store.conversation)?.id
     const sender = useConversationStore(store => store.conversation)?.contact
     const inbox = useConversationStore(store => store.conversation)?.inbox
+    if(ws){
+        ws.onmessage =(m)=>{
+            console.log(m)
+        }
+        
+    }
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = e => {
         e.preventDefault();
         const { message } = e.target as any;
@@ -24,6 +30,8 @@ const MessageForm: FunctionComponent<{ addMessage: (message: string) => void }> 
             }
             console.log(datosEnviar)
             ws.send(JSON.stringify(datosEnviar));
+            
+            
         }
 
         addMessage(messageContent);
