@@ -8,14 +8,12 @@ import { createContext, useState, useEffect, useContext } from "react";
 
 const WebSocketContext = createContext<WebSocket | undefined>(undefined);
 function ChatContainer() {
-    const { handleAddMessage, messages, ref } = useConversation();
+    const { pushMessages, messages, ref } = useConversation();
     const conversation = useConversationStore(state => state.conversation);
     const [ws, setWs] = useState<WebSocket | undefined>(undefined);
 
     useEffect(() => {
-        console.log(conversation)
         if (conversation) {
-            console.log(conversation)
             const newWs = new WebSocket('ws://localhost:3000/ws/conversation/' + conversation.id);
             setWs(newWs);
 
@@ -29,9 +27,9 @@ function ChatContainer() {
         <WebSocketContext.Provider value={ws}>
             <ContactHeader />
             <div className={styles.layout} ref={ref}>
-                <MessageList messages={messages} />
+                <MessageList messages={messages} addMessage={pushMessages} />
             </div>
-            <MessageForm addMessage={handleAddMessage} />
+            <MessageForm addMessage={pushMessages} />
         </WebSocketContext.Provider>
     );
 }
