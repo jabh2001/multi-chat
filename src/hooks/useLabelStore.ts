@@ -2,6 +2,7 @@ import { create } from "zustand"
 import { LabelType } from "../types"
 import { useEffect } from "react"
 import { deleteLabel, getLabels, postLabel, putLabel } from "../service/api"
+import { useSSE } from "./useSSE"
 
 
 type LabelStoreType = {
@@ -23,6 +24,7 @@ const useLabelStore = create<LabelStoreType>((set) =>({
 }))
 
 const useLabel = () => {
+    const multiChatSSE = useSSE()
     const store = useLabelStore()
     const {firstFetch, labels} = store
 
@@ -35,28 +37,37 @@ const useLabel = () => {
             getData()
         }
     }, [])
+    useEffect(()=>{
+        if(multiChatSSE){
+            const insertListener = multiChatSSE.on("insert-label", label => store.addLabel(label))
+            const updateListener = multiChatSSE.on("update-label", label => store.updateLabel(label?.id, label))
+            const deleteListener = multiChatSSE.on("delete-label", ids => ids.forEach(id => store.deleteLabel(id)))
+
+            return () => {
+                multiChatSSE.remove("insert-label", insertListener)
+                multiChatSSE.remove("update-label", updateListener)
+                multiChatSSE.remove("delete-label", deleteListener)
+            }
+        }
+    }, [multiChatSSE])
+
+
 
 
     return {
         labels,
         addLabel: async(newLabel:Omit<LabelType, "id">) => {
-            const provId = -2
-            store.addLabel({...newLabel, id:provId})
             try{
-                const label = await postLabel(newLabel)
-                store.updateLabel(provId, label)
+                await postLabel(newLabel)
             } catch(e){
-                store.deleteLabel(provId)
-                throw e
+                console.error(`Error adding label ${JSON}`)
             }
         },
         editLabel: async(id:LabelType["id"], newData:Partial<LabelType>) => {
-            const label = await putLabel(id, newData)
-            store.updateLabel(id, label)
+            await putLabel(id, newData)
         },
         deleteLabel: async(id:LabelType["id"]) => {
             await deleteLabel(id)
-            store.deleteLabel(id)
         }
     }
 }

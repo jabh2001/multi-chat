@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { TeamType } from "../types";
 import { useEffect } from "react";
 import { deleteTeam, getTeams, postTeam, putTeam } from "../service/api";
+import { useSSE } from "./useSSE";
 
 type TeamStoreType = {
     firstFetch:boolean,
@@ -22,6 +23,7 @@ const useTeamStore = create<TeamStoreType>((set) =>({
 }))
 
 const useTeam = ()=>{
+    const multiChatSSE = useSSE()
     const store = useTeamStore()
     const {firstFetch, teams} = store
 
@@ -34,28 +36,31 @@ const useTeam = ()=>{
             getData()
         }
     }, [])
+    useEffect(()=>{
+        if(multiChatSSE){
+            const insertListener = multiChatSSE.on("insert-team", team => store.addTeam(team))
+            const updateListener = multiChatSSE.on("update-team", team => store.updateTeam(team?.id, team))
+            const deleteListener = multiChatSSE.on("delete-team", ids => ids.forEach(id => store.deleteTeam(id)))
+
+            return () => {
+                multiChatSSE.remove("insert-team", insertListener)
+                multiChatSSE.remove("update-team", updateListener)
+                multiChatSSE.remove("delete-team", deleteListener)
+            }
+        }
+    }, [multiChatSSE])
 
 
     return {
         teams,
         addTeam: async(newTeam:Omit<TeamType, "id">) => {
-            const provId = -2
-            store.addTeam({...newTeam, id:provId})
-            try{
-                const team = await postTeam(newTeam)
-                store.updateTeam(provId, team)
-            } catch(e){
-                store.deleteTeam(provId)
-                throw e
-            }
+            await postTeam(newTeam)
         },
         editTeam: async(id:TeamType["id"], newData:Partial<TeamType>) => {
-            const team = await putTeam(id, newData)
-            store.updateTeam(id, team)
+            await putTeam(id, newData)
         },
         deleteTeam: async(id:TeamType["id"]) => {
             await deleteTeam(id)
-            store.deleteTeam(id)
         }
     }
 }

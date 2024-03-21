@@ -2,6 +2,7 @@ import { create } from "zustand"
 import { AgentType } from "../types";
 import { useEffect } from "react";
 import { deleteAgent, getAgents, postAgent, putAgent } from "../service/api";
+import { useSSE } from "./useSSE";
 
 type AgentStoreState = {
     agents: AgentType[]
@@ -24,6 +25,7 @@ const useAgentStore = create<AgentStoreState>((set) =>({
 }))
 
 const useAgent = () => {
+    const multiChatSSE = useSSE()
     const store = useAgentStore()
     const { agents } = store
 
@@ -34,6 +36,19 @@ const useAgent = () => {
         }
         getData()
     }, [])
+    useEffect(()=>{
+        if(multiChatSSE){
+            const insertListener = multiChatSSE.on("insert-agent", agent => store.addAgent(agent))
+            const updateListener = multiChatSSE.on("update-agent", agent => store.editAgent(agent?.id, agent))
+            const deleteListener = multiChatSSE.on("delete-agent", ids => ids.forEach(id => store.deleteAgent(id)))
+
+            return () => {
+                multiChatSSE.remove("insert-agent", insertListener)
+                multiChatSSE.remove("update-agent", updateListener)
+                multiChatSSE.remove("delete-agent", deleteListener)
+            }
+        }
+    }, [multiChatSSE])
 
 
     return {
