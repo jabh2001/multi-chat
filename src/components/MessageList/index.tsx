@@ -9,8 +9,8 @@ export default function MessageList({ messages, addMessage }:{ messages:MessageT
     useEffect(()=>{
         if (ws) {
             const receiptMessage = ({ data }:MessageEvent<any>)=>{
-                let message = JSON.parse(data);
-                console.log({ message})
+                const message = JSON.parse(data);
+                console.log('aquí se recibe la data',{ message})
                 addMessage(message)
             }
             ws.onmessage = receiptMessage
