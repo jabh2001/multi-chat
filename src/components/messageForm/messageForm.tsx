@@ -3,9 +3,8 @@ import './messageForm.css'
 import { FunctionComponent } from "react";
 import { useWebSocket } from '../chatContainer';
 import { useConversationStore } from '../../hooks/useConversations';
-import { MessageType } from '../../types';
 
-const MessageForm: FunctionComponent<{ addMessage: (message: MessageType) => void }> = ({ addMessage }) => {
+const MessageForm: FunctionComponent = () => {
     const ws = useWebSocket();
     const conversationId = useConversationStore(store => store.conversation)?.id
     const sender = useConversationStore(store => store.conversation)?.contact
@@ -28,8 +27,6 @@ const MessageForm: FunctionComponent<{ addMessage: (message: MessageType) => voi
             
             
         }
-
-        addMessage({ id:Math.round(Math.random() * 10000), content:messageContent, contentType:"text", private:true, messageType:"outgoing", created_at:new Date()});
         message.value = "";
     };
 

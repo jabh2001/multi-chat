@@ -11,9 +11,7 @@ export default function MessageList({ messages, addMessage }:{ messages:MessageT
             const receiptMessage = ({ data }:MessageEvent<any>)=>{
                 const message = JSON.parse(data);
                 console.log('aquí se recibe la data',{ message})
-                if(message.whatsappID){
-                    console.log('si tiene')
-                }
+                addMessage(message)
             }
             ws.onmessage = receiptMessage
             return () => {ws.onmessage = null}
