@@ -6,19 +6,20 @@ interface CardProps {
     inboxName: string,
     contactName: string
     shortMessage: string
+    viewTransitionName:string
     onClick?:React.MouseEventHandler<HTMLButtonElement>
 }
 
 const ChatCard: React.FC<CardProps> = (props) => {
-    const { inboxName, contactName, shortMessage, avatarUrl, onClick } = props;
+    const { inboxName, contactName, shortMessage, avatarUrl, onClick, viewTransitionName } = props;
 
     return (
-        <button className={style.card} onClick={onClick}>
+        <button className={style.card} onClick={onClick} style={{ viewTransitionName}}>
             <CircleAvatar src={avatarUrl} alt={contactName} />
             <div className={style.info}>
                 <p className={style.inboxName}> {inboxName}</p>
                 <p className={style.contactName}>{contactName}</p>
-                <p className={style.shortMessage}>{shortMessage.slice(0, 30)} {shortMessage.length > 30  ? '...' : ''}</p>
+                <p className={style.shortMessage}>{shortMessage?.slice(0, 30)} {shortMessage?.length > 30  ? '...' : ''}</p>
             </div>
         </button>
     );
