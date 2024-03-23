@@ -50,6 +50,7 @@ export type ConversationType = {
     messages:MessageType[],
 }
 export type MessageType = {
+    base64:string,
     id: number,
     content:string
     contentType:"text"

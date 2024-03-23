@@ -42,6 +42,7 @@ export const useConversation = ()=>{
     document.startViewTransition(()=>{
       flushSync(()=>{
         const last = messages[messages.length -1]
+        console.log('este es el ultimo mensaje\n', last)
         pushMessages({ ...last, id:last.id+1, content:msg, messageType:messages.length%2==1?"incoming":"outgoing"})
       })
     })

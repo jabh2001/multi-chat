@@ -11,9 +11,7 @@ export default function MessageList({ messages, addMessage }:{ messages:MessageT
             const receiptMessage = ({ data }:MessageEvent<any>)=>{
                 const message = JSON.parse(data);
                 console.log('aquí se recibe la data',{ message})
-                if(message.whatsappID){
-                    console.log('si tiene')
-                }
+                
             }
             ws.onmessage = receiptMessage
             return () => {ws.onmessage = null}
@@ -23,7 +21,7 @@ export default function MessageList({ messages, addMessage }:{ messages:MessageT
         <section style={{ width:"100%"}}>
             {
                 messages.map(m =>(
-                    <ChatMessage key={`msg_${m.id}`} message={m.content} typeChatMessage={m.messageType} />
+                    <ChatMessage key={`msg_${m.id}`} message={m.content} typeChatMessage={m.messageType} image={m.base64 ? m.base64 : null}/>
                 ))
             }
         </section>
