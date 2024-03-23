@@ -21,7 +21,7 @@ export default function MessageList({ messages, addMessage }:{ messages:MessageT
         <section style={{ width:"100%"}}>
             {
                 messages.map(m =>(
-                    <ChatMessage key={`msg_${m.id}`} message={m.content} typeChatMessage={m.messageType} image={m.base64 ? m.base64 : null}/>
+                    <ChatMessage key={`msg_${m.id}`} message={m.content} typeChatMessage={m.messageType} image={m.buffer ? m.buffer : null}/>
                 ))
             }
         </section>
