@@ -1,5 +1,5 @@
-const baseURL = import.meta.env.VITE_SSE_URL
+import { MultiChatSSE } from "../libs/MultiChatSSE"
 
 export function getEventSource(){
-    return new EventSource(baseURL, { withCredentials:true })
+    return new MultiChatSSE()
 }

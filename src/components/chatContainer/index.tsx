@@ -29,7 +29,7 @@ function ChatContainer() {
             <div className={styles.layout} ref={ref}>
                 <MessageList messages={messages} addMessage={pushMessages} />
             </div>
-            <MessageForm addMessage={pushMessages} />
+            <MessageForm />
         </WebSocketContext.Provider>
     );
 }
