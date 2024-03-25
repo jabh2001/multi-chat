@@ -55,7 +55,7 @@ export type MessageType = {
     buffer:string,
     id: number,
     content:string
-    contentType:"text"
+    contentType:string
     messageType:"incoming" | "outgoing"
     private:boolean
     created_at:Date

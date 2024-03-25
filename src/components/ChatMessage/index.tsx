@@ -1,22 +1,22 @@
 import { FunctionComponent } from "react";
 import styles from './index.module.css'
+import { MessageType } from "../../types";
 
 interface ChatMessageProps {
-    message: string
-    typeChatMessage: 'incoming' | 'outgoing';
-    image: string | null
+    message: MessageType
 }
 
 const ChatMessage: FunctionComponent<ChatMessageProps> = (props: ChatMessageProps) => {
     return (
         <div className={styles.container}>
-            <div className={`${styles.message} ${props.typeChatMessage === "incoming" ? styles.incoming : styles.outgoing}`}>
-                <p>
-                    {props.message}
+            <div className={`${styles.message} ${props.message.messageType === "incoming" ? styles.incoming : styles.outgoing}`}>
 
-                </p>
-                {props.image && (
-                    <img src={`data:image/jpeg;base64,${props.image}`} alt="Message Image" />
+                {props.message.content !== 'undefined' && (
+                    <p>{props.message.content}</p>
+                )}
+
+                {props.message.buffer && props.message.contentType === 'imageMessage' && (
+                    <img src={`data:image/jpeg;base64,${props.message.buffer}`} alt="Message Image" />
                 )}
             </div>
         </div>
