@@ -1,29 +1,12 @@
-import { useState } from "react"
-import Snackbar from "../../components/Snackbar"
+import GalleryImage from "../../components/GalleryImage/GalleryImage"
+import "./index.css"
 
 function IndexPage() {
-  const [open, setOpen ] = useState(false)
-  const [open1, setOpen1 ] = useState(false)
-  const [open2, setOpen2 ] = useState(false)
-  const [open3, setOpen3 ] = useState(false)
+
   return (
-    <div>
-        <button onClick={()=> setOpen(true)}>hola</button>
-        <button onClick={()=> setOpen1(true)}>hola</button>
-        <button onClick={()=> setOpen2(true)}>hola</button>
-        <button onClick={()=> setOpen3(true)}>hola</button>
-        <Snackbar color="secondary" open={open} handleClose={()=>setOpen(false)} >
-          Informacion que quiero poner dentro del snackbar
-        </Snackbar>
-        <Snackbar color="error" open={open1} handleClose={()=>setOpen1(false)} >
-          Informacion que quiero poner dentro del snackbar
-        </Snackbar>
-        <Snackbar color="warning" open={open2} handleClose={()=>setOpen2(false)} >
-          Informacion que quiero poner dentro del snackbar
-        </Snackbar>
-        <Snackbar color="success" open={open3} handleClose={()=>setOpen3(false)} >
-          Informacion que quiero poner dentro del snackbar
-        </Snackbar>
+    <div className="img-cont">
+      <GalleryImage className="img" src="https://c4.wallpaperflare.com/wallpaper/764/505/66/baby-groot-4k-hd-superheroes-wallpaper-preview.jpg" />
+      <GalleryImage className="img" src="https://t3.ftcdn.net/jpg/05/71/06/76/360_F_571067620_JS5T5TkDtu3gf8Wqm78KoJRF1vobPvo6.jpg" />
     </div>
   )
 }
