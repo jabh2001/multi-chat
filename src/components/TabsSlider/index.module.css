@@ -4,6 +4,7 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+    position: relative;
 }
 .tabs{
     width: calc(100% * var(--tabs));
@@ -16,4 +17,5 @@
 .tab{
     height: 100%;
 
+    position: relative;
 }

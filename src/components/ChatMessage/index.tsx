@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import styles from './index.module.css'
 import { MessageType } from "../../types";
+import GalleryImage from "../GalleryImage/GalleryImage";
 
 interface ChatMessageProps {
     message: MessageType
@@ -16,7 +17,7 @@ const ChatMessage: FunctionComponent<ChatMessageProps> = (props: ChatMessageProp
                 )}
 
                 {props.message.buffer && props.message.contentType === 'imageMessage' && (
-                    <img src={`data:image/jpeg;base64,${props.message.buffer}`} alt="Message Image" />
+                    <GalleryImage src={`data:image/jpeg;base64,${props.message.buffer}`} alt="Message Image" />
                 )}
             </div>
         </div>

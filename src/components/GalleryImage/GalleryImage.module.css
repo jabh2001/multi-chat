@@ -14,12 +14,13 @@
     background-color: #444;
 }
 .modalBg{
+    z-index: 10;
     position: absolute;
     width: 100vw;
     height: 100vh;
     top: 0;
     left: 0;
-    background-color: #5556;
+    background-color: rgba(39, 43, 61, 0.8);
     user-select: none;
 
 }
@@ -39,7 +40,7 @@
     height: 25px;
 }
 .modalImg{
-    height: 80%;
+    max-height: 80%;
     width: 80%;
     object-fit: contain;
     margin: auto;

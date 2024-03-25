@@ -40,7 +40,7 @@ export function TabsSlider({ children, page=1 }:{ children:React.ReactNode, page
         </context.Provider>
     )
 }
-export function Tab({ children }:any){
+export function Tab({ children, visible=false }:any){
     const refId = useRef(Symbol())
     const { registryTab, deleteTab } = useContext(context)
     useEffect(()=>{
@@ -48,7 +48,7 @@ export function Tab({ children }:any){
         return () => deleteTab(refId.current)
     }, [])
     return (
-        <div className={styles.tab}>
+        <div className={`${styles.tab} ${visible && styles.visible }`}>
             { children }
         </div>
     )
