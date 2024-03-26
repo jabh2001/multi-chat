@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import styles from "./GalleryImage.module.css"
 import ReactDOM, { flushSync } from "react-dom"
 
@@ -25,6 +25,17 @@ export default function GalleryImage({ className, ...rest}:Props){
                 setOpen(value => !value)
             }
     }
+    useEffect(()=>{
+        if(open){
+            const onEscClose:(evt:KeyboardEvent) => void = e =>{
+                if (e.code === 'Escape'){
+                    toggle()
+                }
+            }
+            document.body.addEventListener( "keydown", onEscClose)
+            return () =>{ document.body.removeEventListener("keydown", onEscClose)}
+        }
+    }, [open])
 
     return (
         <>
@@ -33,7 +44,7 @@ export default function GalleryImage({ className, ...rest}:Props){
             </div>
             { 
             ReactDOM.createPortal((
-                open && <div className={styles.modalBg}>
+                open && <div className={styles.modalBg} onKeyUp={e => console.log(e.key, "hola")}>
                     <div className={styles.modal}>
                         <button className={styles.modalClose} onClick={toggle}>x</button>
                         <img className={styles.modalImg + " " + styles.anim} {...rest} style={{ viewTransitionName: ref.current}} /> 

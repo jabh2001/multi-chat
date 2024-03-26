@@ -45,6 +45,3 @@
     object-fit: contain;
     margin: auto;
 }
-.anim::view-transition-old(root), .anim::view-transition-new(root) {
-    animation-duration: 2s;
-}

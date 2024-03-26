@@ -96,7 +96,7 @@ export async function getContactById(contactId:number) {
     const { contact } = data
     return contact
 }
-export async function postContact(contact:Partial<ContactType>) {
+export async function postContact(contact:any) {
     const { data } = await instance.post<{ contact:ContactType}>("/contact", contact)
     const { contact:newContact } = data
     return newContact

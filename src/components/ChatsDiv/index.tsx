@@ -14,17 +14,17 @@ export default function ChatsDiv({ tab }:{ tab:number }){
             <div className={style.conversationsContainer}>
 
                 <TabsSlider page={tab}>
-                    <TabView>
+                    <TabView visible={tab == 1}>
                         <div className={style.conversationsSectionContainer}>
                             <ChatMine />
                         </div>
                     </TabView>
-                    <TabView>
+                    <TabView visible={tab == 2}>
                         <div className={style.conversationsSectionContainer}>
                             <ChatUnassigned />
                         </div>
                     </TabView>
-                    <TabView>
+                    <TabView visible={tab == 3}>
                         <div className={style.conversationsSectionContainer}>
                             <ChatAll />
                         </div>
