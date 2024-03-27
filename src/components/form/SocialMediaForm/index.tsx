@@ -6,6 +6,7 @@ import { postSocialMedia, putSocialMedia } from "../../../service/api"
 import { useParams } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { socialMediaSchema } from "../../../libs/schemas"
+import NormalInput from "../inputs/NormalInput"
 
 type Props = {
     edited?:SocialMediaType
@@ -22,7 +23,7 @@ type Keys = "name" | "url" | "displayText"
 
 export default function SocialMediaForm({ edited, onEdit, onAdd }:Props){
     const { contactId } = useParams()
-    const { register, handleSubmit, setValue, reset, formState:{ errors } } = useForm<Inputs>({ resolver:zodResolver(socialMediaSchema.omit({ id:true, contactId:true })) })
+    const { register, handleSubmit, setValue, reset, formState:{ errors }, control } = useForm<Inputs>({ resolver:zodResolver(socialMediaSchema.omit({ id:true, contactId:true })) })
     useEffect(()=> {
         if(edited){
             for (const key of Object.keys(edited)) {
@@ -36,7 +37,7 @@ export default function SocialMediaForm({ edited, onEdit, onAdd }:Props){
     }, [edited])
 
     return (
-        <form className={styles.form} onSubmit={handleSubmit(async (data)=>{
+        <form className={`${styles.form} ${!edited && styles.newS}`} onSubmit={handleSubmit(async (data)=>{
             if(edited){
                 const socialMedia = await putSocialMedia(Number(contactId), edited.id, data)
                 onEdit && onEdit({ ...socialMedia })
@@ -60,16 +61,12 @@ export default function SocialMediaForm({ edited, onEdit, onAdd }:Props){
                 </select>
                 { errors.name && <p className="error">{errors.name.message}</p> }
             </label>
-            <label className="input">
-                <span>Link</span>
-                <input type="text" {...register("url", { required:true})} />
-                { errors.url && <p className="error">{errors.url.message}</p> }
-            </label>
-            <label className="input">
-                <span>Nombre</span>
-                <input type="text" {...register("displayText")} />
-                { errors.displayText && <p className="error">{errors.displayText.message}</p> }
-            </label>
+            <div>
+                <NormalInput name="url" control={control} label="Link" />
+            </div>
+            <div>
+                <NormalInput name="displayText" control={control} label="Nombre" />
+            </div>
             <div>
                 <button className="btn primary">Guardar</button>
             </div>

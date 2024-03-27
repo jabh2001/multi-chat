@@ -8,7 +8,7 @@ import NormalInput from "../inputs/NormalInput"
 import styles from "./contactForm.module.css"
 import FileInput from "../inputs/FileInput"
 import { z } from "zod"
-import { convertFileToBase64 } from "../../../service/file"
+import { convertBase64ToImgString, convertFileToBase64 } from "../../../service/file"
 
 type Props = {
     edited?:ContactType
@@ -44,19 +44,19 @@ export default function ContactEditForm({ edited, onEdit, onAdd }:Props){
     return (
         <form className={styles.form} onSubmit={handleSubmit(async ({ picture, ...data})=>{
             if(edited){
-                const contact = await putContact(edited.id, {...data})
+                const contact = await putContact(edited.id, {...data, picture:await convertFileToBase64(picture)})
                 onEdit && onEdit(contact)
                 reset()
             } else {
                 const contact = await postContact({...data, picture:await convertFileToBase64(picture)})
-                onAdd && onAdd(contact)
+                onAdd && onAdd({...contact, avatarUrl:convertBase64ToImgString(contact.avatarUrl)})
                 reset()
             }
         })}>
             <NormalInput control={control} name="name" label="Nombre" />
             <NormalInput control={control} name="email" label="Correo" />
             <NormalInput control={control} name="phoneNumber" label="Número de teléfono" />
-            <FileInput control={control} name="picture" label="Imagen" />
+            <FileInput accept="image/png" control={control} name="picture" label="Imagen" />
             <div>
                 <button className="btn primary">Guardar</button>
                 

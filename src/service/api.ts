@@ -101,7 +101,7 @@ export async function postContact(contact:any) {
     const { contact:newContact } = data
     return newContact
 }
-export async function putContact(id:ContactType["id"], newData:Partial<ContactType>) {
+export async function putContact(id:ContactType["id"], newData:any) {
     const { data } = await instance.put<{ contact:ContactType}>("/contact/" + id, newData)
     const { contact } = data
     return contact

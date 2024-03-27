@@ -8,3 +8,7 @@ export async function convertFileToBase64(file:File){
         reader.onerror = reject
     })
 }
+
+export function convertBase64ToImgString(base64:string){
+    return `data:image/png;base64,${base64}`
+}

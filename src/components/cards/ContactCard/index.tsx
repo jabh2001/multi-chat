@@ -7,7 +7,7 @@ export default function ContactCard({ contact }:{ contact?:ContactType }){
     return (
         <div className={styles.container}>
             <div className={styles.avatarContainer}>
-                <CircleAvatar src={`https://ui-avatars.com/api/?name=${contact?.name.replace(" ", "+") ?? "private"}`} alt={contact?.email ?? ""} size="full" />
+                <CircleAvatar src={contact?.avatarUrl ?? ""} alt={contact?.email ?? ""} size="full" />
             </div>
             <div className={styles.contactData}>
                 <h3 className={styles.contactName}>{contact?.name}</h3>
@@ -16,7 +16,7 @@ export default function ContactCard({ contact }:{ contact?:ContactType }){
             </div>
             <div className={styles.socialMedia}>
                 {
-                    contact?.socialMedia?.map(el => <SocialMediaDisplay socialMedia={el} /> )
+                    contact?.socialMedia?.map(el => <SocialMediaDisplay key={`social_media_display_${el.id}`} socialMedia={el} /> )
                 }
             </div>
         </div>

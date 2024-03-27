@@ -1,12 +1,23 @@
-import GalleryImage from "../../components/GalleryImage/GalleryImage"
+
+import { useState } from "react"
+import { Modal, ModalHeader, ModalBody, ModalFooter, ModalAction } from "../../components/Modal"
 import "./index.css"
 
 function IndexPage() {
-
+  const [open, setOpen] = useState(false)
   return (
     <div className="img-cont">
-      <GalleryImage className="img" src="https://c4.wallpaperflare.com/wallpaper/764/505/66/baby-groot-4k-hd-superheroes-wallpaper-preview.jpg" />
-      <GalleryImage className="img" src="https://t3.ftcdn.net/jpg/05/71/06/76/360_F_571067620_JS5T5TkDtu3gf8Wqm78KoJRF1vobPvo6.jpg" />
+      <button onClick={() => setOpen(true)}>open</button>
+      <Modal open={open} handleClose={() => setOpen(false)} >
+        <ModalFooter>
+          <ModalAction title='save' />
+          <ModalAction title='cancel' />
+        </ModalFooter>
+        <ModalHeader title="modal" />
+        <ModalBody>
+          Hola
+        </ModalBody>
+      </Modal>
     </div>
   )
 }

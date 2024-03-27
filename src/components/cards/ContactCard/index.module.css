@@ -6,7 +6,7 @@
     align-items: start;
     padding-top: 16px;
     & .avatarContainer{
-        width: 50%;
+        width: 80%;
         align-self: center;
     }
     & > .contactData > *{
