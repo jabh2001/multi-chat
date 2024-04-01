@@ -136,6 +136,11 @@ export async function putSocialMedia(contactId:ContactType["id"], socialMediaId:
     const { socialMedia } = data
     return socialMedia
 }
+export async  function sendMessageToContact(contactId:number, inboxName:string, message:string){
+    const { data } = await instance.post<{ message:MessageType}>(`/contact/${contactId}/message`, { inboxName, message })
+    const { message:msg } = data
+    return msg
+}
 /************************************* CONVERSATIONS ******************************************************************/
 
 export async function getInboxes(){

@@ -3,6 +3,7 @@ import './messageForm.css'
 import { FunctionComponent } from "react";
 import { useWebSocket } from '../chatContainer';
 import { useConversationStore } from '../../hooks/useConversations';
+import MessageTextarea from '../MessageTextarea';
 
 const MessageForm: FunctionComponent = () => {
     const ws = useWebSocket();
@@ -32,10 +33,7 @@ const MessageForm: FunctionComponent = () => {
 
     return (
         <form className="sender" onSubmit={handleSubmit}>
-            <div className="replay">
-                <textarea name="message" placeholder="type the answer" />
-            </div>
-            <button type="submit">Enviar</button>
+            <MessageTextarea name="message" placeholder="type the answer" />
         </form>
     );
 }

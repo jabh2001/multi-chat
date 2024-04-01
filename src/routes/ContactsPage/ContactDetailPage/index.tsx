@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ContactType, LabelType } from "../../../types";
-import { getContactById, getContactLabel, getSocialMedia } from "../../../service/api";
+import { getContactById, getContactLabel, getSocialMedia, sendMessageToContact } from "../../../service/api";
 import PrevPageButton from "../../../components/button/PrevPageButton";
 import { TabsSlider, Tab } from "../../../components/TabsSlider";
 import ContactEditForm from "../../../components/form/ContactForm";
@@ -11,6 +11,12 @@ import ContactCard from "../../../components/cards/ContactCard";
 import { useSSE } from "../../../hooks/useSSE";
 import Snackbar from "../../../components/Snackbar";
 import styles from "./index.module.css"
+import { Modal, ModalAction, ModalBody, ModalFooter, ModalHeader } from "../../../components/Modal";
+import useInboxStore from "../../../hooks/useInboxStore";
+import Select from "../../../components/form/inputs/Select";
+import Option from "../../../components/form/inputs/Option";
+import { useForm } from "react-hook-form";
+import Textarea from "../../../components/form/inputs/Textarea";
 
 export default function ContactDetailPage(){
     const listener = useSSE()
@@ -63,7 +69,7 @@ export default function ContactDetailPage(){
             <div className={styles.contactInfo}>
                 <ContactCard contact={contactInfo} />
                 <div className={styles.changeTabsButton}>
-                    <button><span>Enviar mensaje</span><span>&gt;</span></button>
+                    <SendMessageFormModal contact={contactInfo} />
                     <button onClick={() => setPage(1)}><span>Edit Data</span><span>&gt;</span></button>
                     <button onClick={() => setPage(2)}><span>Set Social Media</span><span>&gt;</span></button>
                     <button onClick={() => setPage(3)}><span>Set Labels </span><span>&gt;</span></button>
@@ -76,7 +82,6 @@ export default function ContactDetailPage(){
                             <ContactEditForm edited={contactInfo} onEdit={()=>openToast("Se ha actualizado el contacto")} />
                             <form className={styles.noteForm}>
                                 <h4>Nota</h4>
-                                <textarea name="" id="" rows={25}></textarea>
                             </form>
                         </div>
                     </Tab>
@@ -120,4 +125,69 @@ export default function ContactDetailPage(){
             </Snackbar>
         </div>
     )
+}
+type Inputs = {
+    inboxName:string
+    message:string
+}
+function SendMessageFormModal({ contact }:{ contact:ContactType}){
+    const inboxes = useInboxStore(store => store.inboxes)
+    const fetchInbox = useInboxStore(store => store.fetch)
+    const [ open, setOpen ] = useState(false)
+    const [ openSnackbar, setOpenSnackbar] = useState({ status:false, msg:"" })
+    const [ message, setMessage] = useState('')
+    const { control, handleSubmit } = useForm<Inputs>()
+    const formRef = useRef<HTMLFormElement>(null)
+
+    useEffect(()=>{
+        inboxes.length == 0 && fetchInbox()
+    }, [inboxes])
+
+    const cancel = ()=>{
+        setOpen(false)
+        setMessage("")
+    }
+    const send = async ({ inboxName }:Inputs) => {
+        try{
+            await sendMessageToContact(contact.id, inboxName, message)
+            setOpen(false)
+            setMessage("")
+            setOpenSnackbar({ status:true, msg:"Mensaje Enviado" })
+        } catch(e){
+            setOpenSnackbar({ status:true, msg:"Ha habido un error" })
+        }
+    }
+    return (<>
+        <button onClick={()=>setOpen(true)}><span>Enviar mensaje</span><span>&gt;</span></button>
+        <Modal open={open} handleClose={() => setOpen(false)} size="lg" >
+            <ModalHeader title={`Envíale un mensaje a ${contact.name}`} />
+            <ModalBody>
+                <form onSubmit={handleSubmit(send)} ref={formRef}>
+                    <Select control={control} label="Nombre del inbox" name="inboxName" >
+                        {
+                            inboxes.map(inbox => (
+                                <Option 
+                                    key={`inbox_option_${inbox.id}`} 
+                                    value={inbox.name} 
+                                    label={inbox.name.toUpperCase()}
+                                />
+                            ))
+                        }
+                    </Select>
+                    <Textarea 
+                        name="message"
+                        control={control}
+                        label="Mensaje"
+                    />
+                </form>
+            </ModalBody>
+            <ModalFooter>
+                <ModalAction title='Enviar' onClick={()=>formRef.current?.submit()}/>
+                <ModalAction title='Cancelar' onClick={cancel} />
+            </ModalFooter>
+        </Modal>
+        <Snackbar open={openSnackbar.status} handleClose={()=>setOpenSnackbar({ status:false, msg:""})}>
+            Mensaje enviado
+        </Snackbar>
+    </>)
 }

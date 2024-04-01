@@ -23,7 +23,7 @@
 
     }
 }
-
+/**************************************************************************************************************/
 .inputGroup {
     position: relative;
     user-select: none;
@@ -116,4 +116,83 @@
   90% {
     transform: translateX(-2px);
   }
+}
+/**************************************************************************************************************/
+.activeSelect{
+    & .input {
+        z-index: 11;
+    }
+    & .optionsMenu{
+        z-index: 10;
+    }
+}
+.input:has(>.selectButton){
+    background-color: #fff;
+    position: relative;
+    &:has(>.selectButton:checked){
+        ~ .optionsMenu{
+            animation: show-select-menu .1s linear;
+        }
+    }
+    .selectButton{
+        display: none;
+    }
+}
+.optionsMenu{
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 0;
+    top:70%;
+    width: 100%;
+    border: 1px solid var(--primary);
+    border-top: none;
+    padding-top: 20px;
+    animation: hidden .1s  ease-in forwards;
+    max-height: 200px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+.option{
+    display: flex;
+    padding: 4px;
+    cursor: pointer;
+    & input {
+        display: none;
+    }
+    &:hover, &.select{
+        background-color: #eee;
+    }
+}
+@keyframes hidden{
+    from {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+    to{
+        opacity: 0;
+        transform: translateY(-30px);
+        display:none
+    }
+}
+@keyframes show-select-menu {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+/********************************* TEXTAREA ******************************************************/
+textarea.input{
+    resize: none;
+    overflow-y: auto;
+    scrollbar-width: none;
+    &.resizable {
+        resize: vertical;
+    }
 }

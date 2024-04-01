@@ -1,23 +1,16 @@
-
-import { useState } from "react"
-import { Modal, ModalHeader, ModalBody, ModalFooter, ModalAction } from "../../components/Modal"
+import { useForm } from "react-hook-form"
 import "./index.css"
+import Textarea from "../../components/form/inputs/Textarea"
 
 function IndexPage() {
-  const [open, setOpen] = useState(false)
+  const { control } = useForm()
   return (
     <div className="img-cont">
-      <button onClick={() => setOpen(true)}>open</button>
-      <Modal open={open} handleClose={() => setOpen(false)} >
-        <ModalFooter>
-          <ModalAction title='save' />
-          <ModalAction title='cancel' />
-        </ModalFooter>
-        <ModalHeader title="modal" />
-        <ModalBody>
-          Hola
-        </ModalBody>
-      </Modal>
+      <Textarea
+          label="note"
+          name="note"
+          control={control}
+      />
     </div>
   )
 }
