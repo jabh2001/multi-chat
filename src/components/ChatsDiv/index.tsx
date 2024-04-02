@@ -7,6 +7,7 @@ import style from "./index.module.css"
 import { useConversationStore } from "../../hooks/useConversations";
 import { useSSE } from "../../hooks/useSSE";
 import { flushSync } from "react-dom";
+import { useSearchParams } from "react-router-dom";
 
 export default function ChatsDiv({ tab }:{ tab:number }){
     return (
@@ -50,6 +51,7 @@ function ChatUnassigned(){
     )
 }
 function ChatAll(){
+    const [searchParams] = useSearchParams()
     const sse = useSSE()
 
     const setConversationId = useConversationStore(state => state.setConversationId)
@@ -57,8 +59,8 @@ function ChatAll(){
     const [ conversations, setConversations] = useState<ConversationType[]>([])
 
     useEffect(()=>{
-        getAllConversations().then(setConversations)
-    }, [])
+        getAllConversations({ label:searchParams.get("label") ?? undefined, inbox:searchParams.get("inbox") ?? undefined }).then(setConversations)
+    }, [searchParams])
 
     useEffect(()=>{
         if(sse){

@@ -2,6 +2,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import { ContactDetailPage, ContactsPage, ConversationsPage, IndexPage, QrPage } from "./routes"
 import Layout from "./components/layout"
 import configRouter from "./routes/Config"
+import LoginPage from "./routes/LoginPage"
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,9 @@ const router = createBrowserRouter([
       },
       ...configRouter
     ]
+  },{
+    path:"/login",
+    element:<LoginPage />
   }
 ])
 

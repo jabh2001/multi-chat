@@ -1,16 +1,14 @@
-import { useForm } from "react-hook-form"
+import useAuth from "../../hooks/useAuth"
 import "./index.css"
-import Textarea from "../../components/form/inputs/Textarea"
+
 
 function IndexPage() {
-  const { control } = useForm()
+  const user = useAuth()
   return (
     <div className="img-cont">
-      <Textarea
-          label="note"
-          name="note"
-          control={control}
-      />
+      <pre>
+          {JSON.stringify(user, null, 4)}
+      </pre>
     </div>
   )
 }
