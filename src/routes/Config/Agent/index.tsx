@@ -10,6 +10,7 @@ import { ActionButtons } from "../../../components/TableData/ActionButtons";
 import Drawer from "../../../components/Drawer";
 import AgentTeamForm from "../../../components/form/AgentTeamForm";
 import { getAgentTeam } from "../../../service/api";
+import useTabulatorFilters from "../../../hooks/useTabulatorFilters";
 
 const baseName = "/config/agents"
 
@@ -22,6 +23,8 @@ const agentsRoutes : RouteObject[] = [
 
 ];
 function IndexPage(){
+    const { onRef, clearFilters, include } = useTabulatorFilters()
+    const [ filter, setFilter ] = useState("")
     const [openDrawer, setOpenDrawer] = useState(false)
     const [ agent, setAgent ] = useState<AgentType | undefined>()
     const [ teams, setTeams ] = useState<TeamType[]>([])
@@ -40,15 +43,23 @@ function IndexPage(){
 
     const handleEdit = (row:AgentType) => setEdited(row)
     const handleDelete = ({ id }:AgentType) => deleteAgent(id)
+    const handleFilter = ()=>{
+        filter == "" ? clearFilters() : include("name", filter)
+    }
+    const removeFilters = ()=>{
+        clearFilters()
+        setFilter("")
+    }
     return (
         <div className={styles.container}>
             <div className={styles.searchBar}>
                 <h3>Agent</h3>
-                <SearchBar   placeholder="Search agent..." />
-                <button className="btn secondary">Filtrar</button>
+                <SearchBar   placeholder="Search agent..."  value={filter} onChange={setFilter} onSearch={handleFilter} onRemove={removeFilters} />
+                <button className="btn secondary" onClick={handleFilter}>Filtrar</button>
             </div>
             <div className={styles.agentsContainer}>
                 <ReactTabulator
+                    onRef={onRef}
                     options={{
                         layout:"fitColumns"
                     }}

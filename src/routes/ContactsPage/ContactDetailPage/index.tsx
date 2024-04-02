@@ -135,9 +135,8 @@ function SendMessageFormModal({ contact }:{ contact:ContactType}){
     const fetchInbox = useInboxStore(store => store.fetch)
     const [ open, setOpen ] = useState(false)
     const [ openSnackbar, setOpenSnackbar] = useState({ status:false, msg:"" })
-    const [ message, setMessage] = useState('')
-    const { control, handleSubmit } = useForm<Inputs>()
-    const formRef = useRef<HTMLFormElement>(null)
+    const { control, handleSubmit, reset } = useForm<Inputs>()
+    const buttonRef = useRef<HTMLButtonElement>(null)
 
     useEffect(()=>{
         inboxes.length == 0 && fetchInbox()
@@ -145,13 +144,13 @@ function SendMessageFormModal({ contact }:{ contact:ContactType}){
 
     const cancel = ()=>{
         setOpen(false)
-        setMessage("")
+        reset()
     }
-    const send = async ({ inboxName }:Inputs) => {
+    const send = async ({ inboxName, message }:Inputs) => {
         try{
             await sendMessageToContact(contact.id, inboxName, message)
             setOpen(false)
-            setMessage("")
+            reset()
             setOpenSnackbar({ status:true, msg:"Mensaje Enviado" })
         } catch(e){
             setOpenSnackbar({ status:true, msg:"Ha habido un error" })
@@ -162,7 +161,7 @@ function SendMessageFormModal({ contact }:{ contact:ContactType}){
         <Modal open={open} handleClose={() => setOpen(false)} size="lg" >
             <ModalHeader title={`Envíale un mensaje a ${contact.name}`} />
             <ModalBody>
-                <form onSubmit={handleSubmit(send)} ref={formRef}>
+                <form onSubmit={handleSubmit(send)}>
                     <Select control={control} label="Nombre del inbox" name="inboxName" >
                         {
                             inboxes.map(inbox => (
@@ -179,10 +178,11 @@ function SendMessageFormModal({ contact }:{ contact:ContactType}){
                         control={control}
                         label="Mensaje"
                     />
+                    <button style={{ display:"none" }} ref={buttonRef}>Enviar</button>
                 </form>
             </ModalBody>
             <ModalFooter>
-                <ModalAction title='Enviar' onClick={()=>formRef.current?.submit()}/>
+                <ModalAction title='Enviar' onClick={()=>buttonRef.current?.click()}/>
                 <ModalAction title='Cancelar' onClick={cancel} />
             </ModalFooter>
         </Modal>

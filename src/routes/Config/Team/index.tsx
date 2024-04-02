@@ -7,6 +7,7 @@ import { useState } from "react";
 import { TeamType } from "../../../types";
 import { ReactTabulator, reactFormatter } from "react-tabulator";
 import { ActionButtons } from "../../../components/TableData/ActionButtons";
+import useTabulatorFilters from "../../../hooks/useTabulatorFilters";
 
 const baseName = "/config/teams"
 
@@ -18,21 +19,33 @@ const teamRoutes : RouteObject[] = [
     },
 
 ];
+// function useTabulatorFilter
+
 function IndexPage(){
+    const { onRef, clearFilters, include } = useTabulatorFilters()
+    const [ filter, setFilter ] = useState("")
     const { teams, deleteTeam } = useTeam()
     const [edited, setEdited] = useState<TeamType | undefined>(undefined)
 
     const handleEdit = (row:TeamType) => setEdited(row)
     const handleDelete = ({ id }:TeamType) => deleteTeam(id)
+    const handleFilter = ()=>{
+        filter == "" ? clearFilters() : include("name", filter)
+    }
+    const removeFilters = ()=>{
+        clearFilters()
+        setFilter("")
+    }
     return (
         <div className={styles.container}>
             <div className={styles.searchBar}>
                 <h3>Team</h3>
-                <SearchBar   placeholder="Search team..." />
-                <button className="btn secondary">Filtrar</button>
+                <SearchBar placeholder="Search team..." value={filter} onChange={setFilter} onSearch={handleFilter} onRemove={removeFilters} />
+                <button className="btn secondary" onClick={handleFilter}>Filtrar</button>
             </div>
             <div className={styles.labelsContainer}>
                 <ReactTabulator
+                    onRef={onRef}
                     options={{
                         layout:"fitColumns"
                     }}
