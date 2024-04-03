@@ -8,14 +8,14 @@ type Store = {
     signOut:()=>Promise<boolean>
 }
 const useAuth = create<Store>((set) => {
-    const user = JSON.parse(String(localStorage.getItem(USER_KEY)))
+    const user = JSON.parse(String(sessionStorage.getItem(USER_KEY)))
     return {
         user,
         signIn:async (email, password) => {
             try{
                 const { user } = await signIn(email, password)
                 set({ user })
-                localStorage.setItem(USER_KEY, JSON.stringify(user))
+                sessionStorage.setItem(USER_KEY, JSON.stringify(user))
                 return true
             } catch (e){
                 return Promise.reject(e)
@@ -26,7 +26,7 @@ const useAuth = create<Store>((set) => {
                 const { status } = await signOut()
                 if(status) {
                     set({ user:null })
-                    localStorage.setItem(USER_KEY, JSON.stringify(null))
+                    sessionStorage.setItem(USER_KEY, JSON.stringify(null))
                 }
                 return status
             } catch (e){
