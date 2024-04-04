@@ -91,7 +91,7 @@ function ChatAll(){
                     inboxName={c.inbox.name}
                     contactName={c.contact.name}
                     shortMessage={c.lastMessage}
-                    avatarUrl={`https://ui-avatars.com/api/?name=${c.contact.name.replace(" ", "+")}`}
+                    avatarUrl={c.contact.avatarUrl}
                     onClick={()=>handleClick(c)}
                 />
             ))
