@@ -1,9 +1,8 @@
 import { create } from "zustand";
-import { ContactType, ConversationType } from "../types";
-import { useEffect, useRef } from "react";
+import { ContactType, ConversationType, MessageType } from "../types";
+import { useEffect, useRef, useState } from "react";
 import useChat from "./useChat";
 import { getAllMessage, getSocialMedia } from "../service/api";
-import { flushSync } from "react-dom";
 
 type ConversationsStoreType = {
     conversation:ConversationType | undefined,
@@ -22,36 +21,71 @@ export const useConversation = ()=>{
   const conversation = useConversationStore(state => state.conversation)
   const setContact = useConversationStore(state => state.setContact)
   const contact = useConversationStore(state => state.contact)
-  const { messages, setMessages, pushMessages, insertMessages} = useChat({ key:["chat", conversation?.id ?? 0, contact?.id ?? 0]})
-  const ref = useRef<HTMLDivElement>(null)
+  const { messages, setMessages, pushMessages, insertMessages:insert} = useChat({ key:["chat", conversation?.id ?? 0, contact?.id ?? 0]})
+
+  const [ isLoading, setIsLoading ] = useState(false)
+  const [ isComplete, setIsComplete ] = useState(false)
+  const rootRef = useRef<HTMLDivElement>(null)
+  const observeRef = useRef<HTMLDivElement>(null)
 
   useEffect(()=>{
       if(conversation && contact){
-          getAllMessage(conversation.inbox.id, conversation.id).then(setMessages)
+          setIsLoading(true)
+          console.log("entra")
+          getAllMessage(conversation.inbox.id, conversation.id).then(msg => {
+            setMessages(msg)
+            scrollToBottom()
+            setIsLoading(false)
+            console.log("sale")
+            
+          })
           getSocialMedia(conversation.contact.id).then(socialMedia =>setContact({...contact, socialMedia}))
       }
   }, [conversation])
 
-  useEffect(()=>{
-    if(ref.current){
-      ref.current.scroll(0, ref.current.scrollHeight)
+  const scrollToBottom = () => {
+    if(rootRef.current){
+      rootRef.current.scroll(0, rootRef.current.scrollHeight)
     }
-  }, [messages])
-
-  const handleAddMessage = (msg:string)=>{
-    document.startViewTransition(()=>{
-      flushSync(()=>{
-        const last = messages[messages.length -1]
-        console.log('este es el ultimo mensaje\n', last)
-        pushMessages({ ...last, id:last.id+1, content:msg, messageType:messages.length%2==1?"incoming":"outgoing"})
-      })
-    })
   }
+
+  const fetchMoreMessage = async () => {
+    if(conversation && contact){
+      if(!isComplete && !isLoading && messages.length > 0){
+          setIsLoading(true)
+          console.log("entra1")
+          console.log("fetch")
+          setTimeout(async ()=> {
+            const element = observeRef.current
+            const newMessages = await getAllMessage(conversation.inbox.id, conversation.id, messages.length)
+            if(newMessages.length ==0){
+              setIsComplete(true)
+              setIsLoading(false)
+              return 
+            }
+            pushMessages(...newMessages)
+
+            scrollToBottom()
+            element?.scrollIntoView()
+
+            setIsLoading(false)
+            console.log("sale2")
+          }, 2500)
+        }
+    }
+  }
+
   return {
-    handleAddMessage,
     messages,
-    ref,
+    rootRef,
+    observeRef,
     pushMessages,
-    insertMessages
+    insertMessages:(...messages:MessageType[]) =>{
+      insert(...messages)
+      scrollToBottom()
+    },
+    fetchMoreMessage,
+    isLoading,
+    isComplete,
   }
 }

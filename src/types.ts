@@ -56,7 +56,7 @@ export type MessageType = {
     id: number,
     content:string
     contentType:string
-    messageType:"incoming" | "outgoing"
+    messageType:"incoming" | "outgoing" | "info"
     private:boolean
     created_at:Date
     user?:UserType
