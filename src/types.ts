@@ -25,9 +25,11 @@ export type SocialMediaType = {
 }
 
 export type ContactType = {
+
     id:number
     name:string
     email:string
+     
     phoneNumber:string
     avatarUrl:string
     labels:LabelType[]
@@ -44,6 +46,7 @@ export type InboxType = {
 
 export type ConversationType = {
     id: number,
+    assignedUserId?:number,
     contact:ContactType,
     inbox:InboxType,
     lastMessage:string,
