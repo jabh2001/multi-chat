@@ -150,9 +150,6 @@
     border-top: none;
     padding-top: 20px;
     animation: hidden .1s  ease-in forwards;
-    max-height: 200px;
-    overflow-y: scroll;
-    scrollbar-width: none;
 }
 .option{
     display: flex;
@@ -163,6 +160,34 @@
     }
     &:hover, &.select{
         background-color: #eee;
+    }
+}
+.options{
+    display: flex;
+    flex-direction: column;
+    max-height: 200px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+.selectSearch{
+    position: relative;
+    & .input {
+        width: 100%;
+        padding: 0px;
+        padding-inline: 4px;
+        border-inline:0px !important;
+        font-size: 16px;
+        border-radius: 0px;
+        &.valid ~ svg{
+            visibility: hidden;
+        }
+    }
+    & svg {
+        position: absolute;
+        left: 5px;
+        top: 5px;
+        width: 16px;
+        fill: #4448;
     }
 }
 @keyframes hidden{
@@ -194,5 +219,25 @@ textarea.input{
     scrollbar-width: none;
     &.resizable {
         resize: vertical;
+    }
+}
+/********************************* phoneNumber ******************************************************/
+.phoneNumber{
+    display: flex;
+    & >.inputGroup:first-child{
+        flex-grow: 1;
+        flex-basis: 33%;
+        & > label {
+            border-top-right-radius: 0px;
+            border-bottom-right-radius: 0px;
+        }
+    }
+    & >.inputGroup:last-child{
+        flex-grow: 2;
+        & > input {
+            border-top-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+            border-left: transparent;
+        }
     }
 }

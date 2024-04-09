@@ -12,6 +12,7 @@ import { convertFileToBase64 } from "../../../service/file"
 import codes from "../../../constantes"
 import Select from "../inputs/Select"
 import Option from "../inputs/Option"
+import PhoneNumberInput from "../inputs/PhoneNumberInput"
 
 type Props = {
     edited?: ContactType
@@ -22,7 +23,7 @@ type Inputs = {
     name: ContactType["name"]
     email: ContactType["email"]
     phoneNumber: ContactType["phoneNumber"]
-    countryCode: ContactType["countryCode"]
+    countryCode: string
     picture: File
 }
 
@@ -59,7 +60,7 @@ export default function ContactEditForm({ edited, onEdit, onAdd }: Props) {
                 if (isNaN(parsedPhoneNumber)) {
                     throw new Error('El número de teléfono no es válido.');
                 }
-
+                console.log(phoneNumber)
                 // const contact = await postContact({...data, picture:await convertFileToBase64(picture)})
                 // onAdd && onAdd({...contact, avatarUrl:convertBase64ToImgString(contact.avatarUrl)})
                 // reset()
@@ -67,17 +68,7 @@ export default function ContactEditForm({ edited, onEdit, onAdd }: Props) {
         })}>
             <NormalInput control={control} name="name" label="Nombre" />
             <NormalInput control={control} name="email" label="Correo" />
-            <Select control={control}  label="country code"name="countryCode">
-                    {
-                        codes.map((code,index) =>(<Option
-                        label={code}
-                        key={index} 
-                        value={code}
-                        ></Option>))
-                    }
-            </Select>
-            <NormalInput control={control} name="phoneNumber" label="Número de teléfono" />
-
+            <PhoneNumberInput control={control} name="phoneNumber" label="Número de teléfono" />
 
             <FileInput accept="image/png" control={control} name="picture" label="Imagen" />
             <div>
