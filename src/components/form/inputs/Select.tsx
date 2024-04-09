@@ -8,10 +8,12 @@ type Props = {
     label:string
     name:string
     control: Control<any, any, any>
+    transparent?:boolean
+    dark?:boolean
     children?:React.ReactNode
 }
 
-export default function Select({ label, name, control, children }:Props){
+export default function Select({ label, name, control, transparent, dark, children }:Props){
     const [ inputLabel, setInputLabel ] = useState(label)
     const [ open, setOpen ] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null)
@@ -30,11 +32,11 @@ export default function Select({ label, name, control, children }:Props){
                         setInputLabel(label)
                     } }}>
                         <div className={`${styles.inputGroup} ${ open && styles.activeSelect}`} ref={containerRef}>
-                            <label className={`${styles.input} ${styles.button}`}>
+                            <label className={`${styles.input} ${styles.button} ${transparent && styles.transparent} ${dark && styles.dark}`}>
                                 <input type="checkbox" checked={open} onChange={e => setOpen(e.target.checked)} className={styles.selectButton} />
-                                <div>{inputLabel}</div>
+                                <span>{inputLabel}</span>
                             </label>
-                            <div className={`${styles.optionsMenu}`}>
+                            <div className={`${styles.optionsMenu} ${transparent && styles.transparent} ${dark && styles.dark}`}>
                                 { children }
                             </div>
                         </div>

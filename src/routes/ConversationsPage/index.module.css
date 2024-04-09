@@ -2,7 +2,11 @@
   background-color: #333;
   height: 100vh;
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 1fr 3fr;
+  transition: all 1s ease-out;
+  &:has(>.sideBar>*  ){
+    grid-template-columns: 1fr 2fr 1fr;
+  }
 }
 .chatContainer{
   display: grid;
@@ -26,4 +30,10 @@
   background-image: url('../../assets/chat-background.png');
   background-size:cover;
   scroll-behavior: smooth;
+}
+.sideBar{
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;
 }

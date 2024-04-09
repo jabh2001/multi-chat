@@ -31,13 +31,10 @@ export const useConversation = ()=>{
   useEffect(()=>{
       if(conversation && contact){
           setIsLoading(true)
-          console.log("entra")
           getAllMessage(conversation.inbox.id, conversation.id).then(msg => {
             setMessages(msg)
-            scrollToBottom()
             setIsLoading(false)
-            console.log("sale")
-            
+            scrollToBottom()
           })
           getSocialMedia(conversation.contact.id).then(socialMedia =>setContact({...contact, socialMedia}))
       }
@@ -49,28 +46,25 @@ export const useConversation = ()=>{
     }
   }
 
-  const fetchMoreMessage = async () => {
+  const fetchMoreMessage =  async  () => {
     if(conversation && contact){
       if(!isComplete && !isLoading && messages.length > 0){
           setIsLoading(true)
-          console.log("entra1")
-          console.log("fetch")
-          setTimeout(async ()=> {
-            const element = observeRef.current
-            const newMessages = await getAllMessage(conversation.inbox.id, conversation.id, messages.length)
-            if(newMessages.length ==0){
-              setIsComplete(true)
-              setIsLoading(false)
-              return 
-            }
-            pushMessages(...newMessages)
-
-            scrollToBottom()
-            element?.scrollIntoView()
-
+          const element = observeRef.current
+          console.log(1)
+          const newMessages = await getAllMessage(conversation.inbox.id, conversation.id, messages.length)
+          console.log(12)
+          if(newMessages.length ==0){
+            setIsComplete(true)
             setIsLoading(false)
-            console.log("sale2")
-          }, 2500)
+            return 
+          }
+          pushMessages(...newMessages)
+          setTimeout(() => {
+            element?.scrollIntoView({ behavior:"instant", block:"start" })
+          }, 250)
+          
+          setIsLoading(false)
         }
     }
   }
@@ -82,7 +76,7 @@ export const useConversation = ()=>{
     pushMessages,
     insertMessages:(...messages:MessageType[]) =>{
       insert(...messages)
-      scrollToBottom()
+      // scrollToBottom()
     },
     fetchMoreMessage,
     isLoading,

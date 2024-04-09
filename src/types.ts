@@ -44,6 +44,10 @@ export type InboxType = {
 
 export type ConversationType = {
     id: number,
+    inboxId: number,
+    senderId: number,
+    assignedUserId: number | null,
+    assignedTeamId: number | null,
     contact:ContactType,
     inbox:InboxType,
     lastMessage:string,

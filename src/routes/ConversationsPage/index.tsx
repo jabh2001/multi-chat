@@ -11,7 +11,7 @@ function ConversationsPage() {
       <div className={styles.chatContainer}>
           <ChatContainer/>
       </div >
-      <div>
+      <div className={styles.sideBar}>
         <SideBar />
       </div>
     </div>

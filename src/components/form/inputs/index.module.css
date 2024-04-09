@@ -32,6 +32,11 @@
     display: flex;
     --primary:var(--active-button-primary-color);
     transition: padding .1s linear;
+
+    --separated-bg:#ddd;
+    --separated-opacity:.6;
+    --separated-border:#333;
+
     &.error{
         --primary:var(--active-button-error-color);
         padding-bottom: 24px;
@@ -127,7 +132,13 @@
     }
 }
 .input:has(>.selectButton){
-    background-color: #fff;
+
+    &, & ~ .optionsMenu {
+        background-color: #fff;
+        & span{
+            color: #222;
+        }
+    }
     position: relative;
     &:has(>.selectButton:checked){
         ~ .optionsMenu{
@@ -137,9 +148,14 @@
     .selectButton{
         display: none;
     }
+    &.dark, &.dark ~ .optionsMenu {
+        background-color: #444;
+        & span{
+            color: #fff;
+        }
+    }
 }
 .optionsMenu{
-    background-color: #fff;
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -153,6 +169,14 @@
     max-height: 200px;
     overflow-y: scroll;
     scrollbar-width: none;
+    .separated {
+        border-top: 1px solid var(--separated-border);
+        padding: 4px;
+        margin-top: 8px;
+        font-weight: bold;
+        opacity: var(--separated-opacity);
+        background-color: var(--separated-bg);
+    }
 }
 .option{
     display: flex;
@@ -195,4 +219,11 @@ textarea.input{
     &.resizable {
         resize: vertical;
     }
+}
+
+/***************************************************************************************************/
+.dark{
+    --separated-bg:#333;
+    --separated-opacity:1;
+    --separated-border:#fff;
 }
