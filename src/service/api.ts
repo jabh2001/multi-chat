@@ -285,9 +285,18 @@ export async function getAllConversations({ inbox, label }: { inbox?: string, la
     }
 }
 
-export async function getAllMessage(inboxId: InboxType["id"], conversationId: ConversationType["id"]) {
+export async function assignedConversation(inboxId:number, conversationId:number, { user, team }:{user?:number, team?:number}) {
     try {
-        const { data } = await instance.get<{ messages: MessageType[] }>(`/inbox/${inboxId}/conversation/${conversationId}/message`)
+        const { data } = await instance.put<{ conversation: ConversationType }>(`inbox/${inboxId}/conversation/${conversationId}`, { assignedUserId:user || null, assignedTeamId:team || null })
+        return data.conversation
+    } catch (e) {
+        return Promise.reject(e)
+    }
+}
+
+export async function getAllMessage(inboxId: InboxType["id"], conversationId: ConversationType["id"], offset?:number) {
+    try {
+        const { data } = await instance.get<{ messages: MessageType[] }>(`/inbox/${inboxId}/conversation/${conversationId}/message`, { params:{ offset } })
         return data.messages
     } catch (e) {
         return Promise.reject(e)

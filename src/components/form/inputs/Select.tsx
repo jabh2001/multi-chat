@@ -6,51 +6,56 @@ import { selectContext } from "../../../hooks/useMultiSelect"
 import GlassIcon from "../../icons/GlassIcon"
 
 type Props = {
-    label:string
-    name:string
+    label: string
+    name: string
     control: Control<any, any, any>
-    search?:boolean
-    children?:React.ReactNode
+    search?: boolean
+    children?: React.ReactNode
+    transparent?: boolean
+    dark?: boolean
 }
 
-export default function Select({ label, name, control, search, children }:Props){
+
+export default function Select({ label, name, control, transparent, dark, children, search }: Props) {
     const [searchText, setSearchText] = useState("")
-    const [ inputLabel, setInputLabel ] = useState(label)
-    const [ open, setOpen ] = useState(false)
+    const [inputLabel, setInputLabel] = useState(label)
+    const [open, setOpen] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null)
     const searchRef = useRef<HTMLInputElement>(null)
     useClickOutside(containerRef, () => setOpen(false))
-    const searchFilterFunction = (label:string) => {
-        return  !search || label.toLowerCase().includes(searchText)
+    const searchFilterFunction = (label: string) => {
+        return !search || label.toLowerCase().includes(searchText)
     }
-    useEffect(()=>{
-        if(open && searchRef.current){
+    useEffect(() => {
+        if (open && searchRef.current) {
             searchRef.current.focus()
         }
     }, [open])
-    
+
     return (
-        <Controller 
+        <Controller
             control={control}
             name={name}
-            render={({ field }) =>{
-                const { value, onChange:setValue } = field
+            render={({ field }) => {
+                const { value, onChange: setValue } = field
                 return (
-                    <selectContext.Provider value={{ value, name, searchFilterFunction, resetFilters:()=>setSearchText(""), setValue:({value, label}) => {
-                        setValue(value)
-                        setOpen(false)
-                        setInputLabel(label)
-                    } }}>
-                        <div className={`${styles.inputGroup} ${ open && styles.activeSelect}`} ref={containerRef}>
-                            <label className={`${styles.input} ${styles.button}`}>
+                    <selectContext.Provider value={{
+                        value, name, searchFilterFunction, resetFilters: () => setSearchText(""), setValue: ({ value, label }) => {
+                            setValue(value)
+                            setOpen(false)
+                            setInputLabel(label)
+                        }
+                    }}>
+                        <div className={`${styles.inputGroup} ${open && styles.activeSelect}`} ref={containerRef}>
+                            <label className={`${styles.input} ${styles.button} ${transparent && styles.transparent} ${dark && styles.dark}`}>
                                 <input type="checkbox" checked={open} onChange={e => setOpen(e.target.checked)} className={styles.selectButton} />
-                                <div>{inputLabel}</div>
+                                <span>{inputLabel}</span>
                             </label>
                             <div className={`${styles.optionsMenu}`}>
                                 {
                                     search && (
                                         <div className={styles.selectSearch}>
-                                            <input 
+                                            <input
                                                 ref={searchRef}
                                                 type="search"
                                                 className={`${styles.input} ${value !== "" && styles.valid}`}
@@ -62,8 +67,11 @@ export default function Select({ label, name, control, search, children }:Props)
                                     )
                                 }
                                 <div className={styles.options}>
-                                    { children }
+                                    {children}
                                 </div>
+                            </div>
+                            <div className={`${styles.optionsMenu} ${transparent && styles.transparent} ${dark && styles.dark}`}>
+                                {children}
                             </div>
                         </div>
                     </selectContext.Provider>

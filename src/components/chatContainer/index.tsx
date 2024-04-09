@@ -8,7 +8,7 @@ import { createContext, useState, useEffect, useContext } from "react";
 
 const WebSocketContext = createContext<WebSocket | undefined>(undefined);
 function ChatContainer() {
-    const { pushMessages, messages, ref } = useConversation();
+    const { insertMessages, fetchMoreMessage, messages, rootRef, observeRef, isLoading } = useConversation();
     const conversation = useConversationStore(state => state.conversation);
     const [ws, setWs] = useState<WebSocket | undefined>(undefined);
 
@@ -26,8 +26,8 @@ function ChatContainer() {
     return (
         <WebSocketContext.Provider value={ws}>
             <ContactHeader />
-            <div className={styles.layout} ref={ref}>
-                <MessageList messages={messages} addMessage={pushMessages} />
+            <div className={styles.layout} ref={rootRef}>
+                <MessageList messages={messages} addMessage={insertMessages} rootRef={rootRef} observeRef={observeRef} fetchMoreMessage={fetchMoreMessage} isLoading={isLoading} />
             </div>
             <MessageForm />
         </WebSocketContext.Provider>

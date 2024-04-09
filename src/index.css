@@ -34,9 +34,6 @@ a{
 svg{
   aspect-ratio: 1;
 }
-main, main *{
-  color: #000;
-}
 #multiChatDrawer{
   position: fixed !important;
   top: 0;

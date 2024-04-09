@@ -46,7 +46,10 @@ export type InboxType = {
 
 export type ConversationType = {
     id: number,
-    assignedUserId?:number,
+    inboxId: number,
+    senderId: number,
+    assignedUserId: number | null,
+    assignedTeamId: number | null,
     contact:ContactType,
     inbox:InboxType,
     lastMessage:string,
@@ -59,7 +62,7 @@ export type MessageType = {
     id: number,
     content:string
     contentType:string
-    messageType:"incoming" | "outgoing"
+    messageType:"incoming" | "outgoing" | "info"
     private:boolean
     created_at:Date
     user?:UserType

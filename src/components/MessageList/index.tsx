@@ -1,29 +1,84 @@
-import { useEffect } from "react";
+import { RefObject, useEffect, useRef } from "react";
 import { MessageType } from "../../types";
 import ChatMessage from "../ChatMessage";
 import { useWebSocket } from '../chatContainer';
+import LoadingMoreMessage from "../ChatMessage/LoadingMoreMessage";
 
+type Props = {
+    messages:MessageType[]
+    addMessage:(msg:MessageType) => void
+    rootRef:RefObject<HTMLDivElement>
+    observeRef:RefObject<HTMLDivElement>
+    fetchMoreMessage?:() => Promise<void>
+    isLoading?:boolean
+    isComplete?:boolean
+}
 
-export default function MessageList({ messages, addMessage }:{ messages:MessageType[], addMessage:(msg:MessageType) => void}){
+export default function MessageList({ messages, addMessage, rootRef, observeRef, fetchMoreMessage, isLoading, isComplete }:Props){
+    const prevLastMessageRef = useRef<HTMLDivElement>(null)
+    const lastMessageRef = useRef<HTMLDivElement>(null)
     const ws= useWebSocket()
+    const scrollToLast = () => {
+        prevLastMessageRef.current && isInViewport(prevLastMessageRef.current) && lastMessageRef.current?.scrollIntoView()
+    }
     useEffect(()=>{
         if (ws) {
             const receiptMessage = ({ data }:MessageEvent<any>)=>{
                 const message = JSON.parse(data);
-                console.log('aquí se recibe la data',{ message})
                 addMessage(message)
             }
             ws.onmessage = receiptMessage
             return () => {ws.onmessage = null}
         }
     }, [ws])
+    useEffect(()=>{
+        scrollToLast()
+        // if(rootRef.current && observeRef.current){
+        //     const options:IntersectionObserverInit = { root:rootRef.current, rootMargin: '100px'}
+        //     const observer = new IntersectionObserver(async (entries)=> {
+        //         entries[0].isIntersecting && !isLoading && fetchMoreMessage && await fetchMoreMessage()
+        //     }, options)
+        //     observer.observe(observeRef.current)
+        //     return () => { 
+        //         observer.disconnect()
+        //     }
+        // }
+    }, [messages])
+    useEffect(()=>{
+        const onScroll = () =>{
+            observeRef.current && isInViewport(observeRef.current) && !isLoading && fetchMoreMessage && fetchMoreMessage()
+        }
+        rootRef.current?.addEventListener("scrollend", onScroll)
+        return () => {
+            rootRef.current?.removeEventListener("scrollend", onScroll)
+        }
+    }, [fetchMoreMessage])
     return (
-        <section style={{ width:"100%"}}>
+        <section style={{ width:"100%", display:"flex", flexDirection:"column-reverse"}}>
             {
-                messages.map(m =>(
-                    <ChatMessage key={`msg_${m.id}`} message={m}/>
+                messages.map( (m, i)=>(
+                    <ChatMessage 
+                        key={`msg_${m.id}`}
+                        message={m}
+                        ref={
+                            i === 0 ? lastMessageRef : 
+                            i === 1 ? prevLastMessageRef :
+                            i === messages.length-1 ? observeRef : undefined
+                        }
+                    />
                 ))
             }
+            { isLoading && <LoadingMoreMessage /> }
+            { isComplete && <>Completo</> }
         </section>
     )
+}
+
+function isInViewport(element:HTMLElement){
+    const distance = element.getBoundingClientRect();
+    const parentViewport = element.parentElement?.parentElement?.getBoundingClientRect();
+    if(!parentViewport){
+        return false
+    }
+    return distance.top < parentViewport.bottom && distance.bottom > parentViewport.top
 }

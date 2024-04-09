@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import styles from "./GalleryImage.module.css"
 import ReactDOM, { flushSync } from "react-dom"
+import { generateString } from "../../service/general"
 
 type Props = {
     src?: string
@@ -40,28 +41,19 @@ export default function GalleryImage({ className, ...rest}:Props){
     return (
         <>
             <div className={`${styles.container} ${className}`} onClick={toggle}>
-            {!open ? <img className={styles.img + " " + styles.anim} {...rest} style={{ viewTransitionName: ref.current}} /> : <div className={styles.placeholder} />}
+            <img className={styles.img + " " + styles.anim} {...rest} style={!open ? { viewTransitionName: ref.current}:{}} />
             </div>
             { 
             ReactDOM.createPortal((
-                open && <div className={styles.modalBg} onKeyUp={e => console.log(e.key, "hola")}>
+                open && <div className={styles.modalBg} >
                     <div className={styles.modal}>
                         <button className={styles.modalClose} onClick={toggle}>x</button>
-                        <img className={styles.modalImg + " " + styles.anim} {...rest} style={{ viewTransitionName: ref.current}} /> 
+                        <div className={styles.modalImgContainer}>
+                            <img className={styles.modalImg + " " + styles.anim} {...rest} style={{ viewTransitionName: ref.current}} /> 
+                        </div>
                     </div>
                 </div>
             ), container)}
         </>
     )
-}
-const characters ='abcdefghijklmnopqrstuvwxyz';
-
-function generateString(length:number) {
-    let result = ' ';
-    const charactersLength = characters.length;
-    for ( let i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-
-    return result;
 }

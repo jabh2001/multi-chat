@@ -32,6 +32,11 @@
     display: flex;
     --primary:var(--active-button-primary-color);
     transition: padding .1s linear;
+
+    --separated-bg:#ddd;
+    --separated-opacity:.6;
+    --separated-border:#333;
+
     &.error{
         --primary:var(--active-button-error-color);
         padding-bottom: 24px;
@@ -127,7 +132,13 @@
     }
 }
 .input:has(>.selectButton){
-    background-color: #fff;
+
+    &, & ~ .optionsMenu {
+        background-color: #fff;
+        & span{
+            color: #222;
+        }
+    }
     position: relative;
     &:has(>.selectButton:checked){
         ~ .optionsMenu{
@@ -137,9 +148,14 @@
     .selectButton{
         display: none;
     }
+    &.dark, &.dark ~ .optionsMenu {
+        background-color: #444;
+        & span{
+            color: #fff;
+        }
+    }
 }
 .optionsMenu{
-    background-color: #fff;
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -240,4 +256,10 @@ textarea.input{
             border-left: transparent;
         }
     }
+}
+/***************************************************************************************************/
+.dark{
+    --separated-bg:#333;
+    --separated-opacity:1;
+    --separated-border:#fff;
 }
