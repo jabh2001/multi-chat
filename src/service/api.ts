@@ -276,6 +276,25 @@ export async function postInbox(inbox: { name: string, channelType: string }) {
         return Promise.reject(e)
     }
 }
+
+export async function inboxLogout(inboxId:any){
+    try {
+        const { data } = await instance.post<{ inbox: InboxType }>(`/inbox/${inboxId}/log-out`)
+        return data.inbox
+    } catch (e) {
+        return Promise.reject(e)
+    }
+}
+
+export async function deleteInbox(inboxId:any){
+    try {
+        const { data } = await instance.delete<{ inbox: InboxType }>(`/inbox/${inboxId}`)
+        return data.inbox
+    } catch (e) {
+        return Promise.reject(e)
+    }
+}
+
 export async function getAllConversations({ inbox, label }: { inbox?: string, label?: string } = {}) {
     try {
         const { data } = await instance.get<{ conversations: ConversationType[] }>("/conversation", { params: { inbox, label } })
