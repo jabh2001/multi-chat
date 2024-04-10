@@ -5,22 +5,32 @@ import TrashIcon from "../../../components/icons/TrashIcon";
 import { useEffect } from "react";
 import { useSSE } from "../../../hooks/useSSE";
 import useInboxStore from "../../../hooks/useInboxStore";
-import { signOut } from "../../../service/api";
+
+import RightFromBracket from "../../../components/icons/RightFromBracket";
+import { deleteInbox, inboxLogout } from "../../../service/api";
 
 function IndexPage(){
     const inboxes = useInboxStore(state => state.inboxes)
     const updateInboxByName = useInboxStore(state => state.updateInboxByName)
     const fetchInboxes = useInboxStore(state => state.fetch)
-    const deleteInbox = useInboxStore(store => store.deleteInbox)
-    const closeSesion = async (id:any)=>{
-         console.log(id)
+    const deleteInboxS = useInboxStore(store => store.deleteInbox)
+    
+    const handleLogout = async (inboxId:any) => {
         try{
-            await fetch('http://127.0.0.1:3000/api/inboxes/'+id, {method:"DELETE"})
-            deleteInbox(id)
-        }catch(e){
-            console.log(e)
+            await inboxLogout(inboxId)
+        } catch(e){
+
         }
     }
+    const handleDelete = async (inboxId:any) => {
+        try{
+            await deleteInbox(inboxId)
+            deleteInboxS(inboxId)
+        } catch(e){
+
+        }
+    }
+    
     const evtSrc = useSSE()
     useEffect(()=>{fetchInboxes()}, [])
 
@@ -53,8 +63,11 @@ function IndexPage(){
                                         <span>Status: </span><div className={el.user ? styles.on : styles.off} ></div>
                                     </div>
                                     <div className={styles.actions}>
-                                        <button className={styles.deleteButton} onClick={async() =>await closeSesion(el.id)}>
+                                        <button className={styles.deleteButton} onClick={async() =>await handleDelete(el.id)}>
                                             <TrashIcon />
+                                        </button>
+                                        <button className={styles.deleteButton} onClick={async() =>await handleLogout(el.id)}>
+                                            <RightFromBracket />
                                         </button>
                                     </div>
                                 </div>
