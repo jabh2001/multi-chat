@@ -5,12 +5,22 @@ import TrashIcon from "../../../components/icons/TrashIcon";
 import { useEffect } from "react";
 import { useSSE } from "../../../hooks/useSSE";
 import useInboxStore from "../../../hooks/useInboxStore";
+import { signOut } from "../../../service/api";
 
 function IndexPage(){
     const inboxes = useInboxStore(state => state.inboxes)
     const updateInboxByName = useInboxStore(state => state.updateInboxByName)
     const fetchInboxes = useInboxStore(state => state.fetch)
-
+    const deleteInbox = useInboxStore(store => store.deleteInbox)
+    const closeSesion = async (id:any)=>{
+         console.log(id)
+        try{
+            await fetch('http://127.0.0.1:3000/api/inboxes/'+id, {method:"DELETE"})
+            deleteInbox(id)
+        }catch(e){
+            console.log(e)
+        }
+    }
     const evtSrc = useSSE()
     useEffect(()=>{fetchInboxes()}, [])
 
@@ -24,6 +34,7 @@ function IndexPage(){
             return  ()=>evtSrc!.removeEventListener("qr", func)
         }
     }, [evtSrc])
+    
     return (
         <div className={styles.mainContainer}>
             <div className={styles.title}>
@@ -42,7 +53,7 @@ function IndexPage(){
                                         <span>Status: </span><div className={el.user ? styles.on : styles.off} ></div>
                                     </div>
                                     <div className={styles.actions}>
-                                        <button className={styles.deleteButton}>
+                                        <button className={styles.deleteButton} onClick={async() =>await closeSesion(el.id)}>
                                             <TrashIcon />
                                         </button>
                                     </div>

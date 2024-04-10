@@ -22,7 +22,6 @@ type Inputs = {
     name: ContactType["name"]
     email: ContactType["email"]
     phoneNumber: ContactType["phoneNumber"]
-    countryCode: ContactType["countryCode"]
     picture: File
 }
 

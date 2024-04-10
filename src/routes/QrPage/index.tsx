@@ -28,6 +28,7 @@ const QrPage: React.FC = () => {
                     return <div key={inbox.id + "_" + inbox.name}>
                         <img src={`data:image/png;base64,${inbox.qr}`} alt="" />
                         <p>
+                            
                             {inbox.name}
                             <span>{"  "}</span>
                             {inbox.user ? "activo" : "debe scannear"}
