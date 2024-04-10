@@ -5,6 +5,9 @@ import { useAgent } from "../../../hooks/useAgent"
 import { useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { userSchema } from "../../../libs/schemas"
+import NormalInput from "../inputs/NormalInput"
+import Select from "../inputs/Select"
+import Option from "../inputs/Option"
 
 type Inputs = {
     name:string
@@ -15,7 +18,7 @@ type Inputs = {
 type Keys = "name" | "email" | "role"
 
 export default function AgentForm({ edited, resetEdited }:{ edited:AgentType | UserType | undefined, resetEdited:()=>void }){
-    const { register, handleSubmit, reset, setValue, formState:{errors} } = useForm<Inputs>({ resolver:zodResolver( userSchema.omit({ id:true }) ) })
+    const { handleSubmit, reset, setValue, control } = useForm<Inputs>({ resolver:zodResolver( userSchema.omit({ id:true }) ) })
     const {addAgent, editAgent} = useAgent()
     const onSubmit:SubmitHandler<Inputs> = async ({ name, email, role }) => {
         try{
@@ -44,34 +47,18 @@ export default function AgentForm({ edited, resetEdited }:{ edited:AgentType | U
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
             <div>
                 <h3 className={styles.title}>Crea un nuevo agente</h3>
-                <p className={styles.description}>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate debitis, ipsa vitae commodi molestiae totam nesciunt odio reprehenderit beatae laudantium perspiciatis animi atque. Mollitia odit deleniti illum aperiam suscipit labore.
-                </p>
+                <p className={styles.description}>Puedes crear un agente o usuario para que maneje la aplicación </p>
+                <p className={styles.description}>si lo creas de tipo administrador podrás gestionar cada parte de la aplicación, cómo crear eliminar o editar elementos importantes o privados</p>
+                <p className={styles.description}>puedes crearlo de tipo agente y solamente tendrá permiso de lectura así como de responder mensajes que se les ha asignado a este en concreto</p>
             </div>
             <div className={styles.inputsContainer}>
-                <label className="input">
-                    <span>Nombre</span>
-                    <input type="text" {...register("name")} />
-                    { errors.name && <p>{errors.name.message}</p>}
-                </label>
-                <label className="input">
-                    <span>Correo</span>
-                    <input type="text" {...register("email")} />
-                    { errors.email && <p>{errors.email.message}</p>}
-                </label>
-                <label className="input">
-                    <span>Contraseña</span>
-                    <input type="text" {...register("password")} />
-                    { errors.password && <p>{errors.password.message}</p>}
-                </label>
-                <label className="input">
-                    <span>Rol</span>
-                    <select {...register("role")}>
-                        <option value="admin">Administrador</option>
-                        <option value="agente">Agente</option>
-                    </select>
-                    { errors.role && <p>{errors.role.message}</p>}
-                </label>
+                <NormalInput control={control} name="name" label="Nombre" />
+                <NormalInput control={control} name="email" label="Correo" />
+                <NormalInput control={control} name="password" label="Contraseña" />
+                <Select control={control} name="role" label="Rol" >
+                    <Option value="admin" label="Administrador" />
+                    <Option value="agent" label="Agente" />
+                </Select>
             </div>
             <div className={styles.buttonsContainer}>
                 <button className="btn primary">Next</button>

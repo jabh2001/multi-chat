@@ -58,9 +58,10 @@ function IndexPage(){
                 <div className={styles.description}>
                     <h3>Description</h3>
                     <p>
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. A reprehenderit quia dignissimos unde consequatur, illum, ducimus alias dolorum necessitatibus distinctio, et rem ut? Earum molestiae saepe consequatur tenetur delectus voluptate!
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. A reprehenderit quia dignissimos unde consequatur, illum, ducimus alias dolorum necessitatibus distinctio, et rem ut? Earum molestiae saepe consequatur tenetur delectus voluptate!
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. A reprehenderit quia dignissimos unde consequatur, illum, ducimus alias dolorum necessitatibus distinctio, et rem ut? Earum molestiae saepe consequatur tenetur delectus voluptate!
+                        las entradas son las conexiones disponibles que tendrás a la distinta plataforma Ponle un nombre único que te permita reconocer desde qué dispositivo o
+                        plataforma estás enviando los mensajes al estar conectada todos los mensajes Que recibas a esto esta plataforma serán redirigidas a tu buzón de mensaje 
+                        del sistema esto también te permitirá responder  mensajes desde dicha plataforma los mensajes que lleguen de contactos no registrados serán guardados 
+                        automáticamente con el nombre que brinde esta plataforma para ese contacto
                     </p>
                 </div>
             </div>

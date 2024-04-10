@@ -24,12 +24,12 @@ body {
   box-sizing: border-box;
   list-style: none;
 }
-a{
+a, p, h1, h2, h3, h4, h5{
   color: #000;
   text-decoration: none;
-  &:visited, &:active, &:focus{
-    color: inherit;
-  }
+  /* &:visited, &:active, &:focus{
+    color: currentColor
+  } */
 }
 svg{
   aspect-ratio: 1;

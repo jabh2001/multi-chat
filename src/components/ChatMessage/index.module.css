@@ -17,6 +17,18 @@
     max-width: 60%;
     min-width: 30%;
     animation: up .25s ease forwards;
+    &.whatsapp{
+        background-color: #176b5b;
+    }
+    & .messageUsername{
+        display: flex;
+        justify-content: end;
+        transform: translateY(-10px);
+        & span {
+            width: fit-content;
+            font-size: 12px;
+        }
+    }
 }
 .message.incoming{
     padding-right: 10px;

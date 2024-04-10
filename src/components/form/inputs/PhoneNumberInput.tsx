@@ -1,5 +1,5 @@
 import { Control, Controller, useForm } from "react-hook-form"
-import codes from "../../../constantes"
+import countries from "../../../countries.json"
 import Select from "./Select"
 import NormalInput from "./NormalInput"
 import Option from "./Option"
@@ -33,11 +33,13 @@ export default function PhoneNumberInput({label, name, control}:Props){
                     <label className={styles.phoneNumber}>
                         <Select control={control}  label="Cod"name="code" search>
                                 {
-                                    codes.map((code,index) =>(
+                                    countries.map(({ code, name, dial_code}) =>(
                                         <Option
-                                            label={code}
-                                            key={index} 
-                                            value={code}
+                                            img={(_l, _v, code) => `https://flagsapi.com/${code}/flat/16.png`}
+                                            label={dial_code}
+                                            key={`hone_number_${name}_${dial_code}`} 
+                                            value={dial_code}
+                                            extraParam={code}
                                         />
                                     ))
                                 }

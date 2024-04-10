@@ -5,6 +5,8 @@ import { useTeam } from "../../../hooks/useTeamStore"
 import { useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { teamSchema } from "../../../libs/schemas"
+import NormalInput from "../inputs/NormalInput"
+import Textarea from "../inputs/Textarea"
 
 type Inputs = {
     name:string
@@ -13,7 +15,7 @@ type Inputs = {
 type Keys = "name" | "description"
 
 export default function TeamForm({ edited, resetEdited }:{ edited:TeamType | undefined, resetEdited:()=>void }){
-    const { register, handleSubmit, reset, setValue, formState:{ errors } } = useForm<Inputs>({ resolver:zodResolver(teamSchema.omit({ id:true })) })
+    const { handleSubmit, reset, setValue, control } = useForm<Inputs>({ resolver:zodResolver(teamSchema.omit({ id:true })) })
     const {addTeam, editTeam} = useTeam()
     const onSubmit:SubmitHandler<Inputs> = async ({ name, description }) => {
         try{
@@ -43,20 +45,13 @@ export default function TeamForm({ edited, resetEdited }:{ edited:TeamType | und
             <div>
                 <h3 className={styles.title}>Crea un nuevo equipo</h3>
                 <p className={styles.description}>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate debitis, ipsa vitae commodi molestiae totam nesciunt odio reprehenderit beatae laudantium perspiciatis animi atque. Mollitia odit deleniti illum aperiam suscipit labore.
+                    los equipos de trabajo sirven para agrupar a tus agentes con un mismo propósito o misión y poder gestionar actividades de una 
+                    forma más cómoda sobre todo a la hora de asignar un chat que podrías asignar a varias personas que cumplan la misma misión
                 </p>
             </div>
             <div className={styles.inputsContainer}>
-                <label className="input">
-                    <span>Nombre</span>
-                    <input type="text" {...register("name")} />
-                    {errors.name?.message && <p className="error">{errors.name.message}</p> }
-                </label>
-                <label className="input">
-                    <span>Descripción</span>
-                    <textarea cols={30} rows={10} {...register("description")}></textarea>
-                    {errors.description?.message && <p className="error">{errors.description.message}</p> }
-                </label>
+                <NormalInput control={control} name="name" label="Nombre" />
+                <Textarea control={control} name="description" label="Descripción" />
             </div>
             <div className={styles.buttonsContainer}>
                 <button className="btn primary">Guardar</button>

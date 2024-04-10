@@ -4,11 +4,13 @@ import { FunctionComponent } from "react";
 import { useWebSocket } from '../chatContainer';
 import { useConversationStore } from '../../hooks/useConversations';
 import MessageTextarea from '../MessageTextarea';
+import useAuth from '../../hooks/useAuth';
 
 const MessageForm: FunctionComponent = () => {
     const ws = useWebSocket();
     const conversationId = useConversationStore(store => store.conversation)?.id
-    const sender = useConversationStore(store => store.conversation)?.contact
+    const user = useAuth(state => state.user)
+    const contact = useConversationStore(store => store.conversation?.contact)
     const inbox = useConversationStore(store => store.conversation)?.inbox
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = e => {
         e.preventDefault();
@@ -16,7 +18,9 @@ const MessageForm: FunctionComponent = () => {
         const messageContent = message.value;
         const datosEnviar = {
             conversationId,
-            sender,
+            contact,
+            user,
+            sender:user?.id || "",
             messageType: 'outgoing',
             message: messageContent,
             inbox: inbox?.name

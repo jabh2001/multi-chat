@@ -32,6 +32,10 @@ export default function ContactsPage(){
                 <div className={styles.tableContainer}>
                   <div>
                     <ReactTabulator
+                        options={{
+                            pagination:true,
+                            paginationSize:10
+                        }}
                         columns={[
                             {title:"Ver", field:"id", formatter:"handle", width:50, cellClick:(_evt, cell) => navigate(`${cell.getValue()}`)},
                             {field:"name", title:"Nombre"},

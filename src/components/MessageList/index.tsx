@@ -33,16 +33,6 @@ export default function MessageList({ messages, addMessage, rootRef, observeRef,
     }, [ws])
     useEffect(()=>{
         scrollToLast()
-        // if(rootRef.current && observeRef.current){
-        //     const options:IntersectionObserverInit = { root:rootRef.current, rootMargin: '100px'}
-        //     const observer = new IntersectionObserver(async (entries)=> {
-        //         entries[0].isIntersecting && !isLoading && fetchMoreMessage && await fetchMoreMessage()
-        //     }, options)
-        //     observer.observe(observeRef.current)
-        //     return () => { 
-        //         observer.disconnect()
-        //     }
-        // }
     }, [messages])
     useEffect(()=>{
         const onScroll = () =>{

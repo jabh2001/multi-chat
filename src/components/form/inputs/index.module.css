@@ -166,16 +166,32 @@
     border-top: none;
     padding-top: 20px;
     animation: hidden .1s  ease-in forwards;
+    .separated {
+        border-top: 1px solid var(--separated-border);
+        padding: 4px;
+        margin-top: 8px;
+        font-weight: bold;
+        opacity: var(--separated-opacity);
+        background-color: var(--separated-bg);
+    }
 }
 .option{
-    display: flex;
+    display: grid;
     padding: 4px;
     cursor: pointer;
+    grid-template-columns: 1fr 3fr;
+    align-items: center;
+    gap: 8px;
     & input {
         display: none;
     }
     &:hover, &.select{
         background-color: #eee;
+    }
+    & .optionImg{
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: contain;
     }
 }
 .options{

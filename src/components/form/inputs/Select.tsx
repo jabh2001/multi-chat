@@ -22,6 +22,7 @@ export default function Select({ label, name, control, transparent, dark, childr
     const [open, setOpen] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null)
     const searchRef = useRef<HTMLInputElement>(null)
+
     useClickOutside(containerRef, () => setOpen(false))
     const searchFilterFunction = (label: string) => {
         return !search || label.toLowerCase().includes(searchText)
@@ -69,9 +70,6 @@ export default function Select({ label, name, control, transparent, dark, childr
                                 <div className={styles.options}>
                                     {children}
                                 </div>
-                            </div>
-                            <div className={`${styles.optionsMenu} ${transparent && styles.transparent} ${dark && styles.dark}`}>
-                                {children}
                             </div>
                         </div>
                     </selectContext.Provider>

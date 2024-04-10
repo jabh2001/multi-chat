@@ -65,5 +65,5 @@ export type MessageType = {
     messageType:"incoming" | "outgoing" | "info"
     private:boolean
     created_at:Date
-    user?:UserType
+    user?:Partial<UserType>
 }
