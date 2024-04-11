@@ -8,11 +8,11 @@ import NormalInput from "../inputs/NormalInput"
 import styles from "./contactForm.module.css"
 import FileInput from "../inputs/FileInput"
 import { z } from "zod"
-import { convertFileToBase64 } from "../../../service/file"
-import codes from "../../../constantes"
-import Select from "../inputs/Select"
-import Option from "../inputs/Option"
+import { convertBase64ToImgString, convertFileToBase64 } from "../../../service/file"
 import PhoneNumberInput from "../inputs/PhoneNumberInput"
+import useSnackbar from "../../../hooks/useSnackbar"
+import Snackbar from "../../Snackbar"
+import { AxiosError } from "axios"
 
 type Props = {
     edited?: ContactType
@@ -32,6 +32,7 @@ const resolver = zodResolver(contactSchema.omit({ id: true, avatarUrl: true }).e
 
 export default function ContactEditForm({ edited, onEdit, onAdd }: Props) {
     const { control, handleSubmit, setValue, reset } = useForm<Inputs>({ resolver })
+    const { open, handleClose, message, success, error} = useSnackbar()
 
     useEffect(() => {
         if (edited !== undefined) {
@@ -48,22 +49,23 @@ export default function ContactEditForm({ edited, onEdit, onAdd }: Props) {
     }, [edited])
     return (
         <form className={styles.form} onSubmit={handleSubmit(async ({ picture, countryCode,...data }) => {
-            console.log(data, countryCode)
-            if (edited) {
-                const contact = await putContact(edited.id, { ...data, picture: await convertFileToBase64(picture) })
-                onEdit && onEdit(contact)
-                reset()
-            } else {
-                const phoneNumber = data.phoneNumber;
-                const parsedPhoneNumber = parseInt(phoneNumber);
-
-                if (isNaN(parsedPhoneNumber)) {
-                    throw new Error('El número de teléfono no es válido.');
+            try {
+                if (edited) {
+                    const contact = await putContact(edited.id, { ...data, picture: await convertFileToBase64(picture) })
+                    onEdit && onEdit(contact)
+                    reset()
+                } else {
+                    const contact = await postContact({...data, picture:await convertFileToBase64(picture)})
+                    onAdd && onAdd({...contact, avatarUrl:convertBase64ToImgString(contact.avatarUrl)})
+                    reset()
                 }
-                console.log(phoneNumber)
-                // const contact = await postContact({...data, picture:await convertFileToBase64(picture)})
-                // onAdd && onAdd({...contact, avatarUrl:convertBase64ToImgString(contact.avatarUrl)})
-                // reset()
+                success("Contacto registrado")
+            } catch (e:any){
+                if(e instanceof AxiosError){
+                    error(e.response?.data)
+                } else {
+                    error(e.message)
+                }
             }
         })}>
             <NormalInput control={control} name="name" label="Nombre" />
@@ -75,6 +77,13 @@ export default function ContactEditForm({ edited, onEdit, onAdd }: Props) {
                 <button className="btn primary">Guardar</button>
 
             </div>
+            <Snackbar open={open} handleClose={handleClose}>
+                {
+                    message.map(m => (
+                        <p key={m}>{m}</p>
+                    ))
+                }
+            </Snackbar>
         </form>
     )
 }

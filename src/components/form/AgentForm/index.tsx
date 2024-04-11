@@ -8,6 +8,9 @@ import { userSchema } from "../../../libs/schemas"
 import NormalInput from "../inputs/NormalInput"
 import Select from "../inputs/Select"
 import Option from "../inputs/Option"
+import useSnackbar from "../../../hooks/useSnackbar"
+import Snackbar from "../../Snackbar"
+import { AxiosError } from "axios"
 
 type Inputs = {
     name:string
@@ -19,13 +22,21 @@ type Keys = "name" | "email" | "role"
 
 export default function AgentForm({ edited, resetEdited }:{ edited:AgentType | UserType | undefined, resetEdited:()=>void }){
     const { handleSubmit, reset, setValue, control } = useForm<Inputs>({ resolver:zodResolver( userSchema.omit({ id:true }) ) })
+    const { open, handleClose, message, success, error} = useSnackbar()
     const {addAgent, editAgent} = useAgent()
-    const onSubmit:SubmitHandler<Inputs> = async ({ name, email, role }) => {
+    const onSubmit:SubmitHandler<Inputs> = async ({ name, email, role, password }) => {
         try{
             if(edited){
-                await editAgent(edited.id,{ name, email, role })
+                await editAgent(edited.id,{ name, email, role, password })
             } else {
-                await addAgent({ name, email, role, teams:[] })
+                await addAgent({ name, email, role, password, teams:[] })
+            }
+            success(`Agente ${ name } registrado`)
+        } catch (e:any){
+            if(e instanceof AxiosError){
+                error(e.response?.data)
+            } else {
+                error(e.message)
             }
         } finally {
             reset()
@@ -64,6 +75,13 @@ export default function AgentForm({ edited, resetEdited }:{ edited:AgentType | U
                 <button className="btn primary">Next</button>
                 <button className="btn secondary">Clear</button>
             </div>
+            <Snackbar open={open} handleClose={handleClose}>
+                {
+                    message.map(m => (
+                        <p key={m}>{m}</p>
+                    ))
+                }
+            </Snackbar>
         </form>
     )
 }

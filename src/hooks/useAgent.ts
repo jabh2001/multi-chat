@@ -1,9 +1,12 @@
 import { create } from "zustand"
-import { AgentType } from "../types";
+import { AgentType as AG } from "../types";
 import { useEffect } from "react";
 import { deleteAgent, getAgents, postAgent, putAgent } from "../service/api";
 import { useSSE } from "./useSSE";
 
+type AgentType = AG & {
+    password:string
+}
 type AgentStoreState = {
     agents: AgentType[]
     setAgents: (agents: AgentType[]) => void
@@ -32,13 +35,13 @@ const useAgent = () => {
     useEffect(()=>{
         const getData = async () => {
             const agents = await getAgents()
-            store.setAgents(agents)
+            store.setAgents(agents as any)
         }
         getData()
     }, [])
     useEffect(()=>{
         if(multiChatSSE){
-            const insertListener = multiChatSSE.on("insert-agent", agent => store.addAgent(agent))
+            const insertListener = multiChatSSE.on("insert-agent", agent => store.addAgent(agent as any))
             const updateListener = multiChatSSE.on("update-agent", agent => store.editAgent(agent?.id, agent))
             const deleteListener = multiChatSSE.on("delete-agent", ids => ids.forEach(id => store.deleteAgent(id)))
 
