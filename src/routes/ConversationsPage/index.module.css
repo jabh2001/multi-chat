@@ -2,10 +2,11 @@
   background-color: #333;
   height: 100vh;
   display: grid;
-  grid-template-columns: 450px 3fr;
+  --chats-width:300px;
+  grid-template-columns: var(--chats-width) 3fr;
   transition: all 1s ease-out;
   &:has(>.sideBar>*  ){
-    grid-template-columns: 450px 2fr 1fr;
+    grid-template-columns: var(--chats-width) 2fr 1fr;
   }
 }
 .chatContainer{
@@ -39,5 +40,11 @@
   scrollbar-width: none;
   &:has( > *){
     display: block;
+  }
+}
+
+@media(width > 1280px){
+  .landing p{
+    --chats-width:450px;
   }
 }
