@@ -2,18 +2,19 @@ import { Link, type RouteObject } from "react-router-dom";
 import NewInboxPage from "./NewInboxPage";
 import styles from "./index.module.css"
 import TrashIcon from "../../../components/icons/TrashIcon";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSSE } from "../../../hooks/useSSE";
 import useInboxStore from "../../../hooks/useInboxStore";
 
 import RightFromBracket from "../../../components/icons/RightFromBracket";
 import { deleteInbox, inboxLogout } from "../../../service/api";
+import { Modal, ModalAction, ModalBody, ModalFooter, ModalHeader } from "../../../components/Modal";
 
 function IndexPage() {
     const inboxes = useInboxStore(state => state.inboxes)
     const updateInboxByName = useInboxStore(state => state.updateInboxByName)
     const fetchInboxes = useInboxStore(state => state.fetch)
-    const deleteInbox = useInboxStore(store => store.deleteInbox)
+    const deleteInboxS = useInboxStore(store => store.deleteInbox)
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
     const [inboxIdToDelete, setInboxIdToDelete] = useState(null);
 
@@ -29,17 +30,23 @@ function IndexPage() {
 
     const handleDeleteConfirmation = async () => {
         if (inboxIdToDelete) {
-            await closeSesion(inboxIdToDelete);
+            await handleDelete(inboxIdToDelete);
             closeConfirmationModal();
         }
     };
-    const closeSesion = async (id: any) => {
-        console.log(id)
-        try {
-            await fetch('http://127.0.0.1:3000/api/inboxes/' + id, { method: "DELETE" })
-            deleteInbox(id)
-        } catch (e) {
-            console.log(e)
+    const handleLogout = async (inboxId:any) => {
+        try{
+            await inboxLogout(inboxId)
+        } catch(e){
+
+        }
+    }
+    const handleDelete = async (inboxId:any) => {
+        try{
+            await deleteInbox(inboxId)
+            deleteInboxS(inboxId)
+        } catch(e){
+
         }
     }
     const evtSrc = useSSE()
@@ -82,19 +89,6 @@ function IndexPage() {
                                             <RightFromBracket />
                                         </button>
                                     </div>
-
-                                    {/* Renderiza el modal solo si showConfirmationModal es true y el.id es igual a inboxIdToDelete */}
-                                    {showConfirmationModal && el.id === inboxIdToDelete && (
-                                        <div className={styles.modal}>
-                                            <div className={styles.modalContent}>
-                                                <p>¿Está seguro de que desea eliminar la sesión con ID {inboxIdToDelete}?</p>
-                                                <div>
-                                                    <button onClick={handleDeleteConfirmation}>Sí</button>
-                                                    <button onClick={closeConfirmationModal}>Cancelar</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
                                 </div>
                                 <div className={styles.qrContainer}>
                                     {el.user && <div className={styles.shade}></div>}
@@ -114,6 +108,16 @@ function IndexPage() {
                     </p>
                 </div>
             </div>
+            <Modal open={showConfirmationModal} handleClose={closeConfirmationModal}>
+                <ModalHeader title="Eliminar conexión" />
+                <ModalBody>
+                    <p>¿Está seguro de que desea eliminar la sesión "{ inboxes.find(i => i.id == inboxIdToDelete)?.name}"?</p>
+                </ModalBody>
+                <ModalFooter>
+                    <ModalAction onClick={handleDeleteConfirmation} title="Estoy seguro" />
+                    <ModalAction onClick={closeConfirmationModal} title="Cancelar" />
+                </ModalFooter>
+            </Modal>
         </div>
     )
 }
