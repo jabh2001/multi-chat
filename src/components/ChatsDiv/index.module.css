@@ -1,11 +1,11 @@
 .chatsContainer{
-    display: flex;
-    flex-direction: column;
+    height: 100%;
 }
 .conversationsContainer{
-    flex-grow: 1;
+    height: 100%;
 }
 .conversationsSectionContainer{
     height: 100%;
-    overflow-y: auto;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }

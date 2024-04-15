@@ -8,10 +8,11 @@ interface CardProps {
     shortMessage: string
     viewTransitionName:string
     onClick?:React.MouseEventHandler<HTMLButtonElement>
+    messageCount?:string
 }
 
 const ChatCard: React.FC<CardProps> = (props) => {
-    const { inboxName, contactName, shortMessage, avatarUrl, onClick, viewTransitionName } = props;
+    const { inboxName, contactName, shortMessage, avatarUrl, onClick, viewTransitionName, messageCount } = props;
 
     return (
         <button className={style.card} onClick={onClick} style={{ viewTransitionName}}>
@@ -21,6 +22,9 @@ const ChatCard: React.FC<CardProps> = (props) => {
                 <p className={style.contactName}>{contactName}</p>
                 <p className={style.shortMessage}>{shortMessage?.slice(0, 30)} {shortMessage?.length > 30  ? '...' : ''}</p>
             </div>
+            {
+               messageCount && messageCount !== "0" && <span className={style.messageCount}>{messageCount}</span> 
+            }
         </button>
     );
 };

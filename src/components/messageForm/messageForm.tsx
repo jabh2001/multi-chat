@@ -27,7 +27,6 @@ const MessageForm: FunctionComponent = () => {
         }
 
         if (ws && ws.readyState === WebSocket.OPEN) {
-            console.log({datosEnviar})
             ws.send(JSON.stringify(datosEnviar));
             
             

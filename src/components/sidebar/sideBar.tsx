@@ -14,7 +14,6 @@ export const SideBar: FC<sideBarProps> = () => {
     if(!contact){
         return <></>
     }
-    console.log(contact)
     return <div className='sideBar'>
         <ContactCard contact={contact} />
         

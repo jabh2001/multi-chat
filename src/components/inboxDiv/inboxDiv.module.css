@@ -2,11 +2,8 @@
     background-color: #252525;
     height: 100vh;
     display: grid;
-    grid-template-rows: 42px 42px 42px 1fr;
-    > *:last-child{
-        overflow-y: scroll;
-        scrollbar-width: none;
-    }
+    grid-auto-columns: 100%;
+    grid-template-rows: 42px 42px 42px calc(100vh - 126px);
     > h2 {
         color: #eee;
         padding-left: 10px;

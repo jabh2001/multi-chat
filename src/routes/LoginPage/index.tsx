@@ -46,7 +46,7 @@ export default function LoginPage(){
                 <p>{user?.email}</p>
             </form>
             <Snackbar open={open} handleClose={()=>setOpen(false)} color="error">
-               { messages ? messages.map(msg => (<p>{msg}</p>) ): " Error de inicio de sesión"}
+               { messages ? messages.map(msg => (<p key={msg}>{msg}</p>) ): " Error de inicio de sesión"}
             </Snackbar>
         </div>
     )

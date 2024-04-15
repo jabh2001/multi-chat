@@ -16,7 +16,7 @@ export default function MessageTextarea({ ...textArea}:Props){
     return (
         <div className={styles.container}>
             <div className={styles.inputContainer}>
-                <textarea className={`${styles.textarea}`} {...textArea} onChange={e => console.log(JSON.stringify(e.target.value))} onKeyDown={handleKeyDown}></textarea>
+                <textarea className={`${styles.textarea}`} {...textArea} onKeyDown={handleKeyDown}></textarea>
             </div>
             <div className={styles.buttonContainer}>
                 <button className={styles.button} type="submit" ref={buttonRef}>

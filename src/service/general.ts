@@ -1,3 +1,4 @@
+import { flushSync } from "react-dom";
 
 export const toHHMMSS = function (time:string ) {
     let sec_num = parseInt(time, 10); // don't forget the second param
@@ -25,3 +26,15 @@ export function generateString(length:number) {
 
     return result;
 }
+
+export const transitionViewIfSupported = (updateCb:()=>any) => {
+    if (document.startViewTransition) {
+      document.startViewTransition(() =>{
+        flushSync(() => {
+            updateCb()
+        })
+      });
+    } else {
+      updateCb();
+    }
+  };
