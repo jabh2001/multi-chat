@@ -1,23 +1,19 @@
-import { useRef } from "react"
-import AudioPlayer from "../../components/AudioPlayer"
+import { useForm } from "react-hook-form"
 import "./index.css"
-
-
+import { useRef } from "react"
 function IndexPage() {
-  const audioRef = useRef(new Audio("/src/assets/Kleyberth.opus"))
+  const { handleSubmit, register } = useForm<{ name:string, lastName:string}>()
+  const ref = useRef<HTMLFormElement>(null)
   
-  const onClick = () => {
-
-    audioRef.current.currentTime = 0
-    audioRef.current.play()
-  }
   return (
     <div className="img-cont">
-    <button onClick={()=>audioRef.current.play()}>play</button>
-      <button onClick={()=>audioRef.current.pause()}>pause</button>
-      <button onClick={onClick}>reset</button>
-      <div className="span"></div>
-      <AudioPlayer src={audioRef.current} volumeControl={false} />
+      <form ref={ref} onSubmit={handleSubmit((data) => {
+        console.log({data})
+      })}>
+        <input type="text" {...register("name")} />
+        <input type="text" {...register("name")} />
+      </form>
+      <button onClick={() => ref.current?.submit()}>Submit</button>
     </div>
   )
 }

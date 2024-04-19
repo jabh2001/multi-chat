@@ -1,0 +1,26 @@
+.button {
+    aspect-ratio: 1;
+    width: 48px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 10px;
+    background-color: #444;
+    fill:  #fff;
+    transition: fill .1s ease-in-out, transform .25s linear;
+    &:hover{
+        fill: var(--active-button-primary-color);
+    }
+    &.rotate:hover{
+        transform: rotate(90deg);
+    }
+}
+.buttonContainer{
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+}

@@ -1,28 +1,17 @@
 .tabsView{
-    --page:1;
-    --tabs:1;
     width: 100%;
     height: 100%;
     position: relative;
 }
 .tabs{
     height: 100%;
-    width: calc(100% * var(--tabs));
-    display: grid;
-    grid-template-columns: repeat(var(--tabs), 1fr);
-    grid-auto-rows: 100%;
-    transition: transform .5s ease;
-    transform: translateX(calc((-100% * var(--page)) / var(--tabs)));
+    /* transform: translateX(calc((-100% * var(--page)) / var(--tabs))); */
 }
 .tab{
     height: 100%;
     position: relative;
-    opacity: 0;
-    transition: opacity 0s linear;
-    pointer-events: none;
+    display: none;
 }
 .visible {
-    opacity: 1;
-    transition: opacity .25s;
-    pointer-events: all;
+    display: block;
 }

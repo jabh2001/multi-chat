@@ -1,27 +1,22 @@
 import { useRef } from "react"
-import ArrowIcon from "../icons/ArrowIcon"
 import styles from "./index.module.css"
 
-type  Props = React.TextareaHTMLAttributes <HTMLTextAreaElement> & {
-
+type  Props = {
+    value:string
+    setValue: (value: string) => void
+    submitForm: () => void
 }
-export default function MessageTextarea({ ...textArea}:Props){
-    const buttonRef = useRef<HTMLButtonElement>(null)
+export default function MessageTextarea({ value, setValue, submitForm}:Props){
     const handleKeyDown = (e : React.KeyboardEvent<HTMLTextAreaElement>) => {
         if(e.key === 'Enter' && !e.shiftKey){
             e.preventDefault()
-            buttonRef.current?.click()
+            submitForm()
         } 
     }
     return (
         <div className={styles.container}>
             <div className={styles.inputContainer}>
-                <textarea className={`${styles.textarea}`} {...textArea} onKeyDown={handleKeyDown}></textarea>
-            </div>
-            <div className={styles.buttonContainer}>
-                <button className={styles.button} type="submit" ref={buttonRef}>
-                    <ArrowIcon />
-                </button>
+                <textarea className={`${styles.textarea}`} value={value} onChange={e => setValue(e.target.value)} onKeyDown={handleKeyDown}></textarea>
             </div>
         </div>
     )
