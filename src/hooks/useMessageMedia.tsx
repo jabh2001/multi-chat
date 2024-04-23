@@ -7,10 +7,14 @@ type MessageMediaType = {
     deleteFile:(f:number | File) => void
     reset:() =>  void
 }
-const useMessageMedia = create<MessageMediaType>(set => ({
+const useMessageMedia = create<MessageMediaType>((set) => ({
     files:[],
     appendFile(file){
-        set(({ files}) => ({ files: [...files, file] }))
+        set(({ files}) => {
+            return ({ 
+                files: [...files, file] 
+            })
+        })
     },
     appendFiles(...file){
         set(({ files}) => ({ files: [...files, ...file] }))

@@ -7,6 +7,7 @@ const useAudioRecorder = () => {
     const [isRecording, setIsRecording] = useState(false)
     const [isPaused, setIsPaused] = useState(false)
     const [base64Data, setBase64Data] = useState("")
+    const [blobData, setBlobData] = useState<Blob>(new Blob([], { type: "audio/ogg; codecs=opus" }))
     const [audio, setAudio] = useState(new Audio())
 
     useEffect(() => {
@@ -32,6 +33,7 @@ const useAudioRecorder = () => {
 
             recorder.addEventListener("stop", () => {
                 let blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
+                setBlobData(blob)
                 reader.readAsDataURL(blob);
             })
 
@@ -74,7 +76,10 @@ const useAudioRecorder = () => {
         reanude,
         stream,
         base64Data,
-        audio
+        audio,
+        getFile(){
+            return new File([blobData], "audio.ogg", { type:"audio/ogg" })
+        }
     }
 }
 

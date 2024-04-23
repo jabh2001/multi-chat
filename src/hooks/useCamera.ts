@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "react"
+import { convertBase64ToBlob } from "../service/file"
 
 
 const useCamera = ({ target, onShot }: { target?: HTMLVideoElement, onShot?:(img:HTMLImageElement) => void }) => {
+    const [isPlaying, setIsPlaying] = useState(false)
     const [stream, setStream] = useState<MediaStream>()
     const [base64Data, setBase64Data] = useState("")
+    const [blobData, setBlobData] = useState(new Blob([]))
     const video = useRef<HTMLVideoElement>(document.createElement("video")).current
     const canvas = useRef<HTMLCanvasElement>(document.createElement("canvas")).current
   
@@ -23,17 +26,20 @@ const useCamera = ({ target, onShot }: { target?: HTMLVideoElement, onShot?:(img
       }
     }, [stream])
     const start = () => {
+      setIsPlaying(true)
       navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 1920 }, height: { ideal: 1080 } } }).then(setStream).catch((err) => console.error(err))
     }
     const stop = () => {
       stream?.getVideoTracks().forEach(track => track.stop())
       setStream(undefined)
+      setIsPlaying(false)
     }
-    const shot = () => {
+    const shot = (type="image/png") => {
       var context = canvas.getContext("2d");
       const settings = stream?.getVideoTracks()[0]?.getSettings()
       context?.drawImage(video!, 0, 0, settings?.width!, settings?.height!);
-      const base64Data = canvas.toDataURL("image/png")
+      const base64Data = canvas.toDataURL(type)
+      setBlobData(convertBase64ToBlob(base64Data, type))
       setBase64Data(base64Data)
       if(onShot){
         const img = new Image()
@@ -48,6 +54,10 @@ const useCamera = ({ target, onShot }: { target?: HTMLVideoElement, onShot?:(img
       start,
       stop,
       shot,
+      isPlaying,
+      getFile({filename="image.png", type="image/png"}={}){
+        return new File([blobData], filename, { type})
+      }
     }
   }
 export default useCamera
