@@ -8,6 +8,7 @@ import { convertFileToBase64 } from "../service/file";
 const useMessageForm =  () => {
     const [ message, setMessage ] = useState("")
     const files = useMessageMedia(state => state.files)
+    const reset = useMessageMedia(state => state.reset)
 
     const ws = useWebSocket();
     const conversationId = useConversationStore(store => store.conversation)?.id
@@ -38,6 +39,7 @@ const useMessageForm =  () => {
         if (ws && ws.readyState === WebSocket.OPEN) {
             ws.send(JSON.stringify(datosEnviar));
             setMessage("")
+            reset()
         }
     };
     return {
