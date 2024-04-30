@@ -1,5 +1,6 @@
 import axios from "axios";
 import { AgentType, ContactType, ConversationType, InboxType, LabelType, MessageType, SocialMediaType, TeamType, UserType } from "../types";
+import { ConversationNoteType } from "../libs/schemas";
 
 const baseURL = import.meta.env.VITE_API_URL
 
@@ -322,8 +323,55 @@ export async function getAllMessage(inboxId: InboxType["id"], conversationId: Co
     }
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export async function getConversationNotes(inboxId: InboxType["id"], conversationId: ConversationType["id"]) {
+    try {
+        const { data } = await instance.get<{ notes: ConversationNoteType[] }>(`/inbox/${inboxId}/conversation/${conversationId}/notes`)
+        return data.notes
+    } catch (e) {
+        return Promise.reject(e)
+    }
+}
+
+export async function saveNewConversationNote(inboxId: InboxType["id"], conversationId: ConversationType["id"], note:Omit<ConversationNoteType, "id">) {
+    try {
+        const { data } = await instance.post<{ note: ConversationNoteType }>(`/inbox/${inboxId}/conversation/${conversationId}/notes`, {...note, conversationId})
+        return data.note
+    } catch (e) {
+        return Promise.reject(e)
+    }
+}
+
+export async function getConversationNoteById(inboxId: InboxType["id"], conversationId: ConversationType["id"], noteId:ConversationNoteType["id"]) {
+    try {
+        const { data } = await instance.post<{ note: ConversationNoteType }>(`/inbox/${inboxId}/conversation/${conversationId}/notes/${noteId}`)
+        return data.note
+    } catch (e) {
+        return Promise.reject(e)
+    }
+}
+
+export async function updateConversationNote(inboxId: InboxType["id"], conversationId: ConversationType["id"], noteId:ConversationNoteType["id"], note:Partial<ConversationNoteType>) {
+    try {
+        const { data } = await instance.put<{ note: ConversationNoteType }>(`/inbox/${inboxId}/conversation/${conversationId}/notes/${noteId}`, note)
+        return data.note
+    } catch (e) {
+        return Promise.reject(e)
+    }
+}
+
+export async function deleteConversationNote(inboxId: InboxType["id"], conversationId: ConversationType["id"], noteId:ConversationNoteType["id"]) {
+    try {
+        const { data } = await instance.delete<{ note: ConversationNoteType }>(`/inbox/${inboxId}/conversation/${conversationId}/notes/${noteId}`)
+        return data.note
+    } catch (e) {
+        return Promise.reject(e)
+    }
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 type LoginResponse = {
     "user": UserType
     "token": string

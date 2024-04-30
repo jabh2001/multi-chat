@@ -53,6 +53,15 @@ export const messageSchema = z.object({
     createdAt:z.date().optional(),
 })
 
+export const conversationNoteSchema = z.object({
+    id: z.number().positive(),
+    userId: z.number().positive(), 
+    conversationId: z.number().positive(),
+    content: z.string(),
+    important: z.boolean(),
+    createdAt: z.date().optional(),
+});
+
 export type UserType = z.infer<typeof userSchema>
 export type LabelType = z.infer<typeof labelSchema>
 export type TeamType = z.infer<typeof teamSchema>
@@ -60,3 +69,4 @@ export type ContactType = z.infer<typeof contactSchema>
 export type SocialMediaType = z.infer<typeof socialMediaSchema>
 export type InboxType = z.infer<typeof inboxSchema>
 export type MessageType = z.infer<typeof messageSchema>
+export type ConversationNoteType = z.infer<typeof conversationNoteSchema>

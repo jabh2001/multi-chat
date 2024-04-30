@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { teamSchema } from "../../../libs/schemas"
 import NormalInput from "../inputs/NormalInput"
 import Textarea from "../inputs/Textarea"
+import AgentProtection from "../AgentProtection"
 
 type Inputs = {
     name:string
@@ -42,6 +43,7 @@ export default function TeamForm({ edited, resetEdited }:{ edited:TeamType | und
     }, [edited])
     return (
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+            <AgentProtection >
             <div>
                 <h3 className={styles.title}>Crea un nuevo equipo</h3>
                 <p className={styles.description}>
@@ -57,6 +59,7 @@ export default function TeamForm({ edited, resetEdited }:{ edited:TeamType | und
                 <button className="btn primary">Guardar</button>
                 <button className="btn secondary">Cancelar</button>
             </div>
+            </AgentProtection>
         </form>
     )
 }

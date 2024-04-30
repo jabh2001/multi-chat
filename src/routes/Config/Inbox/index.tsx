@@ -9,8 +9,10 @@ import useInboxStore from "../../../hooks/useInboxStore";
 import RightFromBracket from "../../../components/icons/RightFromBracket";
 import { deleteInbox, inboxLogout } from "../../../service/api";
 import { Modal, ModalAction, ModalBody, ModalFooter, ModalHeader } from "../../../components/Modal";
+import useAuth from "../../../hooks/useAuth";
 
 function IndexPage() {
+    const user = useAuth(store => store.user)
     const inboxes = useInboxStore(state => state.inboxes)
     const updateInboxByName = useInboxStore(state => state.updateInboxByName)
     const fetchInboxes = useInboxStore(state => state.fetch)
@@ -67,7 +69,7 @@ function IndexPage() {
         <div className={styles.mainContainer}>
             <div className={styles.title}>
                 <h3>Inbox</h3>
-                <Link to={"new"} className="btn primary">Create new inbox</Link>
+                {user?.role == "admin" ? <Link to={"new"} className="btn primary">Create new inbox</Link> :<span>inboxes</span> }
             </div>
             <div className={styles.main}>
                 <ul className={styles.list}>
@@ -82,12 +84,16 @@ function IndexPage() {
                                         <div className={el.user ? styles.on : styles.off}></div>
                                     </div>
                                     <div className={styles.actions}>
-                                        <button className={styles.deleteButton} onClick={() => openConfirmationModal(el.id)}>
-                                            <TrashIcon />
-                                        </button>
-                                        <button className={styles.deleteButton} onClick={async() =>await handleLogout(el.id)}>
-                                            <RightFromBracket />
-                                        </button>
+                                        {
+                                            user?.role == "admin" && (<>
+                                                <button className={styles.deleteButton} onClick={() => openConfirmationModal(el.id)}>
+                                                    <TrashIcon />
+                                                </button>
+                                                <button className={styles.deleteButton} onClick={async() =>await handleLogout(el.id)}>
+                                                    <RightFromBracket />
+                                                </button>
+                                            </>)
+                                        }
                                     </div>
                                 </div>
                                 <div className={styles.qrContainer}>

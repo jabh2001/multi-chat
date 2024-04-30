@@ -13,6 +13,7 @@ import PhoneNumberInput from "../inputs/PhoneNumberInput"
 import useSnackbar from "../../../hooks/useSnackbar"
 import Snackbar from "../../Snackbar"
 import { AxiosError } from "axios"
+import AgentProtection from "../AgentProtection"
 
 type Props = {
     edited?: ContactType
@@ -68,6 +69,7 @@ export default function ContactEditForm({ edited, onEdit, onAdd }: Props) {
                 }
             }
         })}>
+            <AgentProtection >
             <NormalInput control={control} name="name" label="Nombre" />
             <NormalInput control={control} name="email" label="Correo" />
             <PhoneNumberInput control={control} name="phoneNumber" label="Número de teléfono" />
@@ -84,6 +86,7 @@ export default function ContactEditForm({ edited, onEdit, onAdd }: Props) {
                     ))
                 }
             </Snackbar>
+            </AgentProtection>
         </form>
     )
 }

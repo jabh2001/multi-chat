@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { labelSchema } from "../../../libs/schemas"
 import NormalInput from "../inputs/NormalInput"
 import Textarea from "../inputs/Textarea"
+import AgentProtection from "../AgentProtection"
 
 type Inputs = {
     name:string
@@ -42,23 +43,25 @@ export default function LabelForm({ edited, resetEdited }:{ edited:LabelType | u
     }, [edited])
     return (
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-            <div>
-                <h3 className={styles.title}>Crea una nueva etiqueta</h3>
-                <p className={styles.description}> 
-                    puedes crear etiqueta para poder gestionar y agrupar los contactos que tengas almacenados en el sistema 
-                    y así poder buscarlos de una mejor forma o calificarlo del modo en el que quieras por ejemplo un cliente que esté interesado en un tipo de 
-                    producto en específico o un cliente con el que ya se acordado un servicio o un pago esto también le permitirá a tus agentes poder saber en 
-                    qué punto de la conversación estás con un contacto
-                </p>
-            </div>
-            <div className={styles.inputsContainer}>
-                <NormalInput control={control} name="name" label="Nombre" />
-                <Textarea control={control} name="description" label="Descripción" />
-            </div>
-            <div className={styles.buttonsContainer}>
-                <button className="btn primary">Guardar</button>
-                <button className="btn secondary">Cancelar</button>
-            </div>
+            <AgentProtection >
+                <div>
+                    <h3 className={styles.title}>Crea una nueva etiqueta</h3>
+                    <p className={styles.description}> 
+                        puedes crear etiqueta para poder gestionar y agrupar los contactos que tengas almacenados en el sistema 
+                        y así poder buscarlos de una mejor forma o calificarlo del modo en el que quieras por ejemplo un cliente que esté interesado en un tipo de 
+                        producto en específico o un cliente con el que ya se acordado un servicio o un pago esto también le permitirá a tus agentes poder saber en 
+                        qué punto de la conversación estás con un contacto
+                    </p>
+                </div>
+                <div className={styles.inputsContainer}>
+                    <NormalInput control={control} name="name" label="Nombre" />
+                    <Textarea control={control} name="description" label="Descripción" />
+                </div>
+                <div className={styles.buttonsContainer}>
+                    <button className="btn primary">Guardar</button>
+                    <button className="btn secondary">Cancelar</button>
+                </div>
+            </AgentProtection>
         </form>
     )
 }

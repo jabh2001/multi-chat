@@ -1,12 +1,10 @@
-import { useState } from "react";
 import { Tab, Tabs } from "../Tab";
 import styles from './contactHeader.module.css'
 import { useConversationStore } from "../../hooks/useConversations";
 
 
-export default function ContactHeader() {
+export default function ContactHeader({ tab, setTab }:{ tab:any, setTab:any}) {
     const contact = useConversationStore(state => state.contact)
-    const [ tab, setTab] = useState(1)
     return <div className={styles.contactHeader}>
         <div className={styles.headerContainer}>
             <div className={styles.headerInfo}>
@@ -20,8 +18,8 @@ export default function ContactHeader() {
 
         </div>
         <Tabs value={tab} setValue={setTab}>
-            <Tab name="message" value={1} notifications={4} />
-            <Tab name="dashboard" value={2} />
+            <Tab name="Mensajes" value={1} notifications={4} />
+            <Tab name="Notas" value={2} />
         </Tabs>
     </div>
 }
