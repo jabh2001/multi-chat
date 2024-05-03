@@ -1,4 +1,4 @@
-import { z } from "zod";
+import {  z } from "zod";
 
 export const userSchema = z.object({
     id:z.number().positive(),
@@ -53,6 +53,25 @@ export const messageSchema = z.object({
     createdAt:z.date().optional(),
 })
 
+export const fastMessageSchema = z.object(
+    {
+        id: z.number().positive(),  
+        title: z.string(),
+        admin: z.number().positive(),
+        keyWords: z.string()
+        
+    }
+)
+export const fastMediaMesaggeSchema = z.object(
+    {
+        id:z.number().positive(),
+        fastMesagge: fastMessageSchema,
+        text:z.string(),
+        message_type:z.string(),
+        base64: z.string(),
+        order:z.number(),
+    }
+)
 export type UserType = z.infer<typeof userSchema>
 export type LabelType = z.infer<typeof labelSchema>
 export type TeamType = z.infer<typeof teamSchema>
@@ -60,3 +79,4 @@ export type ContactType = z.infer<typeof contactSchema>
 export type SocialMediaType = z.infer<typeof socialMediaSchema>
 export type InboxType = z.infer<typeof inboxSchema>
 export type MessageType = z.infer<typeof messageSchema>
+export type FastMessageType = z.infer<typeof fastMessageSchema>
