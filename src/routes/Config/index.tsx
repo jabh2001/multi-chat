@@ -3,6 +3,7 @@ import inboxesRoutes from "./Inbox";
 import agentsRoutes from "./Agent";
 import labelRoutes from "./Label";
 import teamRoutes from "./Team";
+import fastMessageRouter from "../fastMessagePage";
 
 const baseName = "/config"
 
@@ -16,5 +17,6 @@ const configRouter : RouteObject[] = [
     ...inboxesRoutes,
     ...labelRoutes,
     ...teamRoutes,
+    ...fastMessageRouter
 ]
 export default configRouter

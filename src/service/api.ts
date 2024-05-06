@@ -1,5 +1,7 @@
 import axios from "axios";
 import { AgentType, ContactType, ConversationType, InboxType, LabelType, MessageType, SocialMediaType, TeamType, UserType } from "../types";
+import { FastMessageType } from "../libs/schemas";
+import { promise } from "zod";
 
 const baseURL = import.meta.env.VITE_API_URL
 
@@ -322,6 +324,18 @@ export async function getAllMessage(inboxId: InboxType["id"], conversationId: Co
     }
 }
 
+
+/************************************* FAST MESSAGES ******************************************************************/
+export async function getAllFastMessages(){
+    try{
+        const {data} = await instance.get('/fastMessages')
+        return data
+    }
+    catch(e){
+        console.log(e)
+        return Promise.reject(e)
+    }
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 type LoginResponse = {

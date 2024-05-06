@@ -53,23 +53,24 @@ export const messageSchema = z.object({
     createdAt:z.date().optional(),
 })
 
+export const fastMediaMessageSchema = z.object(
+    {
+        id:z.number().positive(),
+        fastMessageId: z.number().positive(),
+        text:z.string(),
+        messageType:z.string(),
+        base64: z.string(),
+        order:z.number(),
+    }
+)
 export const fastMessageSchema = z.object(
     {
         id: z.number().positive(),  
         title: z.string(),
-        admin: z.number().positive(),
-        keyWords: z.string()
-        
-    }
-)
-export const fastMediaMesaggeSchema = z.object(
-    {
-        id:z.number().positive(),
-        fastMesagge: fastMessageSchema,
-        text:z.string(),
-        message_type:z.string(),
-        base64: z.string(),
-        order:z.number(),
+        text: z.string(),
+        adminId: z.number().positive(),
+        keyWords: z.string(),
+        admin: userSchema.optional(),
     }
 )
 export type UserType = z.infer<typeof userSchema>
