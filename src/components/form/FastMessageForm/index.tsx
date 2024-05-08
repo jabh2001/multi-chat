@@ -3,20 +3,26 @@ import NormalInput from "../inputs/NormalInput";
 import KeyWordsInput from "./KeyWordsInput";
 import MediaMessageInput from "./MediaMessageInput";
 import styles from "./index.module.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { convertFileToBase64 } from "../../../service/file";
+import { useFastMessage } from "../../../hooks/useFastMessage";
+import useSnackbar from "../../../hooks/useSnackbar";
+import { AxiosError } from "axios";
+import { FastMessageType } from "../../../libs/schemas";
 
 type Inputs = {
     title:string
-    keyWord:string
+    keyWords:string
 } & {
     [key in `fastMediaMessageText${number}`]: string;
 } & {
     [key in `fastMediaMessageFile${number}`]: File;
 }
 
-export default function FastMessageForm(){
-    const { control, handleSubmit } = useForm<Inputs>()
+export default function FastMessageForm({ edit }:{ edit?:FastMessageType}){
+    const { addFastMessage, editFastMessage } = useFastMessage()
+    const { open, handleClose, error, success, message} = useSnackbar()
+    const { control, handleSubmit, setValue } = useForm<Inputs>()
     const [quantity, setQuantity] =useState(1)
     const decrement = () => {
         setQuantity(state => state - 1)
@@ -24,10 +30,22 @@ export default function FastMessageForm(){
     const increment = () => {
         setQuantity(state => state + 1)
     }
+    useEffect(() => {
+        if(edit){
+            setValue("title", edit.title)
+            setValue("keyWords", edit.keyWords)
+            if(edit.fastMediaMessages){
+                setQuantity(edit.fastMediaMessages.length)
+                for(let i=0; i<edit.fastMediaMessages.length;i++){
+                    setValue(`fastMediaMessageText${i}`, edit.fastMediaMessages[i].text)
+                }
+            }
+        }
+    }, [edit])
     return (
         <form className={styles.container} onSubmit={handleSubmit(async (data) => {
-            const { title, keyWord, ...rest } = data
-            const sendData:any = { title, keyWord, messages : []}
+            const { title, keyWords, ...rest } = data
+            const sendData:any = { title, keyWords, messages : []}
             for (let i = 0; i < quantity; i++) {
                 const file = rest[`fastMediaMessageFile${i}`]
                 const text = rest[`fastMediaMessageText${i}`]
@@ -41,16 +59,27 @@ export default function FastMessageForm(){
                     order:i + 1,
                 })
             }
-            console.log({ sendData })
-            /*
-                AQUÍ VA EL CONSUMO A LA API
-            */
+            try{
+                if(!edit){
+                    await addFastMessage(sendData)
+                    success("Se ha agregado el mensaje " + sendData.title)
+                } else {
+                    await editFastMessage(edit.id, sendData)
+                    success("Se ha editado el mensaje " + sendData.title)
+                }
+            } catch(e:any){
+                if(e instanceof AxiosError) {
+                    error(e.response?.data)
+                } else {
+                    error(e.message)
+                }
+            }
         })}>
             <div className={styles.title}>
                 <NormalInput control={control} name="title" label="Titulo" />  
             </div>
             <div className={styles.keyWords}>
-                <KeyWordsInput name="keyWord" control={control} />
+                <KeyWordsInput name="keyWords" control={control} />
             </div>
             <div className={styles.media}>
                 <div className={styles.mediaControl}>
@@ -63,6 +92,11 @@ export default function FastMessageForm(){
             <div className={styles.send}>
                 <button className="btn primary">Enviar</button>
             </div>
+            {/* <Snackbar open={open} handleClose={handleClose}>
+                {
+                    message.map(m => <p key={m}>{m}</p> )
+                }
+            </Snackbar> */}
         </form>
     )
 }

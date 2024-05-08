@@ -1,6 +1,6 @@
 import axios from "axios";
 import { AgentType, ContactType, ConversationType, InboxType, LabelType, MessageType, SocialMediaType, TeamType, UserType } from "../types";
-import { ConversationNoteType } from "../libs/schemas";
+import { ConversationNoteType, FastMessageType } from "../libs/schemas";
 
 const baseURL = import.meta.env.VITE_API_URL
 
@@ -370,6 +370,44 @@ export async function deleteConversationNote(inboxId: InboxType["id"], conversat
     }
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export async function getFastMessages() {
+    try {
+        const { data } = await instance.get<{ fastMessages: FastMessageType[] }>("/fast-message")
+        const { fastMessages } = data
+        return fastMessages
+    } catch (e) {
+        return Promise.reject(e)
+    }
+}
+export async function postFastMessage(fastMessage: Omit<FastMessageType, "id">) {
+    try {
+        const { data } = await instance.post<{ fastMessage: FastMessageType }>("/fast-message", fastMessage)
+        const { fastMessage: newFastMessage } = data
+        return newFastMessage
+    } catch (e) {
+        return Promise.reject(e)
+    }
+}
+export async function putFastMessage(id: FastMessageType["id"], newData: Partial<FastMessageType>) {
+    try {
+        const { data } = await instance.put<{ fastMessage: FastMessageType }>("/fast-message/" + id, newData)
+        const { fastMessage } = data
+        return fastMessage
+    } catch (e) {
+        return Promise.reject(e)
+    }
+}
+export async function deleteFastMessage(id: FastMessageType["id"]) {
+    try {
+        const { data } = await instance.delete<{ fastMessage: FastMessageType }>("/fast-message/" + id)
+        const { fastMessage } = data
+        return fastMessage
+    } catch (e) {
+        return Promise.reject(e)
+    }
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 type LoginResponse = {

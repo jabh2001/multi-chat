@@ -28,11 +28,12 @@ export default function VerticalNavBar(){
                     </ListItem>
                     <ListItem icon={<HomeIcon />} title="" name="A2"></ListItem>
                     <ListItem icon={<ConfigIcon />} title="Configuraciones" name="config">
-                        <MenuItem icon={<HomeIcon />} title="Cuenta" to="/config/account" />
+                        {/* <MenuItem icon={<HomeIcon />} title="Cuenta" to="/config/account" /> */}
                         <MenuItem icon={<HomeIcon />} title="Agentes" to="/config/agents" />
                         <MenuItem icon={<HomeIcon />} title="Entradas" to="/config/inboxes" />
                         <MenuItem icon={<HomeIcon />} title="Etiquetas" to="/config/labels" />
                         <MenuItem icon={<HomeIcon />} title="Equipos" to="/config/teams" />
+                        <MenuItem icon={<HomeIcon />} title="Mensajes rápidos" to="/config/fast-message" />
                     </ListItem>
                     <span className={styles.separator}></span>
                     <ButtonListItem onClick={testCookie}><BellIcon /></ButtonListItem>

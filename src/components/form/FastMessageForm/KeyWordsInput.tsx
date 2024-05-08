@@ -13,31 +13,34 @@ export default function KeyWordsInput({ name, control}:{name:string, control:Con
                 const [keys, setKeys] = useState<string[]>([""]) // para que el primer input no
 
                 useEffect(() => {
-                    onChange(keys.join(","))
-                }, [keys])
-
-                useEffect(() => {
                     if(value !== keys.join(",")){
-                        setKeys(value?.split(",") ?? [""])
+                        setKeys([...value?.split(","), [""]] ?? [""])
                     }
                 }, [value])
 
                 return (
                     <>
                         {
-                            keys.map((_, i) => (
+                            keys.map((v, i) => (
                                 <input
                                     key={`key-words-input-${name}-${i}`}
                                     type="text" 
                                     className={styles.keyWordInput}
                                     placeholder="palabra clave"
+                                    value={v}
                                     onChange={evt => {
                                         if(i === keys.length - 1 && evt.target.value !== ""){
+                                            const newKeys = [...keys.map((k, j)=> j===i ? evt.target.value : k), ""]
                                             setKeys([...keys.map((k, j)=> j===i ? evt.target.value : k), ""])
+                                            onChange(newKeys.join(","))
                                         } else if(keys.length > 1 && i === keys.length - 2  && evt.target.value === "" && keys[keys.length - 1] === "") {
+                                            const newKeys = keys.filter((_, j) => j !== keys.length - 1).map((k, j)=> j===i ? evt.target.value : k)
                                             setKeys(keys.filter((_, j) => j !== keys.length - 1).map((k, j)=> j===i ? evt.target.value : k))
+                                            onChange(newKeys.join(","))
                                         } else {
-                                            setKeys(keys.map((k, j)=> j===i ? evt.target.value : k))
+                                            const newKeys = keys.map((k, j)=> j===i ? evt.target.value : k)
+                                            setKeys(newKeys)
+                                            onChange(newKeys.join(","))
                                         }
                                     }}
                                 />
