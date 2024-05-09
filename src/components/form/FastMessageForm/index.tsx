@@ -4,7 +4,7 @@ import KeyWordsInput from "./KeyWordsInput";
 import MediaMessageInput from "./MediaMessageInput";
 import styles from "./index.module.css"
 import { useEffect, useState } from "react";
-import { convertFileToBase64 } from "../../../service/file";
+import { convertBase64ToBlob, convertFileToBase64 } from "../../../service/file";
 import { useFastMessage } from "../../../hooks/useFastMessage";
 import useSnackbar from "../../../hooks/useSnackbar";
 import { AxiosError } from "axios";
@@ -22,7 +22,7 @@ type Inputs = {
 export default function FastMessageForm({ edit }:{ edit?:FastMessageType}){
     const { addFastMessage, editFastMessage } = useFastMessage()
     const { open, handleClose, error, success, message} = useSnackbar()
-    const { control, handleSubmit, setValue } = useForm<Inputs>()
+    const { control, handleSubmit, setValue, reset } = useForm<Inputs>()
     const [quantity, setQuantity] =useState(1)
     const decrement = () => {
         setQuantity(state => state - 1)
@@ -38,6 +38,11 @@ export default function FastMessageForm({ edit }:{ edit?:FastMessageType}){
                 setQuantity(edit.fastMediaMessages.length)
                 for(let i=0; i<edit.fastMediaMessages.length;i++){
                     setValue(`fastMediaMessageText${i}`, edit.fastMediaMessages[i].text)
+                    if(edit.fastMediaMessages[i].base64){
+                        const msg = edit.fastMediaMessages[i]
+                        const file =  new File([convertBase64ToBlob(msg.base64, msg.messageType)], msg.messageType)
+                        setValue(`fastMediaMessageFile${i}`,file)
+                    }
                 }
             }
         }
@@ -45,14 +50,17 @@ export default function FastMessageForm({ edit }:{ edit?:FastMessageType}){
     return (
         <form className={styles.container} onSubmit={handleSubmit(async (data) => {
             const { title, keyWords, ...rest } = data
-            const sendData:any = { title, keyWords, messages : []}
+            const sendData:any = {
+                fastMessage:{ title, keyWords },
+                fastMediaMessage: []
+            }
             for (let i = 0; i < quantity; i++) {
                 const file = rest[`fastMediaMessageFile${i}`]
                 const text = rest[`fastMediaMessageText${i}`]
                 const base64 = file ? await convertFileToBase64(file) : undefined
-                const messageType = file ? "" : "text"
+                const messageType = file ? file.type : "text/plain"
 
-                sendData.messages.push({
+                sendData.fastMediaMessage.push({
                     text,
                     messageType,
                     base64,
@@ -67,6 +75,7 @@ export default function FastMessageForm({ edit }:{ edit?:FastMessageType}){
                     await editFastMessage(edit.id, sendData)
                     success("Se ha editado el mensaje " + sendData.title)
                 }
+                reset()
             } catch(e:any){
                 if(e instanceof AxiosError) {
                     error(e.response?.data)
@@ -87,7 +96,11 @@ export default function FastMessageForm({ edit }:{ edit?:FastMessageType}){
                     <span>Mensajes - {quantity}</span>
                     <button type="button" onClick={increment}>+</button>
                 </div>
-                <MediaMessageInput name="fastMediaMessage" control={control} quantity={quantity} />
+                <MediaMessageInput 
+                    name="fastMediaMessage" 
+                    control={control} 
+                    quantity={quantity} 
+                />
             </div>
             <div className={styles.send}>
                 <button className="btn primary">Enviar</button>

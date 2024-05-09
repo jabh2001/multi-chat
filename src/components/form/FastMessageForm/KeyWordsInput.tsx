@@ -13,8 +13,8 @@ export default function KeyWordsInput({ name, control}:{name:string, control:Con
                 const [keys, setKeys] = useState<string[]>([""]) // para que el primer input no
 
                 useEffect(() => {
-                    if(value !== keys.join(",")){
-                        setKeys([...value?.split(","), [""]] ?? [""])
+                    if(typeof value === "string" && value !== "" && value !== keys.join(",")){
+                        setKeys([...value.split(","), ""] ?? [""])
                     }
                 }, [value])
 

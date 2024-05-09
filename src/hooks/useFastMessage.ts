@@ -3,18 +3,6 @@ import { FastMessageType } from "../libs/schemas";
 import { useEffect } from "react";
 import { deleteFastMessage, getFastMessages, postFastMessage, putFastMessage } from "../service/api";
 import { useSSE } from "./useSSE";
-const falseData = [
-    {
-        id:1, 
-        title:"rapido", 
-        keyWords:"feroz,audaz", 
-        adminId:1, 
-        fastMediaMessages:[
-            {id:1, order:1, text:"hola", messageType:"text", fastMessageId:1, base64:""},
-            {id:2, order:2, text:"Como estas tu?", messageType:"text", fastMessageId:1, base64:""},
-            {id:3, order:3, text:"quiero contarte algo", messageType:"text", fastMessageId:1, base64:""},
-    ]}
-]
 type FastMessageStoreState = {
     fastMessages: FastMessageType[]
     setFastMessages: (fastMessages: FastMessageType[]) => void
@@ -24,7 +12,7 @@ type FastMessageStoreState = {
 }
 const useFastMessageStore = create<FastMessageStoreState>((set) =>({
     fastMessages:[],
-    setFastMessages: (fastMessages) => set({ fastMessages:[...falseData, ...fastMessages] }),
+    setFastMessages: (fastMessages) => set({ fastMessages:fastMessages }),
     addFastMessage: (fastMessage) => set((state) => ({ fastMessages: [...state.fastMessages, fastMessage] })),
     deleteFastMessage: (id) => set((state) => ({ fastMessages: state.fastMessages.filter((fastMessage) => fastMessage.id !== id) })),
     editFastMessage: (id, newFastMessageData) =>
