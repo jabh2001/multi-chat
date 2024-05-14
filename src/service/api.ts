@@ -1,11 +1,6 @@
 import axios from "axios";
 import { AgentType, ContactType, ConversationType, InboxType, LabelType, MessageType, SocialMediaType, TeamType, UserType } from "../types";
-<<<<<<< HEAD
-import { FastMessageType } from "../libs/schemas";
-import { promise } from "zod";
-=======
 import { ConversationNoteType, FastMessageType } from "../libs/schemas";
->>>>>>> 88317cf59f5bca0d0d003f1a0c14860d8f490ef4
 
 const baseURL = import.meta.env.VITE_API_URL
 
