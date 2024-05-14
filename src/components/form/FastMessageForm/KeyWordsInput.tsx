@@ -32,15 +32,15 @@ export default function KeyWordsInput({ name, control}:{name:string, control:Con
                                         if(i === keys.length - 1 && evt.target.value !== ""){
                                             const newKeys = [...keys.map((k, j)=> j===i ? evt.target.value : k), ""]
                                             setKeys([...keys.map((k, j)=> j===i ? evt.target.value : k), ""])
-                                            onChange(newKeys.join(","))
+                                            onChange(newKeys.slice(0, -1).join(","))
                                         } else if(keys.length > 1 && i === keys.length - 2  && evt.target.value === "" && keys[keys.length - 1] === "") {
                                             const newKeys = keys.filter((_, j) => j !== keys.length - 1).map((k, j)=> j===i ? evt.target.value : k)
                                             setKeys(keys.filter((_, j) => j !== keys.length - 1).map((k, j)=> j===i ? evt.target.value : k))
-                                            onChange(newKeys.join(","))
+                                            onChange(newKeys.slice(0, -1).join(","))
                                         } else {
                                             const newKeys = keys.map((k, j)=> j===i ? evt.target.value : k)
                                             setKeys(newKeys)
-                                            onChange(newKeys.join(","))
+                                            onChange(newKeys.slice(0, -1).join(","))
                                         }
                                     }}
                                 />

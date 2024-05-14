@@ -42,10 +42,29 @@ const useMessageForm =  () => {
             reset()
         }
     };
+
+    const handleSendFastMessage = (fastMessageId: any) =>{
+        const datosEnviar = {
+            conversationId,
+            contact,
+            user,
+            sender:user?.id || "",
+            inbox: inbox?.name,
+            fastMessage:fastMessageId
+        }
+
+        if (ws && ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify(datosEnviar));
+            setMessage("")
+            reset()
+        }
+    }
+
     return {
         handleSubmit,
         message,
-        setMessage
+        setMessage,
+        handleSendFastMessage
     }
 }
 export default useMessageForm

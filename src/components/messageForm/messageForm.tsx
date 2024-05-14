@@ -9,7 +9,7 @@ import useMessageForm from '../../hooks/useMessageForm';
 
 const MessageForm: FunctionComponent = () => {
     const files = useMessageMedia(state => state.files)
-    const { handleSubmit, message, setMessage} = useMessageForm()
+    const { handleSubmit, message, setMessage, handleSendFastMessage } = useMessageForm()
     
     return (
         <form className={styles.sender} onSubmit={handleSubmit}>
@@ -18,7 +18,9 @@ const MessageForm: FunctionComponent = () => {
                     { files.map(f => <MediaItem item={f} key={`${f.name}-${f.size}`} /> )}
                 </div>
             }
-            <MenuButton />
+            <MenuButton onSelectMessage={m => {
+                handleSendFastMessage(m.id)
+            }}/>
             <MessageTextarea setValue={setMessage} value={message} submitForm={() => {}}/>
             <SendButtons />
         </form>

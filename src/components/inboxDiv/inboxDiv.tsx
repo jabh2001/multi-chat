@@ -15,7 +15,7 @@ export const InboxDive: React.FC = () => {
             <div>
                 <Tabs value={tab} setValue={setTab}>
                     <Tab name="mine" value={1} notifications={4} />
-                    <Tab name="unassigned" value={2} />
+                    <Tab name="unassigned" value={2} notifications={0} />
                     { user?.role == "admin" && <Tab name="all" value={3} notifications={4} /> }
                 </Tabs>
             </div>

@@ -37,14 +37,17 @@ const useFastMessage = () => {
     }, [])
     useEffect(()=>{
         if(multiChatSSE){
-            // const insertListener = multiChatSSE.on("insert-fastMessage", fastMessage => store.addFastMessage(fastMessage as any))
-            // const updateListener = multiChatSSE.on("update-fastMessage", fastMessage => store.editFastMessage(fastMessage?.id, fastMessage))
-            // const deleteListener = multiChatSSE.on("delete-fastMessage", ids => ids.forEach(id => store.deleteFastMessage(id)))
+            const insertListener = multiChatSSE.on("insert-fast-message", fastMessage => {
+                store.addFastMessage(fastMessage as any)
+                console.log(fastMessage)
+            })
+            const updateListener = multiChatSSE.on("update-fast-message", fastMessage => fastMessage.id && store.editFastMessage(fastMessage.id, fastMessage))
+            const deleteListener = multiChatSSE.on("delete-fast-message", ids => ids.forEach(id => store.deleteFastMessage(id)))
 
             return () => {
-                // multiChatSSE.remove("insert-fastMessage", insertListener)
-                // multiChatSSE.remove("update-fastMessage", updateListener)
-                // multiChatSSE.remove("delete-fastMessage", deleteListener)
+                multiChatSSE.remove("insert-fast-message", insertListener)
+                multiChatSSE.remove("update-fast-message", updateListener)
+                multiChatSSE.remove("delete-fast-message", deleteListener)
             }
         }
     }, [multiChatSSE])
@@ -53,23 +56,17 @@ const useFastMessage = () => {
     return {
         fastMessages,
         addFastMessage: async(newFastMessage:Omit<FastMessageType, "id">) => {
-            const provId = -2
-            store.addFastMessage({...newFastMessage, id:provId})
             try{
-                const fastMessage = await postFastMessage(newFastMessage)
-                store.editFastMessage(provId, fastMessage)
+                await postFastMessage(newFastMessage)
             } catch(e){
-                store.deleteFastMessage(provId)
                 throw e
             }
         },
         editFastMessage: async(id:FastMessageType["id"], newData:Partial<FastMessageType>) => {
-            const fastMessage = await putFastMessage(id, newData)
-            store.editFastMessage(id, fastMessage)
+            await putFastMessage(id, newData)
         },
         deleteFastMessage: async(id:FastMessageType["id"]) => {
             await deleteFastMessage(id)
-            store.deleteFastMessage(id)
         }
     }
 }

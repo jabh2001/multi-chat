@@ -1,5 +1,5 @@
 import { useNavigate, type RouteObject } from "react-router-dom";
-import { useFastMessage } from "../../../hooks/useFastMessage";
+import { useFastMessageStore } from "../../../hooks/useFastMessage";
 import styles from './index.module.css';
 import FastMessageForm from "../../../components/form/FastMessageForm";
 import SearchBar from "../../../components/SearchBar";
@@ -25,10 +25,10 @@ function IndexPage(){
     const navigate = useNavigate()
     const { onRef, clearFilters, include } = useTabulatorFilters()
     const [ filter, setFilter ] = useState("")
-    const { fastMessages } = useFastMessage()
+    const fastMessages = useFastMessageStore(store => store.fastMessages)
 
     const handleFilter = ()=>{
-        filter == "" ? clearFilters() : include("name", filter)
+        filter == "" ? clearFilters() : include("keyWords", filter)
     }
     const removeFilters = ()=>{
         clearFilters()

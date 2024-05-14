@@ -9,6 +9,7 @@ import { useFastMessage } from "../../../hooks/useFastMessage";
 import useSnackbar from "../../../hooks/useSnackbar";
 import { AxiosError } from "axios";
 import { FastMessageType } from "../../../libs/schemas";
+import Snackbar from "../../Snackbar";
 
 type Inputs = {
     title:string
@@ -105,11 +106,13 @@ export default function FastMessageForm({ edit }:{ edit?:FastMessageType}){
             <div className={styles.send}>
                 <button className="btn primary">Enviar</button>
             </div>
-            {/* <Snackbar open={open} handleClose={handleClose}>
+            <Snackbar open={open} handleClose={handleClose}>
                 {
-                    message.map(m => <p key={m}>{m}</p> )
+                    message.map(m => (
+                        <p key={m}>{m}</p>
+                    ))
                 }
-            </Snackbar> */}
+            </Snackbar>
         </form>
     )
 }

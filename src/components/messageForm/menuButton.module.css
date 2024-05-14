@@ -109,3 +109,27 @@
         transform: translateX(2px) rotate(-1deg);
     }
 }
+.searchFastMessage{
+    display: flex;
+    gap: 8px;
+    justify-content: end;
+    align-items: center;
+    & > input{
+        padding: 4px;
+        border: none;
+        outline: none;
+        border-bottom: 3px solid #333;
+        animation: shadow .75s linear infinite alternate;
+        min-width: 120px;
+        color: var(--active-button-primary-color);
+        font-weight: bold;
+    } 
+}
+@keyframes shadow {
+    from {
+        border-color: #333;
+    }
+    to {
+        border-color: transparent;
+    }
+}
