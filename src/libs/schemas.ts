@@ -53,6 +53,17 @@ export const messageSchema = z.object({
     createdAt:z.date().optional(),
 })
 
+<<<<<<< HEAD
+=======
+export const conversationNoteSchema = z.object({
+    id: z.number().positive(),
+    userId: z.number().positive(), 
+    conversationId: z.number().positive(),
+    content: z.string(),
+    important: z.boolean(),
+    createdAt: z.date().optional(),
+});
+>>>>>>> 88317cf59f5bca0d0d003f1a0c14860d8f490ef4
 export const fastMediaMessageSchema = z.object(
     {
         id:z.number().positive(),
@@ -61,6 +72,7 @@ export const fastMediaMessageSchema = z.object(
         messageType:z.string(),
         base64: z.string(),
         order:z.number(),
+<<<<<<< HEAD
     }
 )
 export const fastMessageSchema = z.object(
@@ -71,8 +83,21 @@ export const fastMessageSchema = z.object(
         adminId: z.number().positive(),
         keyWords: z.string(),
         admin: userSchema.optional(),
+=======
+>>>>>>> 88317cf59f5bca0d0d003f1a0c14860d8f490ef4
     }
 )
+export const fastMessageSchema = z.object(
+    {
+        id: z.number().positive(),  
+        title: z.string(),
+        adminId: z.number().positive(),
+        keyWords: z.string(),
+        admin: userSchema.optional(),
+        fastMediaMessages:z.array(fastMediaMessageSchema).optional()
+    }
+)
+
 export type UserType = z.infer<typeof userSchema>
 export type LabelType = z.infer<typeof labelSchema>
 export type TeamType = z.infer<typeof teamSchema>
@@ -80,4 +105,6 @@ export type ContactType = z.infer<typeof contactSchema>
 export type SocialMediaType = z.infer<typeof socialMediaSchema>
 export type InboxType = z.infer<typeof inboxSchema>
 export type MessageType = z.infer<typeof messageSchema>
+export type ConversationNoteType = z.infer<typeof conversationNoteSchema>
 export type FastMessageType = z.infer<typeof fastMessageSchema>
+export type FastMediaMessageType = z.infer<typeof fastMediaMessageSchema>

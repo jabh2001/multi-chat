@@ -10,3 +10,6 @@
     background-size:cover;
     scroll-behavior: smooth;
   }
+.tabsContent{
+  height: 100%;
+}

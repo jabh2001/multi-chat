@@ -1,4 +1,5 @@
 import { AgentType, ContactType, ConversationType, InboxType, LabelType, TeamType } from "../types"
+import { FastMediaMessageType, FastMessageType } from "./schemas"
 
 const sseURL = import.meta.env.VITE_SSE_URL
 
@@ -40,6 +41,12 @@ export type MultiChatEventMap = {
     "update-conversation-last-message":{ conversationId:ConversationType["id"], lastMessage:string, lastMessageDate:string},
     "qr-update":{name:string, user:any | false, qr:string},
     "close":undefined,
+    "insert-fast-message":FastMessageType,
+    "update-fast-message":Partial<FastMessageType>,
+    "delete-fast-message":FastMessageType["id"][],
+    "insert-fast-media-message":FastMediaMessageType,
+    "update-fast-media-message":Partial<FastMediaMessageType>,
+    "delete-fast-media-message":FastMediaMessageType["id"][],
 } & { 
     [key in `qr-${number}` | `qr-update-${number}`]: {name:string, user:any | false, qr:string};
 }& { 

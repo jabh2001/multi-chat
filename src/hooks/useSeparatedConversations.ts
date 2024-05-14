@@ -12,6 +12,7 @@ type Store = {
     conversations:ConversationType[]
     setConversation:(conversations:ConversationType[]) => void
     update:(conversationId:number, conversation:Partial<ConversationType>) => void
+    add:(conversation:ConversationType) => void
     fetch:(obj:{ label?:string, inbox?:string}) => Promise<void>
 }
 const useInnerConversationStore = create<Store>(set => {
@@ -24,6 +25,9 @@ const useInnerConversationStore = create<Store>(set => {
                     conversations:state.conversations.map(c => c.id === conversationId ? ({ ...c, ...conversation}) : ({ ...c })).sort((a, b) => new Date(b.lastMessageDate).getTime() - new Date(a.lastMessageDate).getTime())
                 })
             )
+        },
+        add(c){
+            set(state => ({ conversations:state.conversations.concat(c)}))
         },
         fetch: async ({ label, inbox }) => {
             try {
@@ -39,6 +43,7 @@ export default function useSeparatedConversations(){
     const conversations = useInnerConversationStore(store => store.conversations)
     const update = useInnerConversationStore(store => store.update)
     const fetch = useInnerConversationStore(store => store.fetch)
+    const add = useInnerConversationStore(state => state.add)
 
     const user = useAuth(store => store.user)
     const userTeams = useAuth(store => store.teams)
@@ -94,7 +99,17 @@ export default function useSeparatedConversations(){
                 const messageCount = conversation?.id === conversationId ? "0" : "!"
                 update(conversationId, {lastMessage, lastMessageDate, messageCount })
             })
-            return () => { sse.remove("update-conversation-last-message", listener) }
+            const updateListener = sse.on("update-conversation", (conversation) => {
+                update(conversation.id, conversation)
+            })
+            const addListener = sse.on("insert-conversation", (conversation) => {
+                add(conversation)
+            })
+            return () => { 
+                sse.remove("update-conversation-last-message", listener)
+                sse.remove("update-conversation", updateListener)
+                sse.remove("insert-conversation", addListener)
+            }
         }
     }, [sse])
 

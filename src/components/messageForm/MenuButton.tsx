@@ -1,12 +1,15 @@
 import { useRef, useState } from "react"
-import { ProfileIcon } from "../icons"
 import CameraIcon from "../icons/CameraIcon"
 import XMarkIcon from "../icons/XMarkIcon"
-import styles from "./menuButton.module.css"
 import useClickOutside from "../../hooks/useClickOutside"
 import useMessageMedia from "../../hooks/useMessageMedia"
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "../Modal"
+import { useFastMessage } from "../../hooks/useFastMessage"
+import { FastMessageType } from "../../libs/schemas"
+import { useDebounce } from "../../hooks/useDebounce"
+import styles from "./menuButton.module.css"
 
-export default function MenuButton(){
+export default function MenuButton({ onSelectMessage }:{ onSelectMessage:(fastMessage:FastMessageType) => void}){
     const [open, setOpen] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
     useClickOutside(ref, () => setOpen(false))
@@ -20,7 +23,7 @@ export default function MenuButton(){
                         accept="image/png, image/jpeg, audio/mp3, audio/ogg, audio/opus, video/mp4"
                         onAppendFile={() => setOpen(false)}
                     />
-                    <MenuFileInputOption icon={<ProfileIcon/>} title="Contacto"/>
+                    <MenuFastMessageInputOption onSelectMessage={onSelectMessage} />
                 </div>
             </div>
             <button type="button" className={styles.button} onClick={() => setOpen(open => !open)}>
@@ -46,5 +49,53 @@ function MenuFileInputOption({ title, icon, accept, onAppendFile }:{ title:strin
             <span className={styles.optionIcon}>{icon}</span>
             <span className={styles.optionTitle}>{title}</span>
         </label>
+    )
+}
+function MenuFastMessageInputOption({ onSelectMessage }:{ onSelectMessage:(fastMessage:FastMessageType) => void}){
+    const [open, setOpen] = useState(false)
+    const [search, setSearch] = useState("")
+    const { fastMessages } = useFastMessage()
+    const debounceSearch = useDebounce(search, 500)
+    const filteredFastMessages = fastMessages.filter(fastMessage => {
+        return debounceSearch === "" || (
+            fastMessage.title.toLowerCase().includes(debounceSearch.toLowerCase()) || 
+            fastMessage.keyWords.toLowerCase().includes(debounceSearch.toLowerCase())
+        )
+    })
+    const handleClick = (fastMessage:FastMessageType) => {
+        onSelectMessage(fastMessage)
+        setOpen(false)
+        console.log("open")
+    }
+    
+    return (
+        <>
+            <button type="button" className={styles.option} onClick={() => setOpen(true)}>
+                <span className={styles.optionIcon}>🔥</span>
+                <span className={styles.optionTitle}>Mensajes rápidos</span>
+            </button>
+            <Modal handleClose={() => setOpen(false)} open={open} size="fullWidth">
+                <ModalHeader title="Mensajes rápidos" />
+                <ModalBody>
+                    <div className={styles.fastMessagesOptionsContainer}>
+                        {
+                            
+                            filteredFastMessages.map(f => (
+                                <button type="button" key={`fastMessageModalButton-${f.id}`} className={styles.fastMessagesOptionsButton} onClick={() => handleClick(f)}>
+                                    <span>{f.title}</span>
+                                    <span>{f.keyWords}</span>
+                                </button>
+                            ) )
+                        }
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <label className={styles.searchFastMessage}>
+                        Buscar mensajes rápidos
+                        <input type="text" onChange={evt => setSearch(evt.target.value)}/>
+                    </label>
+                </ModalFooter>
+            </Modal>
+        </>
     )
 }

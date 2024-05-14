@@ -123,6 +123,10 @@
 }
 .body{
     order: 2;
+    flex-grow: 1;
+    overflow-y: scroll;
+    scrollbar-base-color: #444;
+    scrollbar-width: thin;
 }
 .center {
     justify-content: center;

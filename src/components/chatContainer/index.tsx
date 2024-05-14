@@ -5,12 +5,14 @@ import MessageList from "../MessageList";
 import ContactHeader from "../contactHeader/contactHeader";
 import MessageForm from "../messageForm/messageForm";
 import { createContext, useState, useEffect, useContext } from "react";
+import NoteList from "../NoteList";
 
 const WebSocketContext = createContext<WebSocket | undefined>(undefined);
 function ChatContainer() {
     const { insertMessages, fetchMoreMessage, messages, rootRef, observeRef, isLoading } = useConversation();
     const conversation = useConversationStore(state => state.conversation);
     const [ws, setWs] = useState<WebSocket | undefined>(undefined);
+    const [ tab, setTab] = useState(1)
 
     useEffect(() => {
         if (conversation) {
@@ -25,10 +27,18 @@ function ChatContainer() {
 
     return (
         <WebSocketContext.Provider value={ws}>
-            <ContactHeader />
-            <div className={styles.layout} ref={rootRef}>
-                <MessageList messages={messages} addMessage={insertMessages} rootRef={rootRef} observeRef={observeRef} fetchMoreMessage={fetchMoreMessage} isLoading={isLoading} />
-            </div>
+            <ContactHeader tab={tab} setTab={setTab} />
+            {
+                tab == 1 ?(
+                    <div className={styles.layout} ref={rootRef}>
+                        <MessageList messages={messages} addMessage={insertMessages} rootRef={rootRef} observeRef={observeRef} fetchMoreMessage={fetchMoreMessage} isLoading={isLoading} />
+                    </div>
+                ) : tab == 2 ? (
+                    <div className={styles.layout}>
+                        <NoteList />
+                    </div>
+                ) : null
+            }
             <MessageForm />
         </WebSocketContext.Provider>
     );

@@ -83,7 +83,7 @@
     transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.input:focus, .input.button, input:valid {
+.input:focus, .input.button, .input:valid {
     outline: none;
     border: 1.5px solid var(--primary);
 }

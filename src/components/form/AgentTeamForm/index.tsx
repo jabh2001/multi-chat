@@ -3,6 +3,7 @@ import TeamsCheckboxes from "../inputs/TeamsCheckboxes"
 import { TeamType } from "../../../types"
 import styles from "./index.module.css"
 import { putAgentTeam } from "../../../service/api"
+import AgentProtection from "../AgentProtection"
 
 export default function AgentTeamForm({ agentId, name, teams, setTeams }:{ agentId:any, name:string, teams:TeamType[], setTeams:any }){
     const [selectedIds, setSelectedIds] = useState<number[]>([])
@@ -17,12 +18,14 @@ export default function AgentTeamForm({ agentId, name, teams, setTeams }:{ agent
     }
 
     return <form className={styles.form} onSubmit={handleSubmit}>
-        <h3 className={styles.title}> Etiquetas de {name}</h3>
-        <div className={styles.teams}>
-            <TeamsCheckboxes selectedIds={selectedIds} setSelectedIds={setSelectedIds} />
-        </div>
-        <div className={styles.button}>
-            <button className="btn primary">guardar</button>
-        </div>
+        <AgentProtection>
+            <h3 className={styles.title}> Etiquetas de {name}</h3>
+            <div className={styles.teams}>
+                <TeamsCheckboxes selectedIds={selectedIds} setSelectedIds={setSelectedIds} />
+            </div>
+            <div className={styles.button}>
+                <button className="btn primary">guardar</button>
+            </div>
+        </AgentProtection>
     </form>
 }
