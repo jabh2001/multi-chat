@@ -1,6 +1,11 @@
 import axios from "axios";
 import { AgentType, ContactType, ConversationType, InboxType, LabelType, MessageType, SocialMediaType, TeamType, UserType } from "../types";
+<<<<<<< HEAD
+import { FastMessageType } from "../libs/schemas";
+import { promise } from "zod";
+=======
 import { ConversationNoteType, FastMessageType } from "../libs/schemas";
+>>>>>>> 88317cf59f5bca0d0d003f1a0c14860d8f490ef4
 
 const baseURL = import.meta.env.VITE_API_URL
 
@@ -366,6 +371,18 @@ export async function deleteConversationNote(inboxId: InboxType["id"], conversat
         const { data } = await instance.delete<{ note: ConversationNoteType }>(`/inbox/${inboxId}/conversation/${conversationId}/notes/${noteId}`)
         return data.note
     } catch (e) {
+        return Promise.reject(e)
+    }
+}
+
+/************************************* FAST MESSAGES ******************************************************************/
+export async function getAllFastMessages(){
+    try{
+        const {data} = await instance.get('/fastMessages')
+        return data
+    }
+    catch(e){
+        console.log(e)
         return Promise.reject(e)
     }
 }

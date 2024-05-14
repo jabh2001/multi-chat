@@ -53,6 +53,8 @@ export const messageSchema = z.object({
     createdAt:z.date().optional(),
 })
 
+<<<<<<< HEAD
+=======
 export const conversationNoteSchema = z.object({
     id: z.number().positive(),
     userId: z.number().positive(), 
@@ -61,6 +63,7 @@ export const conversationNoteSchema = z.object({
     important: z.boolean(),
     createdAt: z.date().optional(),
 });
+>>>>>>> 88317cf59f5bca0d0d003f1a0c14860d8f490ef4
 export const fastMediaMessageSchema = z.object(
     {
         id:z.number().positive(),
@@ -69,6 +72,19 @@ export const fastMediaMessageSchema = z.object(
         messageType:z.string(),
         base64: z.string(),
         order:z.number(),
+<<<<<<< HEAD
+    }
+)
+export const fastMessageSchema = z.object(
+    {
+        id: z.number().positive(),  
+        title: z.string(),
+        text: z.string(),
+        adminId: z.number().positive(),
+        keyWords: z.string(),
+        admin: userSchema.optional(),
+=======
+>>>>>>> 88317cf59f5bca0d0d003f1a0c14860d8f490ef4
     }
 )
 export const fastMessageSchema = z.object(
