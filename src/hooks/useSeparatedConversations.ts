@@ -10,14 +10,18 @@ import { useConversationStore } from "./useConversations"
 
 type Store = {
     conversations:ConversationType[]
+    search:string
+    setSearch:(search:string) => void
     setConversation:(conversations:ConversationType[]) => void
     update:(conversationId:number, conversation:Partial<ConversationType>) => void
     add:(conversation:ConversationType) => void
     fetch:(obj:{ label?:string, inbox?:string}) => Promise<void>
 }
-const useInnerConversationStore = create<Store>(set => {
+export const useInnerConversationStore = create<Store>(set => {
     return ({
         conversations:[],
+        search:"",
+        setSearch:(search) => set({ search }),
         setConversation: (c) => set({conversations:c}),
         update:(conversationId, conversation) => {
             set(
@@ -40,7 +44,12 @@ const useInnerConversationStore = create<Store>(set => {
     })
 })
 export default function useSeparatedConversations(){
-    const conversations = useInnerConversationStore(store => store.conversations)
+    const search = useInnerConversationStore(store => store.search)
+    const allConversations = useInnerConversationStore(store => store.conversations)
+    const conversations = useMemo(() => {
+        return allConversations.filter(conversation => search == "" || conversation.contact?.name?.toLowerCase().includes(search.toLowerCase()))
+    }, [search, allConversations])
+
     const update = useInnerConversationStore(store => store.update)
     const fetch = useInnerConversationStore(store => store.fetch)
     const add = useInnerConversationStore(state => state.add)

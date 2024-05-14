@@ -6,11 +6,12 @@ import { useState } from 'react';
 import useAuth from '../../hooks/useAuth.ts';
 
 export const InboxDive: React.FC = () => {
+
     const user = useAuth(state => state.user)
     const [tab, setTab] = useState(1)
     return (
         <div className={styles.contenedorConversation}>
-            <SearchInbox></SearchInbox>
+            <SearchInbox ></SearchInbox>
             <h2>Conversations</h2>
             <div>
                 <Tabs value={tab} setValue={setTab}>
