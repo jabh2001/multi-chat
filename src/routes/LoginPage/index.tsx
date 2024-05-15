@@ -39,7 +39,7 @@ export default function LoginPage(){
             })}>
                 <h3 className={styles.title}>Inicia sesión</h3>
                 <NormalInput control={control} name="email" label="Correo"/>
-                <NormalInput control={control} name="password" label="Contraseña"/>
+                <NormalInput type="password" control={control} name="password" label="Contraseña"/>
                 <div className={styles.button}>
                     <button type="submit" className="btn primary">Enviar</button>
                 </div>

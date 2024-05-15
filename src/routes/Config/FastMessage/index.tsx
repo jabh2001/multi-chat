@@ -1,12 +1,14 @@
 import { useNavigate, type RouteObject } from "react-router-dom";
-import { useFastMessageStore } from "../../../hooks/useFastMessage";
+import { useFastMessage } from "../../../hooks/useFastMessage";
 import styles from './index.module.css';
 import FastMessageForm from "../../../components/form/FastMessageForm";
 import SearchBar from "../../../components/SearchBar";
 import { useState } from "react";
-import { ReactTabulator } from "react-tabulator";
+import { ReactTabulator, reactFormatter } from "react-tabulator";
 import useTabulatorFilters from "../../../hooks/useTabulatorFilters";
 import FastMessageDetailPage from "./FastMessageDetailPage";
+import { ActionButtons } from "../../../components/TableData/ActionButtons";
+import { FastMessageType } from "../../../libs/schemas";
 
 const baseName = "/config/fast-message"
 
@@ -25,11 +27,13 @@ function IndexPage(){
     const navigate = useNavigate()
     const { onRef, clearFilters, include } = useTabulatorFilters()
     const [ filter, setFilter ] = useState("")
-    const fastMessages = useFastMessageStore(store => store.fastMessages)
+    const {fastMessages, deleteFastMessage} = useFastMessage()
 
     const handleFilter = ()=>{
         filter == "" ? clearFilters() : include("keyWords", filter)
     }
+    const handleDelete = ({ id }:FastMessageType) => deleteFastMessage(id)
+
     const removeFilters = ()=>{
         clearFilters()
         setFilter("")
@@ -51,6 +55,7 @@ function IndexPage(){
                         {title:"V", width:36, cellClick:(_evt, cell:any) => navigate(`/config/fast-message/${cell.getData().id}/`)},
                         {field:"title", title:"Nombre", widthGrow:1 },
                         {field:"keyWords", title:"palabras clave", widthGrow:2 },
+                        {title:"actions", formatter:reactFormatter(<ActionButtons onDelete={handleDelete} />) }
                     ]}
                     data={fastMessages}
                 />

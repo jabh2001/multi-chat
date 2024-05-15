@@ -38,8 +38,9 @@ const useFastMessage = () => {
     useEffect(()=>{
         if(multiChatSSE){
             const insertListener = multiChatSSE.on("insert-fast-message", fastMessage => {
-                store.addFastMessage(fastMessage as any)
-                console.log(fastMessage)
+                if(fastMessages.findIndex(fm => fm.id === fastMessage.id) === -1){
+                    store.addFastMessage(fastMessage as any)
+                }
             })
             const updateListener = multiChatSSE.on("update-fast-message", fastMessage => fastMessage.id && store.editFastMessage(fastMessage.id, fastMessage))
             const deleteListener = multiChatSSE.on("delete-fast-message", ids => ids.forEach(id => store.deleteFastMessage(id)))

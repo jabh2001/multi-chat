@@ -1,14 +1,16 @@
 import { useRef, useState } from "react"
 import { menuContext } from "../../hooks/useMenu"
 import styles from "./index.module.css"
-import { ButtonListItem, LinkListItem, ListItem } from "./ListItem"
+import { ButtonListItem, ListItem } from "./ListItem"
 import { MenuItem } from "../menu"
-import { BellIcon, CommentIcon, ConfigIcon, HomeIcon, PhoneIcon, ProfileIcon } from "../icons"
+import {  CommentIcon, ConfigIcon, HomeIcon, PhoneIcon } from "../icons"
 import { InboxSection, LabelSection } from "./sections"
-import { testCookie } from "../../service/api"
+import RightFromBracket from "../icons/RightFromBracket"
+import useAuth from "../../hooks/useAuth"
 
 
 export default function VerticalNavBar(){
+    const signOut = useAuth(store => store.signOut)
     const optionsRef = useRef<HTMLDivElement>(null)
     const [openedMenuName, setOpenedMenuName] = useState("off")
     return (
@@ -36,8 +38,9 @@ export default function VerticalNavBar(){
                         <MenuItem icon={<HomeIcon />} title="Mensajes rápidos" to="/config/fast-message" />
                     </ListItem>
                     <span className={styles.separator}></span>
-                    <ButtonListItem onClick={testCookie}><BellIcon /></ButtonListItem>
-                    <LinkListItem to="/profile"><ProfileIcon /></LinkListItem>
+                    {/* <ButtonListItem onClick={testCookie}><BellIcon /></ButtonListItem> */}
+                    <ButtonListItem onClick={signOut}><RightFromBracket /></ButtonListItem>
+                    {/* <LinkListItem to="/sign-out"><RightFromBracket /></LinkListItem> */}
                 </ul>
                 {/* <div className={openedMenuName === "off" ? styles.closeMenuOption} ref={optionsRef}></div */}
                 <div className={`${styles.menuOption} ${openedMenuName === "off" && styles.closeMenuOption}`} ref={optionsRef}></div>

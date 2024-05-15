@@ -52,7 +52,7 @@ export default function FastMessageForm({ edit }:{ edit?:FastMessageType}){
         <form className={styles.container} onSubmit={handleSubmit(async (data) => {
             const { title, keyWords, ...rest } = data
             const sendData:any = {
-                fastMessage:{ title, keyWords },
+                fastMessage:{ title: title || "", keyWords:keyWords || "" },
                 fastMediaMessage: []
             }
             for (let i = 0; i < quantity; i++) {
@@ -78,8 +78,8 @@ export default function FastMessageForm({ edit }:{ edit?:FastMessageType}){
                 }
                 reset()
             } catch(e:any){
-                if(e instanceof AxiosError) {
-                    error(e.response?.data)
+                if(e instanceof AxiosError){
+                    error(e.response?.data?.errors)
                 } else {
                     error(e.message)
                 }
