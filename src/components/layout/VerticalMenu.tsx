@@ -7,6 +7,9 @@ import {  CommentIcon, ConfigIcon, HomeIcon, PhoneIcon } from "../icons"
 import { InboxSection, LabelSection } from "./sections"
 import RightFromBracket from "../icons/RightFromBracket"
 import useAuth from "../../hooks/useAuth"
+import AgentIcon from "../icons/AgentIcon"
+import EntradasIcon from "../icons/EntradasIcon"
+import LabelIcon from "../icons/LabelIcon"
 
 
 export default function VerticalNavBar(){
@@ -31,9 +34,9 @@ export default function VerticalNavBar(){
                     <ListItem icon={<HomeIcon />} title="" name="A2"></ListItem>
                     <ListItem icon={<ConfigIcon />} title="Configuraciones" name="config">
                         {/* <MenuItem icon={<HomeIcon />} title="Cuenta" to="/config/account" /> */}
-                        <MenuItem icon={<HomeIcon />} title="Agentes" to="/config/agents" />
-                        <MenuItem icon={<HomeIcon />} title="Entradas" to="/config/inboxes" />
-                        <MenuItem icon={<HomeIcon />} title="Etiquetas" to="/config/labels" />
+                        <MenuItem icon={<AgentIcon />} title="Agentes" to="/config/agents" />
+                        <MenuItem icon={<EntradasIcon />} title="Entradas" to="/config/inboxes" />
+                        <MenuItem icon={<LabelIcon />} title="Etiquetas" to="/config/labels" />
                         <MenuItem icon={<HomeIcon />} title="Equipos" to="/config/teams" />
                         <MenuItem icon={<HomeIcon />} title="Mensajes rápidos" to="/config/fast-message" />
                     </ListItem>
