@@ -14,7 +14,7 @@ export default function KeyWordsInput({ name, control}:{name:string, control:Con
 
                 useEffect(() => {
                     if(typeof value === "string" && value !== "" && value !== keys.join(",")){
-                        setKeys([...value.split(","), ""] ?? [""])
+                        setKeys([...value.split(","), ""])
                     }
                 }, [value])
 

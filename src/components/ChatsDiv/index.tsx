@@ -49,8 +49,8 @@ function ChatMine({ conversations, update }:{ conversations:ConversationType[], 
                 <ChatCard
                     key={`chat_all_${c.id}`}
                     viewTransitionName={`chatCardMine${c.id}`}
-                    inboxName={c.inbox.name}
-                    contactName={c.contact.name}
+                    inboxName={c.inbox?.name ?? ""}
+                    contactName={c.contact?.name ?? ""}
                     shortMessage={c.lastMessage}
                     avatarUrl={c.contact.avatarUrl}
                     onClick={() => handleClick(c)}
@@ -76,8 +76,8 @@ function ChatUnassigned({ conversations, update }:{ conversations:ConversationTy
                 <ChatCard
                     key={`chat_all_${c.id}`}
                     viewTransitionName={`chatCardUnassigned${c.id}`}
-                    inboxName={c.inbox.name}
-                    contactName={c.contact.name}
+                    inboxName={c.inbox?.name ?? ""}
+                    contactName={c.contact?.name ?? ""}
                     shortMessage={c.lastMessage}
                     avatarUrl={c.contact.avatarUrl}
                     onClick={() => handleClick(c)}
@@ -104,8 +104,8 @@ function ChatAll({ conversations, update }:{ conversations:ConversationType[], u
                     <ChatCard
                         key={`chat_all_${c.id}`}
                         viewTransitionName={`chatCardAll${c.id}`}
-                        inboxName={c.inbox.name}
-                        contactName={c.contact.name}
+                        inboxName={c.inbox?.name ?? ""}
+                        contactName={c.contact?.name ?? ""}
                         shortMessage={c.lastMessage}
                         avatarUrl={c.contact.avatarUrl}
                         onClick={() => handleClick(c)}
